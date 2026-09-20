@@ -9,6 +9,9 @@
 - CORE-004 設計メモや実装メモや作業ログを本体へ埋め込まず必要な詳細は参照先へ分離する
 - LANG-012 実プロジェクトで不足が確認されるまでcustom progress axisを導入しない
 - CORE-006 人間によるSpectodo sourceの直接編集を運用前提にせずChatGPTやAgentを主な更新者とする
+- VALID-006 将来validatorを追加する場合はlanguage specのvalidation rulesを検査対象とする
+- REL-003 parserまたはvalidatorは必要性が確認された場合のみ追加する
+- REL-004 大規模inventoryのcategory分割方式は必要性が確認された場合のみ追加する
 
 ## CORE: 基本要件
 - [x] CORE-003 [V0] [P1] 完了済み項目も削除せず完成したアプリの仕様項目一覧として保持できる | D:x I:x P:- V:x
@@ -37,7 +40,7 @@
 - [x] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
-- [ ] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:~ | !公式sampleでcategory横断の候補選択は確認済みだが実プロジェクトの新規着手では未検証 | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md
+- [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/sample.spectodo.md
 
@@ -47,7 +50,6 @@
 - [x] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:x P:- V:x | @research/2026-09-21-agent-scale-validation.md
 - [ ] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:. P:- V:.
 - [x] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:x | @SPECTODO.md @spec/language-v0.1.md
-- [ ] VALID-006 [V1] [P2] 将来validatorを実装した場合にlanguage specのvalidation rulesを自動検査できる | D:x I:. P:- V:.
 
 ## DOCS: 文書化
 - [x] DOCS-001 [V0] [P1] READMEから現在のformat experimentとlanguage sample Agent Skillへ到達できる | D:x I:x P:- V:x | @README.md
@@ -57,5 +59,3 @@
 ## REL: リリース準備
 - [ ] REL-001 [V2] [P1] language specをdraftからversioned stable specificationへ昇格できる | D:~ I:. P:- V:. | !実プロジェクトでのdogfoodingと未決定事項の解消が必要
 - [ ] REL-002 [V2] [P1] canonical inventory file名とrepository導入手順を正式に定義できる | D:~ I:. P:- V:. | !現在はSPECTODO.mdをdogfooding用に採用しているが一般仕様として未確定
-- [ ] REL-003 [V2] [P2] 必要性が確認された場合のみparserまたはvalidatorを追加できる | D:. I:. P:- V:.
-- [ ] REL-004 [V2] [P2] 必要性が確認された場合のみ大規模inventoryのcategory分割方式を定義できる | D:. I:. P:- V:.
