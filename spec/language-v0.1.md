@@ -27,8 +27,9 @@ Core constraints:
 A document consists of:
 
 1. one `# Versions` section
-2. one or more category sections
-3. zero or more blank lines between sections
+2. zero or one `# Constraints` section
+3. one or more category sections
+4. zero or more blank lines between sections
 
 Example:
 
@@ -36,6 +37,10 @@ Example:
 # Versions
 - V0: Prototype
 - V1: MVP
+
+# Constraints
+- FORMAT-001 専用CLIを前提にしない
+- FORMAT-002 完了済み仕様項目をinventoryから削除しない
 
 ## AUTH: 認証
 - [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
@@ -87,7 +92,49 @@ A version identifies the intended product/scope target for an item. It is NOT th
 
 The label is display text and MAY contain Unicode.
 
-## 4. Priority
+## 4. Constraints
+
+The optional exact H1 heading is:
+
+```md
+# Constraints
+```
+
+A constraint is one enduring project-wide invariant:
+
+```text
+- <CONSTRAINT_ID> <STATEMENT>
+```
+
+Constraints are not work items. They MUST NOT have a Markdown checkbox, target version, priority, or D/I/P/V progress axes.
+
+Use a constraint only for a rule that is intended to remain continuously true while the inventory is in use. A capability that can be designed, implemented, deployed, or validated is a specification item instead.
+
+General design rationale or non-enforceable principles belong in referenced documentation, not in the constraint section.
+
+Constraint IDs:
+
+- MUST use the same stable symbolic-ID shape as item IDs: `UPPER_ID "-" DIGIT DIGIT DIGIT`
+- MUST be unique within the document
+- MUST NOT collide with a specification item ID
+- do not need to correspond to a category
+
+Constraint statements:
+
+- MUST be non-empty and occupy one source line
+- MUST describe the invariant directly
+- MUST NOT contain progress state, work logs, or rationale
+- are version-independent in v0.1
+
+Example:
+
+```md
+# Constraints
+- FORMAT-001 専用CLIを前提にしない
+- FORMAT-002 完了済み仕様項目をinventoryから削除しない
+```
+
+## 18. Priority
 
 Every specification item has one numeric priority marker.
 
@@ -121,7 +168,7 @@ If design work shows that an item's target version or necessity is wrong, the in
 
 v0.1 intentionally does not assign fixed labels such as high / medium / low to numeric priorities.
 
-## 5. Categories
+## 18. Categories
 
 A category is an H2 heading:
 
@@ -135,7 +182,7 @@ Example:
 ## AUTH: 認証
 ```
 
-### 5.1 Category ID
+### 18.1 Category ID
 
 Draft grammar:
 
@@ -149,7 +196,7 @@ Category labels are display text and MAY contain Unicode.
 
 The category ID is stable identity. Renaming the label MUST NOT require changing item IDs.
 
-## 6. Specification items
+## 18. Specification items
 
 Each specification item MUST occupy exactly one source line.
 
@@ -177,7 +224,7 @@ Example:
 - [ ] AUTH-001 [V1] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !パスワード再設定の実機検証が未完了 | @docs/auth.md
 ```
 
-### 6.1 Item ID
+### 18.1 Item ID
 
 An item ID is scoped by category identity:
 
@@ -199,7 +246,7 @@ Item IDs MUST be unique within the document.
 
 An existing ID MUST NOT be reused for a different specification after deletion or scope change.
 
-### 6.2 Statement
+### 18.2 Statement
 
 `STATEMENT` is the actual concise specification, not a separate title.
 
@@ -225,7 +272,7 @@ A statement:
 - MUST NOT contain design rationale, implementation notes, discussion history, or work logs
 - MUST escape a literal `|` as `\|`
 
-## 7. Overall checkbox
+## 18. Overall checkbox
 
 The overall checkbox exists for immediate visual scanning in ordinary Markdown renderers.
 
@@ -238,7 +285,7 @@ Examples:
 
 The overall checkbox MUST NOT be edited independently of the progress axes.
 
-## 8. Progress axes
+## 18. Progress axes
 
 v0.1 defines four fixed axes in a fixed order:
 
@@ -261,7 +308,7 @@ The fixed order is intentional: it makes records predictable without requiring a
 
 Project-level custom axes are intentionally NOT part of v0.1. They may be reconsidered only if concrete projects demonstrate a need.
 
-## 9. Status alphabet
+## 18. Status alphabet
 
 Structural status values are ASCII only.
 
@@ -279,7 +326,7 @@ Grammar:
 STATUS := "x" | "~" | ">" | "." | "-"
 ```
 
-### 9.1 Semantics
+### 18.1 Semantics
 
 #### `x` done
 
@@ -311,7 +358,7 @@ The axis does not apply to this item.
 
 It MUST NOT be used merely because work is deferred.
 
-## 10. Gap segment
+## 18. Gap segment
 
 Optional shape:
 
@@ -336,7 +383,7 @@ Rules:
 
 Only one gap segment is allowed in v0.1. Multiple gaps MUST be compressed into a concise statement or moved to a referenced document.
 
-## 11. Reference segment
+## 18. Reference segment
 
 References are optional and come last.
 
@@ -362,7 +409,7 @@ Rules:
 - spaces in external URLs/paths MUST be percent-encoded
 - references contain locations only; commentary belongs elsewhere
 
-## 12. Segment order
+## 18. Segment order
 
 v0.1 uses strict ordering.
 
@@ -387,15 +434,22 @@ Invalid:
 
 Strict order reduces parser ambiguity and agent-generated format drift.
 
-## 13. Formal draft grammar
+## 18. Formal draft grammar
 
 The grammar below is normative for the v0.1 experiment except where Markdown parsing itself is concerned.
 
 ```ebnf
-document       = versions, blank*, category, { blank*, category }, blank* ;
+document       = versions, blank*,
+                 [ constraints, blank* ],
+                 category, { blank*, category }, blank* ;
 
 versions       = "# Versions", newline,
                  version, { newline, version } ;
+
+constraints    = "# Constraints", newline,
+                 constraint, { newline, constraint } ;
+
+constraint     = "- ", constraint_id, " ", constraint_statement ;
 
 version        = "- ", version_id, ": ", label ;
 
@@ -426,9 +480,12 @@ version_id     = "V", digit, { digit } ;
 priority       = "P", positive_integer ;
 positive_integer = nonzero_digit, { digit } ;
 category_id    = upper, { upper | digit | "-" } ;
+constraint_id  = upper_id, "-", digit, digit, digit ;
+upper_id       = upper, { upper | digit | "-" } ;
 item_id        = category_id, "-", digit, digit, digit ;
 
 label          = text_no_newline ;
+constraint_statement = text_no_newline ;
 statement      = escaped_text_no_pipe_delimiter ;
 gap            = escaped_text_no_pipe_delimiter ;
 reference      = non_whitespace_text ;
@@ -440,12 +497,15 @@ digit          = "0" | "1" | ... | "9" ;
 nonzero_digit  = "1" | "2" | ... | "9" ;
 ```
 
-## 14. Validation errors
+## 18. Validation errors
 
 A validator or Agent Skill MUST treat at least the following as errors:
 
 - overall checkbox does not match the derived completion state from D/I/P/V
 - duplicate version ID
+- duplicate constraint ID
+- constraint ID collides with a specification item ID
+- checkbox/version/priority/progress syntax appears on a constraint
 - duplicate category ID
 - duplicate item ID
 - item ID prefix does not match current category ID
@@ -468,10 +528,11 @@ Warnings MAY include:
 - reference path appears missing
 - `x` is asserted without evidence during reconciliation
 
-## 15. What is intentionally excluded
+## 18. What is intentionally excluded
 
 v0.1 does not encode:
 
+- non-enforceable principles or design rationale as structured records
 - design notes
 - implementation plans
 - implementation notes
@@ -488,7 +549,7 @@ v0.1 does not encode:
 
 These may exist elsewhere and be referenced if needed.
 
-## 16. Renderer policy
+## 18. Renderer policy
 
 Spectodo v0.1 has no custom renderer.
 
@@ -500,7 +561,7 @@ A future renderer MAY provide filtered or summarized views, but:
 - it MUST NOT become the source of truth
 - the canonical file MUST remain usable without it
 
-## 17. Open questions
+## 18. Open questions
 
 The following remain experimental rather than fixed:
 
