@@ -41,12 +41,14 @@ When summarizing an inventory:
 
 When the user asks to proceed without naming a specific item:
 
-1. Continue an already active item when continuing it is the natural next step; do not preempt it solely because another item has a higher priority.
-2. When choosing a new item to start, stay within the active target version unless the user explicitly changes scope.
-3. Among not-yet-started items in that version, prefer the lowest priority number across categories.
-4. Priority boundaries are not confirmation gates. Do not stop merely because selection moves from P1 to P2.
-5. Begin a new item's work at Design. Normal design discussion is the review point for the item's necessity, scope, target version, and specification.
-6. If design reveals that the target version or necessity should change, surface that decision and update it only with sufficient evidence or explicit user agreement.
+1. Continue an already active item when continuing it is the natural next step; treat an item as actively in progress when at least one axis is `>`. Do not preempt it solely because another item has a higher priority.
+2. For new-work selection, use an explicitly named target version from the current work context when one exists. Otherwise use the lowest declared version that still contains an incomplete specification item as the default active target version.
+3. Treat an item as not-yet-started for this selection rule iff its Design axis is exactly `D:.`.
+4. Among those candidates in the active version, prefer the lowest priority number across categories.
+5. If multiple candidates have the same priority, do not invent source-order semantics; choose based on the current work context unless the project later defines a tie-break.
+6. Priority boundaries are not confirmation gates. Do not stop merely because selection moves from P1 to P2.
+7. Begin a new item's work at Design. Normal design discussion is the review point for the item's necessity, scope, target version, and specification.
+8. If design reveals that the target version or necessity should change, surface that decision and update it only with sufficient evidence or explicit user agreement.
 
 ## Add
 
