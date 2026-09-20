@@ -92,6 +92,20 @@ A version identifies the intended product/scope target for an item. It is NOT th
 
 The label is display text and MAY contain Unicode.
 
+### 3.2 Active target version
+
+v0.1 does not add a persistent active-version marker.
+
+For work selection:
+
+1. If the current user/agent work context explicitly names a target version, that version is active for that work.
+2. Otherwise, the default active target version is the lowest declared version that contains at least one incomplete specification item.
+3. A specification item is incomplete when its derived overall checkbox is `[ ]`.
+4. Constraints do not participate in active-version selection.
+5. If every specification item is complete, there is no default active target version.
+
+This default keeps the inventory self-contained without adding another mutable status field. Explicitly selecting a later version is allowed and does not rewrite item versions by itself.
+
 ## 4. Constraints
 
 The optional exact H1 heading is:
@@ -157,6 +171,10 @@ Lower numbers have higher priority: P1 precedes P2, P2 precedes P3.
 Priority has one primary operational meaning in v0.1:
 
 > When choosing the next not-yet-started specification item to begin designing within the active target version, prefer the lowest priority number across categories.
+
+For this rule, an item is `not-yet-started` iff its Design axis is exactly `D:.`. Design is the entry point for new requirement work in v0.1. Items with `D:x`, `D:~`, `D:>`, or `D:-` are therefore not candidates for the new-Design priority rule.
+
+If more than one eligible item has the same priority, v0.1 does not assign semantic meaning to their source order. The user/agent MAY choose among equal-priority candidates based on current context; a future version may define an additional tie-break only if concrete use shows that it is needed.
 
 Priority MUST NOT be interpreted as a progress state.
 
@@ -569,5 +587,6 @@ The following remain experimental rather than fixed:
 - whether item numbering should always be three digits
 - whether version declarations need optional goal/exit metadata
 - whether priority should have a bounded range or remain an open positive integer
+- whether equal-priority new-work selection needs a standardized tie-break
 - whether very large inventories need a standardized category-splitting mechanism
 - whether a future version should support optional project-defined axes
