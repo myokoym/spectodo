@@ -11,6 +11,8 @@ Before modifying a Spectodo inventory, read:
 
 The format is intentionally usable without a CLI. Do not require or introduce a dedicated renderer, database, board, or CLI to perform ordinary Spectodo work.
 
+ChatGPT/agents are the primary inventory updaters. Do not treat human direct source editing, source-editor ergonomics, or GitHub's edit UI as required Spectodo workflows. For smartphone acceptance, distinguish ChatGPT Android operation from GitHub Android rendered-Markdown inspection.
+
 ## Locate
 
 1. Look for an existing Spectodo inventory in the repository.
