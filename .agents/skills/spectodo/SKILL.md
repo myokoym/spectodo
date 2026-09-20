@@ -22,19 +22,20 @@ The format is intentionally usable without a CLI. Do not require or introduce a 
 
 When summarizing an inventory:
 
-1. Preserve category and version identities.
-2. Interpret the version as the item's target product/scope version, not as lifecycle progress.
-3. Interpret numeric priority as ordering for selecting the next not-yet-started item to begin designing within the active target version; lower numbers come first.
-4. Interpret progress axes independently:
+1. Read an optional `# Constraints` section separately from specification items. Constraints are enduring invariants, not work items, and have no checkbox, version, priority, or D/I/P/V state.
+2. Preserve category and version identities.
+3. Interpret the version as the item's target product/scope version, not as lifecycle progress.
+4. Interpret numeric priority as ordering for selecting the next not-yet-started item to begin designing within the active target version; lower numbers come first.
+5. Interpret progress axes independently:
    - D = design
    - I = implementation
    - P = deployment
    - V = validation
-5. Use the status meanings from the language specification.
-6. Read the leading Markdown checkbox as the derived overall TODO indicator.
-7. Verify that `[x]` appears only when every D/I/P/V axis is `x` or `-`; otherwise it must be `[ ]`.
-8. Do not collapse implementation and validation into one detailed state.
-9. Treat completed items as part of the current application specification, not disposable history.
+6. Use the status meanings from the language specification.
+7. Read the leading Markdown checkbox as the derived overall TODO indicator.
+8. Verify that `[x]` appears only when every D/I/P/V axis is `x` or `-`; otherwise it must be `[ ]`.
+9. Do not collapse implementation and validation into one detailed state.
+10. Treat completed items as part of the current application specification, not disposable history.
 
 ## Select next work
 
@@ -49,6 +50,8 @@ When the user asks to proceed without naming a specific item:
 
 ## Add
 
+Before adding a specification item, determine whether the statement is actually an enduring project-wide invariant. If it is, add it under `# Constraints` instead of inventing progress state for it.
+
 When adding an item:
 
 1. Choose the correct existing category, or add a category only when a new stable functional area is actually needed.
@@ -61,6 +64,15 @@ When adding an item:
 8. Add a gap only when required/useful.
 9. Add references only as paths/URLs. Do not inline design or implementation notes.
 10. Keep the entire specification item on one source line.
+
+## Update constraints
+
+When changing a constraint:
+
+1. Keep its stable ID unless the original identity was incorrect.
+2. Do not add checkbox, version, priority, D/I/P/V, gap, or work-state metadata.
+3. Keep it as a direct one-line invariant.
+4. If the rule has become temporary work rather than an enduring invariant, remodel it as a specification item instead of attaching progress to the constraint.
 
 ## Update
 
@@ -101,6 +113,9 @@ When repository work changes reality covered by the Spectodo inventory:
 
 Check at least:
 
+- duplicate constraint IDs or a constraint ID colliding with an item ID
+- checkbox/version/priority/progress syntax incorrectly attached to a constraint
+- a constraint that is actually a progress-trackable capability or temporary task
 - checkbox/progress mismatch
 - duplicate version/category/item IDs
 - item prefix/category mismatch
