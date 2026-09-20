@@ -12,6 +12,10 @@ The canonical file is an inventory of enduring project constraints plus applicat
 
 Core constraints:
 
+- human direct source editing is not a required workflow; ChatGPT/agents are the primary updaters
+- the primary smartphone operation surface is ChatGPT Android
+- the primary smartphone human-inspection surface is rendered Markdown in GitHub Android
+- raw/source editing, GitHub's edit UI, mobile-web rendering, and custom renderers are not v0.1 smartphone acceptance surfaces
 - one specification item = one Markdown task-list item = one source line
 - a leading standard Markdown checkbox provides immediate overall TODO readability
 - ASCII-only structural syntax; natural-language text may use Unicode
@@ -51,6 +55,14 @@ Example:
 ```
 
 No dedicated rendering step is required. Standard Markdown rendering is the primary human view.
+
+For v0.1 smartphone validation, the surfaces are intentionally narrow:
+
+- operation: ChatGPT Android, with ChatGPT/agent reading and updating the canonical inventory
+- human inspection: GitHub Android rendered Markdown view
+- out of scope for acceptance: direct source editing, GitHub edit UI, mobile browser rendering, and custom renderers
+
+The format MAY remain directly editable as plain text, but direct human editing is not a usability requirement.
 
 ## 3. Versions
 
