@@ -26,7 +26,7 @@
 - [x] LANG-010 [V0] [P1] statementを単なる題名ではなく現在または意図した振る舞いを表す仕様文として記述できる | D:x I:x P:- V:x
 - [x] LANG-011 [V1] [P1] strict grammarとvalidation errorを機械解析可能な形で定義できる | D:x I:x P:- V:x | @spec/language-v0.1.md
 - [ ] LANG-013 [V0] [P1] 各仕様項目が数値priorityを持ち次にDesignへ新規着手する項目をversion内のcategory横断で選べる | D:x I:x P:- V:~ | !priorityに基づく次項目選択を実運用で未検証 | @spec/language-v0.1.md
-- [ ] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:~ | !self-hosting inventoryへの適用以外の独立検証は未実施 | @spec/language-v0.1.md
+- [x] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/sample.spectodo.md
 
 ## AGENT: Agent運用
 - [ ] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
