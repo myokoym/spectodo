@@ -13,12 +13,17 @@ Each requirement is one Markdown task-list item on one source line.
 - V0: Prototype
 - V1: MVP
 
+# Constraints
+- FORMAT-001 専用CLIを前提にしない
+
 ## AUTH: 認証
 - [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
 ```
 
 Current semantics:
 
+- optional `# Constraints` records enduring project-wide invariants without checkbox/version/priority/progress
+- requirements remain the progress-tracked records
 - `V0`, `V1`, ... = target version
 - `P1`, `P2`, ... = priority for selecting the next not-yet-started requirement to begin designing within the active version
 - `D` = Design
