@@ -8,7 +8,7 @@ The format MUST remain useful when opened as ordinary Markdown in GitHub or Chat
 
 It MUST NOT require a dedicated renderer, CLI, database, board, or web application.
 
-The canonical file is an inventory of application specification items and their progress. It is not a design notebook, implementation journal, discussion log, or issue tracker.
+The canonical file is an inventory of enduring project constraints plus application specification items and their progress. It is not a design notebook, implementation journal, discussion log, or issue tracker.
 
 Core constraints:
 
