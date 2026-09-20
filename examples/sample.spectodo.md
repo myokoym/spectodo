@@ -3,6 +3,9 @@
 - V1: MVP
 - V2: Release
 
+# Constraints
+- SEC-001 認証情報を平文保存しない
+
 ## AUTH: 認証
 - [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
 - [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
