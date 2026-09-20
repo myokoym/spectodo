@@ -31,22 +31,22 @@
 - [x] LANG-015 [V0] [P1] 明示的targetがない場合のactive versionを最小の未完了versionとして導出しD:.を新規Design候補として一意に判定できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/sample.spectodo.md @.agents/skills/spectodo/SKILL.md
 
 ## AGENT: Agent運用
-- [ ] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
-- [ ] AGENT-002 [V1] [P1] Agent Skillが既存categoryとversionを尊重して新しい仕様項目を追加できる | D:x I:x P:- V:~ | !実プロジェクトでの追加操作を独立検証していない | @.agents/skills/spectodo/SKILL.md
-- [ ] AGENT-003 [V1] [P1] Agent Skillが証拠または明示指示に基づいて各進捗軸を更新できる | D:x I:x P:- V:~ | !reconcile漏れが一度発生しており修正後の継続再現性を未検証 | @.agents/skills/spectodo/SKILL.md
+- [x] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @README.md
+- [x] AGENT-002 [V1] [P1] Agent Skillが既存categoryとversionを尊重して新しい仕様項目を追加できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
+- [x] AGENT-003 [V1] [P1] Agent Skillが証拠または明示指示に基づいて各進捗軸を更新できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [ ] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:~ | !一部の形式監査は実施済みだが列挙した全エラー種別の検証は未完了 | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:~ | !公式sampleでcategory横断の候補選択は確認済みだが実プロジェクトの新規着手では未検証 | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md
-- [ ] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:~ | !今回の一連のrepository更新では複数回reconcile済みだが別作業単位での再現性は未検証 | @.agents/skills/spectodo/SKILL.md
-- [ ] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:~ | !self-hostingと公式sampleでは分離を確認済みだが別project inventoryでは未検証 | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md
+- [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
+- [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/sample.spectodo.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
 - [x] VALID-002 [V1] [P1] Spectodo自身をSpectodo形式で管理してself-hosting上の欠点を検出できる | D:x I:x P:- V:x | @SPECTODO.md
 - [ ] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:. P:- V:.
 - [ ] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:. P:- V:.
-- [ ] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:~ | !close-the-loop修正後の今回の連続更新は監査0エラーで完了したが別セッションまたは別projectでの再現性は未検証
+- [x] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:x | @SPECTODO.md @spec/language-v0.1.md
 - [ ] VALID-006 [V1] [P2] 将来validatorを実装した場合にlanguage specのvalidation rulesを自動検査できる | D:x I:. P:- V:.
 
 ## DOCS: 文書化
