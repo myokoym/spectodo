@@ -8,10 +8,11 @@
 - CORE-002 専用レンダラーを前提にせずGitHubやChatGPTの標準Markdown表示で読める
 - CORE-004 設計メモや実装メモや作業ログを本体へ埋め込まず必要な詳細は参照先へ分離する
 - LANG-012 実プロジェクトで不足が確認されるまでcustom progress axisを導入しない
+- CORE-006 人間によるSpectodo sourceの直接編集を運用前提にせずChatGPTやAgentを主な更新者とする
 
 ## CORE: 基本要件
 - [x] CORE-003 [V0] [P1] 完了済み項目も削除せず完成したアプリの仕様項目一覧として保持できる | D:x I:x P:- V:x
-- [ ] CORE-005 [V0] [P2] スマートフォン上のChatGPTやGitHubから長い横スクロールや専用UIなしで扱える | D:x I:~ P:- V:. | !実プロジェクト規模での可読性と編集性を未検証
+- [x] CORE-005 [V0] [P2] ChatGPT AndroidからSpectodo inventoryを読み取りrepositoryの実態に合わせて更新できる | D:x I:x P:- V:x | @SPECTODO.md
 
 ## LANG: 言語仕様
 - [x] LANG-001 [V0] [P1] 1仕様項目を1つのMarkdownリスト項目かつ1ソース行として表現できる | D:x I:x P:- V:x
@@ -44,7 +45,7 @@
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
 - [x] VALID-002 [V1] [P1] Spectodo自身をSpectodo形式で管理してself-hosting上の欠点を検出できる | D:x I:x P:- V:x | @SPECTODO.md
 - [ ] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:. P:- V:.
-- [ ] VALID-004 [V1] [P2] スマートフォン画面で多数項目を一覧したときに状態と仕様文を実用的に読める | D:x I:. P:- V:.
+- [ ] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:. P:- V:.
 - [ ] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:~ | !close-the-loop修正後の今回の連続更新は監査0エラーで完了したが別セッションまたは別projectでの再現性は未検証
 - [ ] VALID-006 [V1] [P2] 将来validatorを実装した場合にlanguage specのvalidation rulesを自動検査できる | D:x I:. P:- V:.
 
