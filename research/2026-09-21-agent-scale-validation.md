@@ -48,6 +48,9 @@ Evidence from these checks supports completion of:
 - AGENT-004
 - AGENT-005
 - AGENT-006
+- AGENT-007
 - VALID-003
 
-It does not complete AGENT-007, because a real project new-Design selection has still not occurred, and it does not complete VALID-004, because GitHub Android rendered-Markdown usability has not been observed directly.
+For AGENT-007, the official sample is used as the Agent Skill selection fixture: within the default active version V0, the not-yet-started candidates are DATA-003 (P1) and AUTH-004 (P2), so the lower numeric priority selects DATA-003 across categories. A separate "real project" prerequisite is not part of the requirement itself.
+
+VALID-004 remains incomplete because GitHub Android rendered-Markdown usability has not been observed directly.
