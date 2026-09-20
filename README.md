@@ -4,6 +4,8 @@ Spectodo is an experimental Markdown-native format for keeping specification ite
 
 The current draft is intentionally usable as ordinary Markdown. A dedicated renderer, CLI, database, or board is not required.
 
+ChatGPT/agents are the primary updaters. Human direct source editing is not a required workflow. For smartphone use, the v0.1 target surfaces are ChatGPT Android for operation and GitHub Android's rendered Markdown view for human inspection.
+
 ## Current draft
 
 Each requirement is one Markdown task-list item on one source line.
