@@ -46,9 +46,10 @@ When the user asks to proceed without naming a specific item:
 3. Treat an item as not-yet-started for this selection rule iff its Design axis is exactly `D:.`.
 4. Among those candidates in the active version, prefer the lowest priority number across categories.
 5. If multiple candidates have the same priority, do not invent source-order semantics; choose based on the current work context unless the project later defines a tie-break.
-6. Priority boundaries are not confirmation gates. Do not stop merely because selection moves from P1 to P2.
-7. Begin a new item's work at Design. Normal design discussion is the review point for the item's necessity, scope, target version, and specification.
-8. If design reveals that the target version or necessity should change, surface that decision and update it only with sufficient evidence or explicit user agreement.
+6. If the active version still has incomplete started items but no `D:.` candidate, do not advance to a later version just because the new-work candidate set is empty. Resume incomplete started work based on current context; priority does not retroactively reorder it.
+7. Priority boundaries are not confirmation gates. Do not stop merely because selection moves from P1 to P2.
+8. Begin a new item's work at Design. Normal design discussion is the review point for the item's necessity, scope, target version, and specification.
+9. If design reveals that the target version or necessity should change, surface that decision and update it only with sufficient evidence or explicit user agreement.
 
 ## Add
 
