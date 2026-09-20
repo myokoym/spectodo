@@ -112,8 +112,7 @@ When repository work changes reality covered by the Spectodo inventory:
 2. Reconcile D/I/P/V against the resulting repository state in the same work unit.
 3. Recompute each affected overall checkbox.
 4. If the work itself exposed a missing requirement or an invalid inventory assumption, add or revise the corresponding item instead of leaving the discovery only in chat.
-5. If remaining validation requires user-only observation or interaction, do not stop at saying it cannot be verified. Provide the direct target URL when available, the exact screen/view to open, concise pass/fail criteria, and the specific result or screenshot needed from the user.
-6. Do not claim the Spectodo-managed work is finished while known affected inventory items are stale.
+5. Do not claim the Spectodo-managed work is finished while known affected inventory items are stale.
 
 ## Audit
 
