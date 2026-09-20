@@ -291,7 +291,7 @@ Implication:
 
 Spectodo should have a clear common completion rule, but requiring a large fixed checklist for every item risks reproducing "creeping DoD".
 
-The current fixed D/I/P/V model therefore needs evidence, not assumption.
+The literature alone does not justify any particular four-axis model. Spectodo has since explicitly fixed D/I/P/V for the v0.1 experiment, so this research does not reopen the axis set. Empirical work should evaluate whether the fixed representation remains usable at realistic scale.
 
 ### 6.2 Overall completion and detailed state are distinct
 
@@ -380,18 +380,17 @@ Spectodo can borrow identity, validation, and traceability concepts without inhe
 - design/implementation notes remain outside the inventory
 - Agent assistance should reduce manual metadata work
 
-### Reopened questions
+### Open research questions
 
-#### Fixed D/I/P/V on every item
+#### Usability of the fixed D/I/P/V representation
 
-This is no longer safe to assume.
+D/I/P/V is fixed for the current v0.1 experiment. The remaining research question is not whether to replace those axes, but whether the fixed representation remains readable and maintainable at realistic project scale.
 
 Questions:
-- Are all four axes useful on every item?
-- Could some be implicit in a project-level Definition of Done?
-- Should detailed axes only appear while incomplete?
-- Is deployment often release/project-level rather than item-level?
-- Is a single workflow state plus evidence enough in some projects?
+- Can humans and agents distinguish the four axes reliably?
+- Does the one-line representation remain readable on mobile widths?
+- Can incomplete, partial, and unvalidated items be found quickly?
+- Does repeated agent updating preserve the fixed semantics without drift?
 
 #### Inventory vs active work queue
 
@@ -399,11 +398,9 @@ Research distinguishes comprehensive overview from selective active-priority vie
 
 Spectodo may keep a canonical complete inventory while deriving a smaller active view. It should not permanently encode every daily-planning concern.
 
-#### Principles vs checkable requirements
+#### Constraints vs checkable requirements
 
-Principles such as "CLIを前提にしない" should either:
-- be rewritten as verifiable requirements, or
-- live outside the checklist as invariants/principles.
+This issue is now resolved in the v0.1 draft: enduring project-wide invariants live under `# Constraints` without checkbox/version/priority/D/I/P/V, while verifiable capabilities remain progress-tracked requirements.
 
 ## 9. Research-derived evaluation criteria
 
@@ -431,11 +428,9 @@ Instead:
 - construct a realistic 100+ item fixture
 - compare multiple candidate line syntaxes side by side
 - measure visual density and line length at mobile width
-- compare explicit D/I/P/V against reduced or implicit models
-- test how quickly unfinished/partial/unverified items can be found
+- test how quickly unfinished/partial/unverified items can be found with the fixed D/I/P/V model
 - test repeated ChatGPT/Coding-Agent updates for format drift
-- determine whether deployment belongs at item or release/project level
-- separate principles from checkable requirements in Spectodo's own inventory
+- test whether constraint and requirement records remain visually and operationally distinct
 
 ## 11. Bottom line
 
@@ -445,4 +440,4 @@ It is:
 
 Make important state visible, keep interaction lightweight, preserve a comprehensive categorized overview, use explicit completion semantics, and only add structure that demonstrably helps users manage or verify work.
 
-For Spectodo, the standard Markdown checkbox is foundational. The current four-axis detail model must earn its complexity through testing.
+For Spectodo, the standard Markdown checkbox is foundational. D/I/P/V is fixed for the current v0.1 experiment; testing should validate its usability and agent reliability rather than silently reopening the axis design.
