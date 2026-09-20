@@ -176,6 +176,8 @@ For this rule, an item is `not-yet-started` iff its Design axis is exactly `D:.`
 
 If more than one eligible item has the same priority, v0.1 does not assign semantic meaning to their source order. The user/agent MAY choose among equal-priority candidates based on current context; a future version may define an additional tie-break only if concrete use shows that it is needed.
 
+If the active target version still has incomplete specification items but none has `D:.`, the new-Design priority rule has no candidate. That MUST NOT by itself advance work to a later version. Previously started incomplete work remains part of the active version and may be resumed based on the current work context. Priority does not retroactively preempt or reorder started work.
+
 Priority MUST NOT be interpreted as a progress state.
 
 Priority MUST NOT by itself interrupt an item that is already being designed or progressed.
