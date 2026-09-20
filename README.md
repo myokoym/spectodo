@@ -25,6 +25,8 @@ Current semantics:
 - optional `# Constraints` records enduring project-wide invariants without checkbox/version/priority/progress
 - requirements remain the progress-tracked records
 - `V0`, `V1`, ... = target version
+- without an explicit target in the current work context, the default active version is the lowest declared version containing an incomplete requirement
+- `D:.` defines a not-yet-started requirement for new-Design selection
 - `P1`, `P2`, ... = priority for selecting the next not-yet-started requirement to begin designing within the active version
 - `D` = Design
 - `I` = Implementation
