@@ -3,11 +3,14 @@
 - V1: Agent and validation
 - V2: Release readiness
 
-## CORE: 基本方針
-- [x] CORE-001 [V0] [P1] 専用CLIを前提にせずMarkdownファイルだけで日常的に読み書きできる | D:x I:x P:- V:x
-- [x] CORE-002 [V0] [P1] 専用レンダラーを前提にせずGitHubやChatGPTの標準Markdown表示で読める | D:x I:x P:- V:x
+# Constraints
+- CORE-001 専用CLIを前提にせずMarkdownファイルだけで日常的に読み書きできる
+- CORE-002 専用レンダラーを前提にせずGitHubやChatGPTの標準Markdown表示で読める
+- CORE-004 設計メモや実装メモや作業ログを本体へ埋め込まず必要な詳細は参照先へ分離する
+- LANG-012 実プロジェクトで不足が確認されるまでcustom progress axisを導入しない
+
+## CORE: 基本要件
 - [x] CORE-003 [V0] [P1] 完了済み項目も削除せず完成したアプリの仕様項目一覧として保持できる | D:x I:x P:- V:x
-- [x] CORE-004 [V0] [P1] 設計メモや実装メモや作業ログを本体へ埋め込まず必要な詳細は参照先へ分離できる | D:x I:x P:- V:x
 - [ ] CORE-005 [V0] [P2] スマートフォン上のChatGPTやGitHubから長い横スクロールや専用UIなしで扱える | D:x I:~ P:- V:. | !実プロジェクト規模での可読性と編集性を未検証
 
 ## LANG: 言語仕様
@@ -22,8 +25,8 @@
 - [x] LANG-009 [V0] [P1] item IDをcategory IDと連動したstable IDとして一意に管理できる | D:x I:x P:- V:x
 - [x] LANG-010 [V0] [P1] statementを単なる題名ではなく現在または意図した振る舞いを表す仕様文として記述できる | D:x I:x P:- V:x
 - [x] LANG-011 [V1] [P1] strict grammarとvalidation errorを機械解析可能な形で定義できる | D:x I:x P:- V:x | @spec/language-v0.1.md
-- [x] LANG-012 [V1] [P3] 実プロジェクトで不足が確認されるまでcustom progress axisを導入しない | D:x I:x P:- V:x
 - [ ] LANG-013 [V0] [P1] 各仕様項目が数値priorityを持ち次にDesignへ新規着手する項目をversion内のcategory横断で選べる | D:x I:x P:- V:~ | !priorityに基づく次項目選択を実運用で未検証 | @spec/language-v0.1.md
+- [ ] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:~ | !self-hosting inventoryへの適用以外の独立検証は未実施 | @spec/language-v0.1.md
 
 ## AGENT: Agent運用
 - [ ] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
@@ -34,6 +37,7 @@
 - [ ] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:~ | !close-the-loop追加後の継続的な実運用検証が未完了 | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:~ | !self-hosting inventoryでの初回適用のみで継続検証は未実施 | @.agents/skills/spectodo/SKILL.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
