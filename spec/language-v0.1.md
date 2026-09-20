@@ -134,7 +134,7 @@ Example:
 - FORMAT-002 完了済み仕様項目をinventoryから削除しない
 ```
 
-## 18. Priority
+## 5. Priority
 
 Every specification item has one numeric priority marker.
 
@@ -168,7 +168,7 @@ If design work shows that an item's target version or necessity is wrong, the in
 
 v0.1 intentionally does not assign fixed labels such as high / medium / low to numeric priorities.
 
-## 18. Categories
+## 6. Categories
 
 A category is an H2 heading:
 
@@ -182,7 +182,7 @@ Example:
 ## AUTH: 認証
 ```
 
-### 18.1 Category ID
+### 6.1 Category ID
 
 Draft grammar:
 
@@ -196,7 +196,7 @@ Category labels are display text and MAY contain Unicode.
 
 The category ID is stable identity. Renaming the label MUST NOT require changing item IDs.
 
-## 18. Specification items
+## 7. Specification items
 
 Each specification item MUST occupy exactly one source line.
 
@@ -224,7 +224,7 @@ Example:
 - [ ] AUTH-001 [V1] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !パスワード再設定の実機検証が未完了 | @docs/auth.md
 ```
 
-### 18.1 Item ID
+### 7.1 Item ID
 
 An item ID is scoped by category identity:
 
@@ -246,7 +246,7 @@ Item IDs MUST be unique within the document.
 
 An existing ID MUST NOT be reused for a different specification after deletion or scope change.
 
-### 18.2 Statement
+### 7.2 Statement
 
 `STATEMENT` is the actual concise specification, not a separate title.
 
@@ -272,7 +272,7 @@ A statement:
 - MUST NOT contain design rationale, implementation notes, discussion history, or work logs
 - MUST escape a literal `|` as `\|`
 
-## 18. Overall checkbox
+## 8. Overall checkbox
 
 The overall checkbox exists for immediate visual scanning in ordinary Markdown renderers.
 
@@ -285,7 +285,7 @@ Examples:
 
 The overall checkbox MUST NOT be edited independently of the progress axes.
 
-## 18. Progress axes
+## 9. Progress axes
 
 v0.1 defines four fixed axes in a fixed order:
 
@@ -308,7 +308,7 @@ The fixed order is intentional: it makes records predictable without requiring a
 
 Project-level custom axes are intentionally NOT part of v0.1. They may be reconsidered only if concrete projects demonstrate a need.
 
-## 18. Status alphabet
+## 10. Status alphabet
 
 Structural status values are ASCII only.
 
@@ -326,7 +326,7 @@ Grammar:
 STATUS := "x" | "~" | ">" | "." | "-"
 ```
 
-### 18.1 Semantics
+### 10.1 Semantics
 
 #### `x` done
 
@@ -358,7 +358,7 @@ The axis does not apply to this item.
 
 It MUST NOT be used merely because work is deferred.
 
-## 18. Gap segment
+## 11. Gap segment
 
 Optional shape:
 
@@ -383,7 +383,7 @@ Rules:
 
 Only one gap segment is allowed in v0.1. Multiple gaps MUST be compressed into a concise statement or moved to a referenced document.
 
-## 18. Reference segment
+## 12. Reference segment
 
 References are optional and come last.
 
@@ -409,7 +409,7 @@ Rules:
 - spaces in external URLs/paths MUST be percent-encoded
 - references contain locations only; commentary belongs elsewhere
 
-## 18. Segment order
+## 13. Segment order
 
 v0.1 uses strict ordering.
 
@@ -434,7 +434,7 @@ Invalid:
 
 Strict order reduces parser ambiguity and agent-generated format drift.
 
-## 18. Formal draft grammar
+## 14. Formal draft grammar
 
 The grammar below is normative for the v0.1 experiment except where Markdown parsing itself is concerned.
 
@@ -497,7 +497,7 @@ digit          = "0" | "1" | ... | "9" ;
 nonzero_digit  = "1" | "2" | ... | "9" ;
 ```
 
-## 18. Validation errors
+## 15. Validation errors
 
 A validator or Agent Skill MUST treat at least the following as errors:
 
@@ -528,7 +528,7 @@ Warnings MAY include:
 - reference path appears missing
 - `x` is asserted without evidence during reconciliation
 
-## 18. What is intentionally excluded
+## 16. What is intentionally excluded
 
 v0.1 does not encode:
 
@@ -549,7 +549,7 @@ v0.1 does not encode:
 
 These may exist elsewhere and be referenced if needed.
 
-## 18. Renderer policy
+## 17. Renderer policy
 
 Spectodo v0.1 has no custom renderer.
 
