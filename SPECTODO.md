@@ -43,6 +43,7 @@
 - [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/sample.spectodo.md
+- [x] AGENT-010 [V1] [P1] ユーザー側の観察や操作が必要なvalidationではAgentが直接URLと対象viewと合否条件と必要な返答を提示してhandoffできる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-github-android-validation.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
