@@ -27,13 +27,13 @@
 
 ## AGENT: Agent運用
 - [ ] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-002 [V1] [P1] Agent Skillが既存categoryとversionを尊重して新しい仕様項目を追加できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-003 [V1] [P1] Agent Skillが証拠または明示指示に基づいて各進捗軸を更新できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-002 [V1] [P1] Agent Skillが既存categoryとversionを尊重して新しい仕様項目を追加できる | D:x I:x P:- V:~ | !実プロジェクトでの追加操作を独立検証していない | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-003 [V1] [P1] Agent Skillが証拠または明示指示に基づいて各進捗軸を更新できる | D:x I:x P:- V:~ | !reconcile漏れが一度発生しており修正後の継続再現性を未検証 | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:~ | !一部の形式監査は実施済みだが列挙した全エラー種別の検証は未完了 | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
 - [ ] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:. | @.agents/skills/spectodo/SKILL.md
-- [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:~ | !close-the-loop追加後の継続的な実運用検証が未完了 | @.agents/skills/spectodo/SKILL.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
