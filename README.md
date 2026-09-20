@@ -53,6 +53,7 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 - [TODO / task-management literature review](research/2026-09-20-todo-task-management-literature-review.md)
 - [Initial design history](research/2026-09-20-initial-design-history.md)
 - [Agent / scale validation](research/2026-09-21-agent-scale-validation.md)
+- [GitHub Android rendered-Markdown validation](research/2026-09-21-github-android-validation.md)
 
 ## Status
 
