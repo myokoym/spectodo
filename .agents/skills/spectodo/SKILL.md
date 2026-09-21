@@ -1,6 +1,6 @@
 ---
 name: spectodo
-description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory in this repository. Use when working with Spectodo items, versions, priorities, categories, implementation/deployment/validation progress, or when checking repository state against the Spectodo inventory.
+description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory in this repository. Use when working with Spectodo items, versions, priorities, categories, implementation/deployment/verification progress, or when checking repository state against the Spectodo inventory.
 ---
 
 Use the repository's Spectodo language specification as the authority.
@@ -33,11 +33,11 @@ When summarizing an inventory:
    - D = design
    - I = implementation
    - P = deployment
-   - V = validation
+   - V = verification
 6. Use the status meanings from the language specification.
 7. Read the leading Markdown checkbox as the derived overall TODO indicator.
 8. Verify that `[x]` appears only when every D/I/P/V axis is `x` or `-`; otherwise it must be `[ ]`.
-9. Do not collapse implementation and validation into one detailed state.
+9. Do not collapse implementation and verification into one detailed state.
 10. Treat completed items as part of the current application specification, not disposable history.
 
 ## Select next work
@@ -102,7 +102,7 @@ When comparing repository reality with the inventory:
 2. Report mismatches before changing ambiguous states.
 3. Update states only when the evidence is sufficient.
 4. Never infer deployment from implementation alone.
-5. Never infer validation from deployment alone.
+5. Never infer verification from deployment alone.
 6. Keep intentional `-` (not applicable) distinct from deferred `.` (todo).
 
 ## Close the loop
