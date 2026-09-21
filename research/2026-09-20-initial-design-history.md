@@ -313,7 +313,8 @@ spec-driven development 系の既存ツールを調べると、`spec` は自然�
 
 - Display / product name: **Spectodo**
 - Repository / technical identifier: `spectodo`
-- Current Markdown format: `.spectodo.md`
+- Current canonical project inventory: `SPECTODO.md`
+- Generic secondary-file suffix: not standardized in v0.1
 
 意味上の核は **Spec + TODO**。ただし `SpecTodo` のように語境界を強く表示すると「仕様から TODO を作るだけのツール」に見えやすく、implemented / partial / omitted / validation を含む実際の対象を狭く見せるため、固有名としての **Spectodo** を採用した。
 
@@ -439,7 +440,7 @@ spec-driven development 系の既存ツールを調べると、`spec` は自然�
 これはまだ正式採用ではない。既存の要件・比較検討を置き換えるものではなく、実際に要件を満たせるか検証するための draft。
 
 - Language draft: `spec/language-v0.1.md`
-- Example: `examples/sample.spectodo.md`
+- Example: `examples/SPECTODO.md`
 - Repository Agent Skill: `.agents/skills/spectodo/SKILL.md`
 - Research: `research/2026-09-20-format-direction.md`
 
