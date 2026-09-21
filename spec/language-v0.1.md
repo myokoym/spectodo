@@ -1,6 +1,6 @@
-# Spectodo Language v0.1 (Draft)
+# Spectodo Language v0.1
 
-> Status: experimental draft. This document defines the machine-readable Markdown subset currently being evaluated for Spectodo. It is not a stable public specification yet.
+> Status: stable v0.1. This document defines the machine-readable Markdown subset for Spectodo Language v0.1. Changes to normative syntax or semantics require a later language version.
 
 ## 1. Design goals
 
@@ -27,6 +27,8 @@ Core constraints:
 - detailed information is referenced, not embedded
 
 ## 2. Document shape
+
+A repository using Spectodo v0.1 SHOULD keep exactly one canonical inventory at the repository root whose filename ends in `.spectodo.md`. The basename is project-chosen; the `.spectodo.md` suffix is the stable discovery marker. Files below subdirectories such as examples or fixtures do not compete with the root canonical inventory.
 
 A document consists of:
 
@@ -88,7 +90,7 @@ Example:
 
 ### 3.1 Version ID
 
-Draft grammar:
+Grammar:
 
 ```text
 VERSION_ID := "V" DIGIT+
@@ -106,7 +108,7 @@ The label is display text and MAY contain Unicode.
 
 ### 3.2 Active target version
 
-v0.1 does not add a persistent active-version marker.
+v0.1 does not define a persistent active-version marker.
 
 For work selection:
 
@@ -164,7 +166,7 @@ Example:
 
 Every specification item has one numeric priority marker.
 
-Draft grammar:
+Grammar:
 
 ```text
 PRIORITY := "P" POSITIVE_INTEGER
@@ -216,7 +218,7 @@ Example:
 
 ### 6.1 Category ID
 
-Draft grammar:
+Grammar:
 
 ```text
 CATEGORY_ID := UPPER (UPPER | DIGIT | "-")*
@@ -338,7 +340,7 @@ All four axes MUST be present on every specification item.
 
 The fixed order is intentional: it makes records predictable without requiring a separate schema header.
 
-Project-level custom axes are intentionally NOT part of v0.1. They may be reconsidered only if concrete projects demonstrate a need.
+Project-level custom axes are intentionally NOT part of v0.1. Any future support requires a later language version.
 
 ## 10. Status alphabet
 
@@ -468,7 +470,7 @@ Strict order reduces parser ambiguity and agent-generated format drift.
 
 ## 14. Formal draft grammar
 
-The grammar below is normative for the v0.1 experiment except where Markdown parsing itself is concerned.
+The grammar below is normative for Spectodo Language v0.1 except where Markdown parsing itself is concerned.
 
 ```ebnf
 document       = versions, blank*,
@@ -593,9 +595,9 @@ A future renderer MAY provide filtered or summarized views, but:
 - it MUST NOT become the source of truth
 - the canonical file MUST remain usable without it
 
-## 18. Open questions
+## 18. Future-version considerations
 
-The following remain experimental rather than fixed:
+The following do not change v0.1 semantics. They may be reconsidered only in a later language version:
 
 - whether `>` (in progress) is worth keeping as a first-class status
 - whether item numbering should always be three digits
