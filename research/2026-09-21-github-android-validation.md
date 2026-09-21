@@ -7,7 +7,7 @@
 ## Surface
 
 - App: GitHub for Android
-- File: `project.spectodo.md`
+- File: `SPECTODO.md`
 - View: rendered Markdown file view
 - Orientation: normal portrait use
 - Interaction: human inspection only
