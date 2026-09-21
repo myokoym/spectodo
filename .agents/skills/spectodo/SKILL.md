@@ -15,10 +15,12 @@ ChatGPT/agents are the primary inventory updaters. Do not treat human direct sou
 
 ## Locate
 
-1. Look for an existing Spectodo inventory in the repository.
-2. Prefer an explicitly identified canonical file.
-3. Do not silently create a second inventory if one already exists.
-4. If no inventory exists and the task is only analysis/audit, report that instead of inventing one.
+1. Search the repository root for files ending in `.spectodo.md`.
+2. If exactly one root-level match exists, use it as the canonical inventory.
+3. Ignore matching files below subdirectories such as `examples/` or `fixtures/` for canonical discovery.
+4. If more than one root-level match exists, treat the repository state as ambiguous and do not guess.
+5. Do not silently create a second inventory when a canonical root inventory already exists.
+6. If no canonical inventory exists and the task is only analysis/audit, report that instead of inventing one.
 
 ## Read
 
