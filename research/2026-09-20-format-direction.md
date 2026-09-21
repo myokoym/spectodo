@@ -340,7 +340,7 @@ Source:
 実験用 artifact:
 
 - `spec/language-v0.1.md` — strict syntax / semantics draft
-- `examples/sample.spectodo.md` — standard Markdown として読める実例
+- `examples/SPECTODO.md` — standard Markdown として読める実例
 - `.agents/skills/spectodo/SKILL.md` — repository-scope Agent Skill
 
 v0.1 の中心案:
