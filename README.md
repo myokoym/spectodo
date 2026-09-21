@@ -46,7 +46,7 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 
 - [Spectodo Language v0.1](spec/language-v0.1.md)
 - [Adopting Spectodo v0.1](docs/adoption.md)
-- [Example inventory](examples/sample.spectodo.md)
+- [Example inventory](examples/SPECTODO.md)
 - [Spectodo self-inventory](SPECTODO.md)
 - [Repository Agent Skill](.agents/skills/spectodo/SKILL.md)
 - [Format research](research/2026-09-20-format-direction.md)
