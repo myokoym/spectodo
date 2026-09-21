@@ -7,7 +7,8 @@
 技術識別子は、必要に応じて小文字のまま使用する。
 
 - Repository: `spectodo`
-- File format / suffix: `.spectodo.md`
+- Canonical project inventory: `SPECTODO.md`
+- Generic secondary-file suffix: not standardized in v0.1
 - Agent Skill / technical identifier: `spectodo`
 - 将来 package / CLI を作る場合も、ecosystem 側の制約がなければ `spectodo` を既定候補とする。
 
@@ -111,7 +112,7 @@ underlying string は同じだが、`SpecTodo` 以上の実質的な利点を生
 - proper name として扱いやすい
 - conventional TODO list に見えすぎない
 - `Spec + todo` という由来は残せる
-- 既存の `spectodo` repository / `.spectodo.md` と自然に対応する
+- 既存の `spectodo` repository / lowercase technical identifier と自然に対応する
 
 という強みがある。
 
@@ -415,7 +416,8 @@ domain availability のためだけに本体名称を歪めない。
 
 - **Official display name:** Spectodo
 - **Repository / technical slug:** `spectodo`
-- **Current Markdown format:** `.spectodo.md`
+- **Canonical project inventory:** `SPECTODO.md`
+- **Generic secondary-file suffix:** v0.1では標準化しない
 
 `SpecTodo` は「未決定の別候補」ではなく、比較した上で採用しなかった display variant として記録する。
 
@@ -427,3 +429,18 @@ domain availability のためだけに本体名称を歪めない。
 - product の central concept が大きく変わる
 
 無関係・低採用の小規模 project による単なる文字列利用だけでは、名称決定を再オープンしない。
+
+
+---
+
+## 9. 2026-09-21 filename correction
+
+初期の命名記録では `.spectodo.md` を file format / suffix として扱っていたが、このsuffix自体について独立した根拠・比較検討は行われていなかった。
+
+その後、canonical project inventory の役割を再確認し、v0.1では以下に修正した。
+
+- project-level canonical inventory は root の `SPECTODO.md`
+- official example は `examples/SPECTODO.md`
+- genericな `*.spectodo.md` suffix は標準化しない
+
+この修正は product name `Spectodo` の決定を再オープンするものではない。表示名・repository slug・canonical document filename・generic suffix は別の naming layer として扱う。
