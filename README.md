@@ -1,6 +1,6 @@
 # Spectodo
 
-Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・検証の進捗を1つのMarkdown inventoryで管理する形式**です。
+Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・適合確認の進捗を1つのMarkdown inventoryで管理する形式**です。
 
 完了済み項目も削除せず残すため、単なるTODO一覧ではなく、現在のプロジェクトが「何を備えていて、どこまで確認できているか」を後から再構成できます。
 
@@ -38,7 +38,7 @@ Spectodo Language v0.1はstableです。
 - `D` = Design
 - `I` = Implementation
 - `P` = Deployment
-- `V` = Validation
+- `V` = Verification
 
 状態:
 
