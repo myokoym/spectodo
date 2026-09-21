@@ -2,11 +2,11 @@
 
 Spectodo is an experimental Markdown-native format for keeping specification items and their implementation progress in one persistent inventory that can be read and updated by humans, ChatGPT, and coding agents.
 
-The current draft is intentionally usable as ordinary Markdown. A dedicated renderer, CLI, database, or board is not required.
+Spectodo Language v0.1 is stable and intentionally usable as ordinary Markdown. A dedicated renderer, CLI, database, or board is not required.
 
 ChatGPT/agents are the primary updaters. Human direct source editing is not a required workflow. For smartphone use, the v0.1 target surfaces are ChatGPT Android for operation and GitHub Android's rendered Markdown view for human inspection.
 
-## Current draft
+## Spectodo v0.1
 
 Each requirement is one Markdown task-list item on one source line.
 
@@ -44,9 +44,10 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 
 ## Files
 
-- [Language draft](spec/language-v0.1.md)
+- [Spectodo Language v0.1](spec/language-v0.1.md)
+- [Adopting Spectodo v0.1](docs/adoption.md)
 - [Example inventory](examples/sample.spectodo.md)
-- [Spectodo self-inventory](SPECTODO.md)
+- [Spectodo self-inventory](project.spectodo.md)
 - [Repository Agent Skill](.agents/skills/spectodo/SKILL.md)
 - [Format research](research/2026-09-20-format-direction.md)
 - [Naming decision](research/2026-09-20-naming-decision.md)
@@ -57,8 +58,8 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 
 ## Status
 
-The language is still a draft. The current repository is being used to dogfood the format itself.
+Spectodo Language v0.1 is stable. The current repository dogfoods the format itself.
 
-The source of truth for syntax and semantics is `spec/language-v0.1.md`. The source of truth for this repository's current work state is `SPECTODO.md`.
+The source of truth for syntax and semantics is `spec/language-v0.1.md`. The source of truth for this repository's current work state is `project.spectodo.md`.
 
 Historical research and rejected alternatives are preserved under `research/`; they are not normative unless the current language specification explicitly adopts them.
