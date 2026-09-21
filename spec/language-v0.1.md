@@ -22,7 +22,7 @@ Core constraints:
 - stable IDs for categories, versions, and items
 - category-oriented reading order
 - target version and numeric priority are item attributes
-- design / implementation / deployment / validation are independent progress axes
+- design / implementation / deployment / verification are independent progress axes
 - completed items remain in the inventory
 - detailed information is referenced, not embedded
 
@@ -136,7 +136,7 @@ A constraint is one enduring project-wide invariant:
 
 Constraints are not work items. They MUST NOT have a Markdown checkbox, target version, priority, or D/I/P/V progress axes.
 
-Use a constraint only for a rule that is intended to remain continuously true while the inventory is in use. A capability that can be designed, implemented, deployed, or validated is a specification item instead.
+Use a constraint only for a rule that is intended to remain continuously true while the inventory is in use. A capability that can be designed, implemented, deployed, or verified is a specification item instead.
 
 General design rationale or non-enforceable principles belong in referenced documentation, not in the constraint section.
 
@@ -327,7 +327,7 @@ v0.1 defines four fixed axes in a fixed order:
 D = design
 I = implementation
 P = deployment
-V = validation
+V = verification
 ```
 
 The exact canonical sequence is:
@@ -368,7 +368,7 @@ The axis is complete for the specification item.
 
 For implementation, UI presence, a mock, fixture, placeholder, or hard-coded demonstration alone MUST NOT be treated as complete system implementation.
 
-For validation, implementation existence alone MUST NOT be treated as validation.
+For verification, implementation existence alone MUST NOT be treated as verification.
 
 #### `~` partial
 
