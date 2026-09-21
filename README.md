@@ -1,18 +1,24 @@
 # Spectodo
 
-Spectodo is an experimental Markdown-native format for keeping specification items and their implementation progress in one persistent inventory that can be read and updated by humans, ChatGPT, and coding agents.
+Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・検証の進捗を1つのMarkdown inventoryで管理する形式**です。
 
-Spectodo Language v0.1 is stable and intentionally usable as ordinary Markdown. A dedicated renderer, CLI, database, or board is not required.
+完了済み項目も削除せず残すため、単なるTODO一覧ではなく、現在のプロジェクトが「何を備えていて、どこまで確認できているか」を後から再構成できます。
 
-ChatGPT/agents are the primary updaters. Human direct source editing is not a required workflow. For smartphone use, the v0.1 target surfaces are ChatGPT Android for operation and GitHub Android's rendered Markdown view for human inspection.
+Spectodo Language v0.1はstableです。
 
-## 導入
+## 特徴
 
-既存プロジェクトへの導入手順と、ChatGPT / Coding Agentへそのまま渡せる導入依頼文は [Spectodo v0.1 導入方法](docs/adoption.md) を参照する。
+- canonical inventoryはrepository rootの `SPECTODO.md`
+- 1 Requirement = 1 Markdown task-list item = 1 source line
+- category / target version / priority / D-I-P-V progressを保持
+- 完了済みRequirementもinventoryから削除しない
+- 永続的なproject-wide ruleは `# Constraints` としてRequirementから分離
+- design note、implementation note、work logはinventoryへ埋め込まない
+- 必要な詳細はrepository-relative pathやURLを `@ref` で参照
+- 専用CLI・専用renderer・database・boardを通常利用の前提にしない
+- ChatGPT / Coding Agentを主な更新者とし、人間によるsource直接編集を必須にしない
 
-## Spectodo v0.1
-
-Each requirement is one Markdown task-list item on one source line.
+## 例
 
 ```md
 # Versions
@@ -20,50 +26,51 @@ Each requirement is one Markdown task-list item on one source line.
 - V1: MVP
 
 # Constraints
-- FORMAT-001 専用CLIを前提にしない
+- SEC-001 認証情報を平文保存しない
 
 ## AUTH: 認証
 - [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
+- [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
 ```
 
-Current semantics:
+進捗軸:
 
-- optional `# Constraints` records enduring project-wide invariants without checkbox/version/priority/progress
-- requirements remain the progress-tracked records
-- `V0`, `V1`, ... = target version
-- without an explicit target in the current work context, the default active version is the lowest declared version containing an incomplete requirement
-- `D:.` defines a not-yet-started requirement for new-Design selection
-- `P1`, `P2`, ... = priority for selecting the next not-yet-started requirement to begin designing within the active version
 - `D` = Design
 - `I` = Implementation
 - `P` = Deployment
 - `V` = Validation
-- status values: `x` done, `~` partial, `>` in progress, `.` todo, `-` not applicable
-- the leading Markdown checkbox is derived from D/I/P/V and is `[x]` only when every axis is `x` or `-`
-- `~` requires a concise `!gap`
-- optional `@ref` values point to repository-relative paths or URLs
-- completed requirements remain in the inventory
 
-Priority does not interrupt active work and is not an automatic confirmation gate. When a new requirement is selected, Design is the normal point to review its necessity, scope, target version, and specification.
+状態:
 
-## Files
+- `x` = done
+- `~` = partial
+- `>` = in progress
+- `.` = todo
+- `-` = not applicable
 
-- [Spectodo Language v0.1](spec/language-v0.1.md)
-- [Spectodo v0.1 導入方法](docs/adoption.md)
-- [Example inventory](examples/SPECTODO.md)
-- [Spectodo self-inventory](SPECTODO.md)
-- [Repository Agent Skill](.agents/skills/spectodo/SKILL.md)
-- [Format research](research/2026-09-20-format-direction.md)
-- [Naming decision](research/2026-09-20-naming-decision.md)
-- [TODO / task-management literature review](research/2026-09-20-todo-task-management-literature-review.md)
-- [Initial design history](research/2026-09-20-initial-design-history.md)
-- [Agent / scale validation](research/2026-09-21-agent-scale-validation.md)
-- [GitHub Android rendered-Markdown validation](research/2026-09-21-github-android-validation.md)
+先頭checkboxはD/I/P/Vから導出します。すべてが `x` または `-` のときだけ `[x]` になります。
 
-## Status
+## 導入
 
-Spectodo Language v0.1 is stable. The current repository dogfoods the format itself.
+既存プロジェクトへの導入手順と、ChatGPT / Coding Agentへそのまま渡せる導入依頼文は **[Spectodo v0.1 導入方法](docs/adoption.md)** を参照してください。
 
-The source of truth for syntax and semantics is `spec/language-v0.1.md`. The source of truth for this repository's current work state is `SPECTODO.md`.
+導入時に人間がSpectodo構文を手入力することは前提にしていません。
 
-Historical research and rejected alternatives are preserved under `research/`; they are not normative unless the current language specification explicitly adopts them.
+## 主なファイル
+
+- [Spectodo v0.1 導入方法](docs/adoption.md) — 導入手順と導入依頼文の正本
+- [Spectodo Language v0.1](spec/language-v0.1.md) — 構文・意味・validation rulesの正本
+- [公式example](examples/SPECTODO.md) — 有効なSpectodo inventoryの例
+- [SPECTODO.md](SPECTODO.md) — このrepository自身のcanonical inventory
+- [Repository Agent Skill](.agents/skills/spectodo/SKILL.md) — Agent向けの追加・更新・監査ルール
+
+調査・検討履歴は `research/` に保存しています。historical researchは、現行仕様が明示的に採用していない限りnormativeではありません。
+
+## 現在の状態
+
+- Spectodo Language: **v0.1 stable**
+- canonical project filename: **`SPECTODO.md`**
+- dedicated CLI / renderer: **不要**
+- このrepositoryのV0 / V1 / V2 Requirements: **完了**
+
+syntax / semanticsのsource of truthは `spec/language-v0.1.md`、このrepositoryの現在状態のsource of truthは `SPECTODO.md` です。
