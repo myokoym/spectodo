@@ -8,23 +8,7 @@ ChatGPT/agents are the primary updaters. Human direct source editing is not a re
 
 ## 導入
 
-既存プロジェクトへ導入するときは、対象repositoryで次のようにChatGPT / Coding Agentへ依頼する。
-
-```text
-このプロジェクトにSpectodo v0.1を導入して。
-参照元: https://github.com/myokoym/spectodo
-
-参照元の現在のstable v0.1に従い、
-- rootに SPECTODO.md を作成する
-- spec/language-v0.1.md を導入する
-- .agents/skills/spectodo/SKILL.md を導入する
-- 既存のREADME、仕様書、実装、設定、テスト等を確認し、現在分かる範囲から初期inventoryを作成する
-- 既存文書はSpectodo導入を理由に削除・置換しない
-- 不明な進捗を推測で完了扱いしない
-- 導入後にSPECTODO.mdの構文と参照切れを監査する
-```
-
-詳細は [Spectodo v0.1 導入方法](docs/adoption.md)。
+既存プロジェクトへの導入手順と、ChatGPT / Coding Agentへそのまま渡せる導入依頼文は [Spectodo v0.1 導入方法](docs/adoption.md) を参照する。
 
 ## Spectodo v0.1
 
