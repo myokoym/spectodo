@@ -29,9 +29,9 @@
 - [x] LANG-009 [V0] [P1] item IDをcategory IDと連動したstable IDとして一意に管理できる | D:x I:x P:- V:x
 - [x] LANG-010 [V0] [P1] statementを単なる題名ではなく現在または意図した振る舞いを表す仕様文として記述できる | D:x I:x P:- V:x
 - [x] LANG-011 [V1] [P1] strict grammarとvalidation errorを機械解析可能な形で定義できる | D:x I:x P:- V:x | @spec/language-v0.1.md
-- [x] LANG-013 [V0] [P1] 各仕様項目が数値priorityを持ち次にDesignへ新規着手する項目をversion内のcategory横断で選べる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/sample.spectodo.md
-- [x] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/sample.spectodo.md
-- [x] LANG-015 [V0] [P1] 明示的targetがない場合のactive versionを最小の未完了versionとして導出しD:.を新規Design候補として一意に判定できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/sample.spectodo.md @.agents/skills/spectodo/SKILL.md
+- [x] LANG-013 [V0] [P1] 各仕様項目が数値priorityを持ち次にDesignへ新規着手する項目をversion内のcategory横断で選べる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md
+- [x] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md
+- [x] LANG-015 [V0] [P1] 明示的targetがない場合のactive versionを最小の未完了versionとして導出しD:.を新規Design候補として一意に判定できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md @.agents/skills/spectodo/SKILL.md
 
 ## AGENT: Agent運用
 - [x] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @README.md
@@ -40,12 +40,12 @@
 - [x] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
-- [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/sample.spectodo.md @research/2026-09-21-agent-scale-validation.md
+- [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/SPECTODO.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
-- [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/sample.spectodo.md
+- [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/SPECTODO.md
 
 ## VALID: 検証
-- [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
+- [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/SPECTODO.md
 - [x] VALID-002 [V1] [P1] Spectodo自身をSpectodo形式で管理してself-hosting上の欠点を検出できる | D:x I:x P:- V:x | @SPECTODO.md
 - [x] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:x P:- V:x | @research/2026-09-21-agent-scale-validation.md
 - [x] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:x P:- V:x | @research/2026-09-21-github-android-validation.md
