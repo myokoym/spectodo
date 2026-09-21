@@ -389,7 +389,7 @@ D/I/P/V is fixed for the current v0.1 experiment. The remaining research questio
 Questions:
 - Can humans and agents distinguish the four axes reliably?
 - Does the one-line representation remain readable on mobile widths?
-- Can incomplete, partial, and unvalidated items be found quickly?
+- Can incomplete, partial, and unverified items be found quickly?
 - Does repeated agent updating preserve the fixed semantics without drift?
 
 #### Inventory vs active work queue
