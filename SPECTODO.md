@@ -37,7 +37,7 @@
 - [x] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @README.md
 - [x] AGENT-002 [V1] [P1] Agent Skillが既存categoryとversionを尊重して新しい仕様項目を追加できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [x] AGENT-003 [V1] [P1] Agent Skillが証拠または明示指示に基づいて各進捗軸を更新できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
-- [x] AGENT-004 [V1] [P1] Agent Skillがimplementationとvalidationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
+- [x] AGENT-004 [V1] [P1] Agent Skillがimplementationとverificationを独立して判定し表示だけやmockだけを実装完了と誤認しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-005 [V1] [P2] Agent SkillがID重複 unknown version 軸欠落 ~ without gap などの形式不整合を監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-006 [V1] [P2] Agent Skillが設計メモや作業ログをinventoryへ勝手に追加しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/SPECTODO.md @research/2026-09-21-agent-scale-validation.md
