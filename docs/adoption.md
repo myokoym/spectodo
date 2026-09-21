@@ -2,29 +2,21 @@
 
 ## Canonical inventory
 
-Use exactly one canonical Spectodo inventory at the repository root.
-
-The filename MUST end in:
+Use one canonical Spectodo inventory at the repository root:
 
 ```text
-.spectodo.md
+SPECTODO.md
 ```
 
-The basename is project-chosen. Examples:
+`SPECTODO.md` is the project-level specification/progress inventory and is intentionally prominent alongside other repository-level documents such as `README.md`.
 
-```text
-project.spectodo.md
-app.spectodo.md
-game.spectodo.md
-```
+Do not create a second canonical inventory under another filename.
 
-A root-level `*.spectodo.md` file is the canonical inventory. Files with the same suffix under `examples/`, `fixtures/`, or other subdirectories are non-canonical supporting files.
-
-Do not create a second root-level Spectodo inventory. If the project later proves too large for one file, use the future splitting mechanism only after that mechanism is defined by a later Spectodo version.
+The `.spectodo.md` suffix may be used for non-canonical examples, fixtures, exported inventories, or other explicitly scoped Spectodo files. It is not the canonical project filename and is not used to discover the canonical inventory.
 
 ## Repository setup
 
-1. Add one root-level `*.spectodo.md` file.
+1. Add `SPECTODO.md` at the repository root.
 2. Follow [Spectodo Language v0.1](../spec/language-v0.1.md).
 3. Add the repository Agent Skill at `.agents/skills/spectodo/SKILL.md` when agent-assisted maintenance is desired.
 4. Keep design notes, implementation notes, work logs, and discussion outside the inventory; link them with `@ref` only when useful.
@@ -35,16 +27,12 @@ Do not create a second root-level Spectodo inventory. If the project later prove
 
 When locating the canonical inventory:
 
-1. Search the repository root for files ending in `.spectodo.md`.
-2. If exactly one exists, use it as the canonical inventory.
-3. Ignore matching files below subdirectories for canonical discovery.
-4. If more than one root match exists, treat that as an ambiguous repository state and do not guess.
-5. Do not silently create another inventory when a canonical root file already exists.
+1. Look for root-level `SPECTODO.md`.
+2. If it exists, use it as the canonical inventory.
+3. Do not treat `*.spectodo.md` examples, fixtures, or other scoped files as the canonical project inventory.
+4. Do not silently create another inventory when `SPECTODO.md` already exists.
+5. If `SPECTODO.md` is absent, report that state rather than guessing another file is canonical.
 
 ## This repository
 
-This repository dogfoods the convention with:
-
-```text
-project.spectodo.md
-```
+This repository dogfoods the convention with root-level `SPECTODO.md`.
