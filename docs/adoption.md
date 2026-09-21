@@ -64,6 +64,8 @@ Agentは導入先repositoryを確認し、既に確認できる仕様と進捗�
 - 完了済み仕様も削除せずinventoryへ残す
 - design / implementation / deployment / verificationを独立して扱う
 - 証拠が足りない状態を推測で `x` にしない
+- verificationは各Requirementのstatementを証明するために必要な範囲へ限定し、「追加検証が可能」というだけで `V:~` にしない
+- statementが要求しないpolish・tuning・usability refinement・broader acceptanceを追跡する場合は別Requirementに分離し、同一targetならpriority、current target外ならlater versionで管理する
 - design note、implementation note、work logはinventoryへ埋め込まない
 - 必要な詳細は `@ref` で既存文書等へ参照する
 - Spectodo導入を理由に既存文書を削除・統合しない
