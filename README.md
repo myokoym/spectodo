@@ -13,7 +13,15 @@ ChatGPT/agents are the primary updaters. Human direct source editing is not a re
 ```text
 このプロジェクトにSpectodo v0.1を導入して。
 参照元: https://github.com/myokoym/spectodo
-stable v0.1に従って必要ファイルを導入し、既存の仕様・実装・テスト等から初期SPECTODO.mdを作成して。既存文書は削除・置換せず、不明な進捗を推測で完了扱いしないで。
+
+参照元の現在のstable v0.1に従い、
+- rootに SPECTODO.md を作成する
+- spec/language-v0.1.md を導入する
+- .agents/skills/spectodo/SKILL.md を導入する
+- 既存のREADME、仕様書、実装、設定、テスト等を確認し、現在分かる範囲から初期inventoryを作成する
+- 既存文書はSpectodo導入を理由に削除・置換しない
+- 不明な進捗を推測で完了扱いしない
+- 導入後にSPECTODO.mdの構文と参照切れを監査する
 ```
 
 詳細は [Spectodo v0.1 導入方法](docs/adoption.md)。
