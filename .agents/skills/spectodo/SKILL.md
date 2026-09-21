@@ -17,7 +17,7 @@ ChatGPT/agents are the primary inventory updaters. Do not treat human direct sou
 
 1. Look for root-level `SPECTODO.md`.
 2. If it exists, use it as the canonical inventory.
-3. Do not treat `*.spectodo.md` examples, fixtures, or other scoped files as the canonical project inventory.
+3. Do not treat supporting files under directories such as `examples/` or `fixtures/` as the canonical project inventory.
 4. Do not silently create another inventory when `SPECTODO.md` already exists.
 5. If `SPECTODO.md` is absent and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
 
