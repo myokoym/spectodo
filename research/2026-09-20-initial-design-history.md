@@ -1,6 +1,6 @@
 # Initial Spectodo design history
 
-> Historical snapshot. This document preserves early requirements, alternatives, rejected ideas, and naming/design discussion. It is not the current language specification or current project status. For current behavior, see `README.md`, `SPECTODO.md`, and `spec/language-v0.1.md`.
+> Historical snapshot. This document preserves early requirements, alternatives, rejected ideas, and naming/design discussion. It is not the current language specification or current project status. For current behavior, see `README.md`, `project.spectodo.md`, and `spec/language-v0.1.md`.
 
 # Spectodo
 
