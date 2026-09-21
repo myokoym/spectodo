@@ -88,11 +88,24 @@ When updating an item:
 2. Change only fields supported by evidence or explicit user instruction.
 3. Do not mark implementation `x` because a UI element, mock, fixture, placeholder, or demo output exists.
 4. Do not mark validation `x` merely because implementation exists.
-5. If a status becomes `~`, add or update the required gap.
-6. If no axis remains `~`, remove a stale gap unless it is still useful for a `>` axis.
-7. Recompute the leading checkbox after every progress change.
-8. Do not add nested notes beneath an item.
-9. Do not change an item's version or priority merely to make the remaining list look cleaner.
+5. Before assigning or retaining `V:~`, apply the statement-bounded verification rules below; more validation being possible is not enough.
+6. If a status becomes `~`, add or update the required gap.
+7. If no axis remains `~`, remove a stale gap unless it is still useful for a `>` axis.
+8. Recompute the leading checkbox after every progress change.
+9. Do not add nested notes beneath an item.
+10. Do not change an item's version or priority merely to make the remaining list look cleaner.
+
+## Bound verification scope
+
+When assigning, updating, or reconciling the Verification axis:
+
+1. Ask conceptually: “What evidence is necessary to prove this exact statement?”
+2. Set `V` from evidence for that scope only. Do not keep `V:~` merely because additional manual, device, usability, balance, polish, tuning, or broader acceptance checks are possible.
+3. If a manual/device acceptance condition is part of the requirement, make it explicit in the statement when practical. A statement that directly asserts a subjective or device-specific quality may itself require corresponding manual/device evidence.
+4. If additional quality work is not required by the statement but is worth tracking, keep the original item based on evidence for its own statement and create a separate specification item for the extra work.
+5. For separate quality work in the same target with lower urgency, use the same version and an appropriate lower priority.
+6. If the quality work is outside the current target's completion criteria, use a later version. Priority alone is not sufficient to keep later-target polish from blocking the current target.
+7. Do not weaken genuine validation requirements: when manual/device evaluation is part of the statement, `V:x` still requires corresponding evidence.
 
 ## Reconcile
 
@@ -100,10 +113,11 @@ When comparing repository reality with the inventory:
 
 1. Inspect relevant code, tests, deployment configuration/results, and referenced evidence as needed.
 2. Report mismatches before changing ambiguous states.
-3. Update states only when the evidence is sufficient.
-4. Never infer deployment from implementation alone.
-5. Never infer verification from deployment alone.
-6. Keep intentional `-` (not applicable) distinct from deferred `.` (todo).
+3. Update states only when the evidence is sufficient for the item's exact statement.
+4. Apply the statement-bounded verification rules before treating an extra manual/device or quality check as a verification gap.
+5. Never infer deployment from implementation alone.
+6. Never infer verification from deployment alone.
+7. Keep intentional `-` (not applicable) distinct from deferred `.` (todo).
 
 ## Close the loop
 

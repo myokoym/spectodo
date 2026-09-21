@@ -32,6 +32,7 @@
 - [x] LANG-013 [V0] [P1] 各仕様項目が数値priorityを持ち次にDesignへ新規着手する項目をversion内のcategory横断で選べる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md
 - [x] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md
 - [x] LANG-015 [V0] [P1] 明示的targetがない場合のactive versionを最小の未完了versionとして導出しD:.を新規Design候補として一意に判定できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md @.agents/skills/spectodo/SKILL.md
+- [x] LANG-016 [V1] [P1] verificationを各statementの要求範囲へ限定し任意のpolish tuning broader acceptanceを元項目の未完了理由から分離できる | D:x I:x P:- V:x | @spec/language-v0.1.md
 
 ## AGENT: Agent運用
 - [x] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @README.md
@@ -43,6 +44,7 @@
 - [x] AGENT-007 [V1] [P1] Agent Skillが進行中項目をpriorityだけで中断せず新規着手時はactive version内で低いpriority番号をcategory横断で優先できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @examples/SPECTODO.md @research/2026-09-21-agent-scale-validation.md
 - [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/SPECTODO.md
+- [x] AGENT-010 [V1] [P1] Agent Skillが追加検証の必要性をstatement単位で判定し範囲外のquality workを別Requirementとして適切なversionとpriorityへ分離できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.1.md @docs/adoption.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/SPECTODO.md

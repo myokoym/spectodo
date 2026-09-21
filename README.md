@@ -29,7 +29,7 @@ Spectodo Language v0.1はstableです。
 - SEC-001 認証情報を平文保存しない
 
 ## AUTH: 認証
-- [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
+- [ ] AUTH-001 [V0] [P1] Android実機でメールアドレスとパスワードを使ってログインできる | D:x I:x P:x V:~ | !Android実機でのログイン検証が未完了
 - [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
 ```
 
@@ -49,6 +49,8 @@ Spectodo Language v0.1はstableです。
 - `-` = not applicable
 
 先頭checkboxはD/I/P/Vから導出します。すべてが `x` または `-` のときだけ `[x]` になります。
+
+`V` はstatement自体を証明するために必要な検証へ限定します。statementが要求していないpolish・tuning・主観的なquality評価を元Requirementの `V:~` 理由にせず、追跡する場合は別Requirementとしてversionとpriorityを割り当てます。
 
 ## 導入
 
