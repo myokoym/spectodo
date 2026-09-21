@@ -62,7 +62,7 @@ Agentは導入先repositoryを確認し、既に確認できる仕様と進捗�
 - 永続的なproject-wide ruleは `# Constraints`
 - 検証可能なcapability/outcomeはRequirement
 - 完了済み仕様も削除せずinventoryへ残す
-- design / implementation / deployment / validationを独立して扱う
+- design / implementation / deployment / verificationを独立して扱う
 - 証拠が足りない状態を推測で `x` にしない
 - design note、implementation note、work logはinventoryへ埋め込まない
 - 必要な詳細は `@ref` で既存文書等へ参照する
