@@ -58,4 +58,4 @@
 
 ## REL: リリース準備
 - [x] REL-001 [V2] [P1] language specをdraftからversioned stable specificationへ昇格できる | D:x I:x P:- V:x | @spec/language-v0.1.md
-- [x] REL-002 [V2] [P1] canonical inventory file名とrepository導入手順を正式に定義できる | D:x I:x P:- V:x | @docs/adoption.md @spec/language-v0.1.md
+- [x] REL-002 [V2] [P1] canonical inventoryの命名規則とrepository導入手順を正式に定義できる | D:x I:x P:- V:x | @docs/adoption.md @spec/language-v0.1.md
