@@ -47,7 +47,7 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 - [Spectodo Language v0.1](spec/language-v0.1.md)
 - [Adopting Spectodo v0.1](docs/adoption.md)
 - [Example inventory](examples/sample.spectodo.md)
-- [Spectodo self-inventory](project.spectodo.md)
+- [Spectodo self-inventory](SPECTODO.md)
 - [Repository Agent Skill](.agents/skills/spectodo/SKILL.md)
 - [Format research](research/2026-09-20-format-direction.md)
 - [Naming decision](research/2026-09-20-naming-decision.md)
@@ -60,6 +60,6 @@ Priority does not interrupt active work and is not an automatic confirmation gat
 
 Spectodo Language v0.1 is stable. The current repository dogfoods the format itself.
 
-The source of truth for syntax and semantics is `spec/language-v0.1.md`. The source of truth for this repository's current work state is `project.spectodo.md`.
+The source of truth for syntax and semantics is `spec/language-v0.1.md`. The source of truth for this repository's current work state is `SPECTODO.md`.
 
 Historical research and rejected alternatives are preserved under `research/`; they are not normative unless the current language specification explicitly adopts them.
