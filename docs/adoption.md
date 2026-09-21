@@ -1,38 +1,84 @@
-# Adopting Spectodo v0.1
+# Spectodo v0.1 導入方法
 
-## Canonical inventory
+## ChatGPT / Coding Agent への依頼
 
-Use one canonical Spectodo inventory at the repository root:
+既存プロジェクトへ導入する場合は、対象repositoryを開いた状態で次のように依頼する。
+
+```text
+このプロジェクトにSpectodo v0.1を導入して。
+参照元: https://github.com/myokoym/spectodo
+
+参照元の現在のstable v0.1に従い、
+- rootに SPECTODO.md を作成する
+- spec/language-v0.1.md を導入する
+- .agents/skills/spectodo/SKILL.md を導入する
+- 既存のREADME、仕様書、実装、設定、テスト等を確認し、現在分かる範囲から初期inventoryを作成する
+- 既存文書はSpectodo導入を理由に削除・置換しない
+- 不明な進捗を推測で完了扱いしない
+- 導入後にSPECTODO.mdの構文と参照切れを監査する
+```
+
+これだけでよい。人間がSpectodoの構文を手入力することは前提にしない。
+
+既に `SPECTODO.md` が存在する場合は、新規作成せず既存inventoryを読み取り、stable v0.1との整合を確認する。
+
+## 導入されるファイル
+
+最低限、次の3つを使う。
+
+```text
+SPECTODO.md
+spec/language-v0.1.md
+.agents/skills/spectodo/SKILL.md
+```
+
+- `SPECTODO.md`: そのプロジェクトの仕様・進捗inventory。rootに置くcanonical file。
+- `spec/language-v0.1.md`: Spectodo v0.1の構文・意味・validation rules。
+- `.agents/skills/spectodo/SKILL.md`: Agentがinventoryを追加・更新・監査するためのrepository skill。
+
+`SPECTODO.md` は参照元repositoryからコピーするものではない。導入先プロジェクトの実態を調べて新しく作る。
+
+`spec/language-v0.1.md` と `.agents/skills/spectodo/SKILL.md` は参照元のstable v0.1をそのまま導入する。
+
+## canonical inventory
+
+プロジェクトのcanonical Spectodo inventoryはrepository rootの次のファイルとする。
 
 ```text
 SPECTODO.md
 ```
 
-`SPECTODO.md` is the project-level specification/progress inventory and is intentionally prominent alongside other repository-level documents such as `README.md`.
+別名のcanonical inventoryを追加しない。
 
-Do not create a second canonical inventory under another filename.
+v0.1ではsecondary file向けのgeneric suffixは標準化しない。
 
-Spectodo v0.1 does not standardize a generic filename suffix for secondary files. Supporting examples or fixtures should be named according to their role and directory context rather than by inventing a separate canonical-looking suffix.
+## 導入時の初期inventory作成
 
-## Repository setup
+Agentは導入先repositoryを確認し、既に確認できる仕様と進捗を `SPECTODO.md` に反映する。
 
-1. Add `SPECTODO.md` at the repository root.
-2. Follow [Spectodo Language v0.1](../spec/language-v0.1.md).
-3. Add the repository Agent Skill at `.agents/skills/spectodo/SKILL.md` when agent-assisted maintenance is desired.
-4. Keep design notes, implementation notes, work logs, and discussion outside the inventory; link them with `@ref` only when useful.
-5. Treat ChatGPT/agents as the primary updaters. Human direct source editing is not required.
-6. For ordinary human inspection, use standard rendered Markdown.
+原則:
 
-## Agent discovery
+- 既存の仕様・README・code・test・deployment configuration等を証拠として使う
+- 永続的なproject-wide ruleは `# Constraints`
+- 検証可能なcapability/outcomeはRequirement
+- 完了済み仕様も削除せずinventoryへ残す
+- design / implementation / deployment / validationを独立して扱う
+- 証拠が足りない状態を推測で `x` にしない
+- design note、implementation note、work logはinventoryへ埋め込まない
+- 必要な詳細は `@ref` で既存文書等へ参照する
+- Spectodo導入を理由に既存文書を削除・統合しない
 
-When locating the canonical inventory:
+## Agentによる発見
 
-1. Look for root-level `SPECTODO.md`.
-2. If it exists, use it as the canonical inventory.
-3. Do not treat supporting files under directories such as `examples/` or `fixtures/` as the canonical project inventory.
-4. Do not silently create another inventory when `SPECTODO.md` already exists.
-5. If `SPECTODO.md` is absent, report that state rather than guessing another file is canonical.
+Agentはrootの `SPECTODO.md` をcanonical inventoryとして扱う。
 
-## This repository
+- `SPECTODO.md` があればそれを使う
+- supporting fileやexampleをcanonicalとみなさない
+- `SPECTODO.md` が既にある場合、別inventoryを勝手に作らない
+- `SPECTODO.md` がなければ、導入作業でのみ新規作成する
 
-This repository dogfoods the convention with root-level `SPECTODO.md`.
+## 人間の利用
+
+通常運用ではChatGPT / Agentが更新する。
+
+人間は主にGitHub等の通常Markdown表示から `SPECTODO.md` を確認する。sourceを直接編集する操作性はv0.1の必須要件ではない。
