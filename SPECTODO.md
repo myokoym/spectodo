@@ -55,7 +55,7 @@
 - [x] DOCS-001 [V0] [P1] READMEから現在のformat experimentとlanguage sample Agent Skillへ到達できる | D:x I:x P:- V:x | @README.md
 - [x] DOCS-002 [V0] [P2] 既存方式の調査結果と採否理由をresearch文書に保持できる | D:x I:x P:- V:x | @research/2026-09-20-format-direction.md
 - [x] DOCS-003 [V0] [P1] language syntax semantics validation rules renderer policyを1つのversioned specificationから確認できる | D:x I:x P:- V:x | @spec/language-v0.1.md
-- [x] DOCS-004 [V2] [P1] READMEと導入文書からChatGPTやCoding Agentへそのまま渡せるSpectodo導入依頼と必要ファイルを確認できる | D:x I:x P:- V:x | @README.md @docs/adoption.md
+- [x] DOCS-004 [V2] [P1] READMEから導入手順へ到達でき導入文書をChatGPTやCoding Agentへ渡す依頼文の唯一の正本として確認できる | D:x I:x P:- V:x | @README.md @docs/adoption.md
 
 ## REL: リリース準備
 - [x] REL-001 [V2] [P1] language specをdraftからversioned stable specificationへ昇格できる | D:x I:x P:- V:x | @spec/language-v0.1.md
