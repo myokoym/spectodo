@@ -235,7 +235,7 @@ canonical は縦型 list を優先する。
   - Exit: P1 対象 item の必須 progress axis が完了。
 - **P2 Release** — 進行中
   - Goal: 公開可能な状態にする。
-  - Exit: deploy / validation を含む release 条件を満たす。
+  - Exit: deploy / verification を含む release 条件を満たす。
 ```
 
 ここに設計詳細や task breakdown は書かない。
