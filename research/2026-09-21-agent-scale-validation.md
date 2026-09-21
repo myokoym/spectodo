@@ -18,11 +18,11 @@ A copy of the official sample was modified in memory for each case and audited a
 
 The official sample itself remained structurally valid.
 
-## 2. Implementation vs validation separation
+## 2. Implementation vs verification separation
 
-The official sample contains incomplete records where implementation progress and validation progress differ. This confirms that Agent handling does not need to collapse implementation existence into validation completion.
+The official sample contains incomplete records where implementation progress and verification progress differ. This confirms that Agent handling does not need to collapse implementation existence into verification completion.
 
-Examples include records with implementation partial/in-progress while validation remains todo, alongside completed records where validation is explicitly complete.
+Examples include records with implementation partial/in-progress while verification remains todo, alongside completed records where verification is explicitly complete.
 
 ## 3. Inventory log exclusion
 
