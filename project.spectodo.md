@@ -45,7 +45,7 @@
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @project.spectodo.md @examples/sample.spectodo.md
 
 ## VALID: 検証
-- [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
+- [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
 - [x] VALID-002 [V1] [P1] Spectodo自身をSpectodo形式で管理してself-hosting上の欠点を検出できる | D:x I:x P:- V:x | @project.spectodo.md
 - [x] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:x P:- V:x | @research/2026-09-21-agent-scale-validation.md
 - [x] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:x P:- V:x | @research/2026-09-21-github-android-validation.md
@@ -54,7 +54,7 @@
 ## DOCS: 文書化
 - [x] DOCS-001 [V0] [P1] READMEから現在のformat experimentとlanguage sample Agent Skillへ到達できる | D:x I:x P:- V:x | @README.md
 - [x] DOCS-002 [V0] [P2] 既存方式の調査結果と採否理由をresearch文書に保持できる | D:x I:x P:- V:x | @research/2026-09-20-format-direction.md
-- [x] DOCS-003 [V0] [P1] language syntax semantics validation rules renderer policyを1つのdraft仕様から確認できる | D:x I:x P:- V:x | @spec/language-v0.1.md
+- [x] DOCS-003 [V0] [P1] language syntax semantics validation rules renderer policyを1つのversioned specificationから確認できる | D:x I:x P:- V:x | @spec/language-v0.1.md
 
 ## REL: リリース準備
 - [x] REL-001 [V2] [P1] language specをdraftからversioned stable specificationへ昇格できる | D:x I:x P:- V:x | @spec/language-v0.1.md
