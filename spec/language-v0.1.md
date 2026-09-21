@@ -468,7 +468,7 @@ Invalid:
 
 Strict order reduces parser ambiguity and agent-generated format drift.
 
-## 14. Formal draft grammar
+## 14. Formal grammar
 
 The grammar below is normative for Spectodo Language v0.1 except where Markdown parsing itself is concerned.
 
