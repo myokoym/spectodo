@@ -85,7 +85,7 @@
 | R-M13 | Codex 等の Coding Agent が repository 経由で状態を理解・更新できる | MUST | P1 |
 | R-M14 | Git / GitHub を中心とする現在の開発運用へ自然に組み込める | MUST | P1 |
 | R-M15 | 複数媒体を使っても情報の ownership / source of truth が曖昧にならない | MUST | P0 |
-| R-M16 | implementation status と validation status を独立して表現できる | MUST | P1 |
+| R-M16 | implementation status と verification status を独立して表現できる | MUST | P1 |
 
 ## 5. Secondary requirements（候補・未確定）
 
@@ -122,7 +122,7 @@ Project / Scope
         ├── Specification
         ├── Scope
         ├── Implementation Status
-        ├── Validation Status
+        ├── Verification Status
         ├── Priority
         ├── Dependencies
         └── References
@@ -410,7 +410,7 @@ spec-driven development 系の既存ツールを調べると、`spec` は自然�
 - UI validation fixture と PLAY mode の仕様を混同してはいけない。
 - 一部システムは small playable version では意図的に out-of-scope。
 
-このような状態を、implemented / partial / missing / intentionally omitted と validation state を分けて管理できることが実用上の検証材料になる。
+このような状態を、implemented / partial / missing / intentionally omitted と verification state を分けて管理できることが実用上の検証材料になる。
 
 ## 14. 次の調査
 
