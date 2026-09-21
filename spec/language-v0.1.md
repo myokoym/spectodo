@@ -49,7 +49,7 @@ Example:
 - FORMAT-002 完了済み仕様項目をinventoryから削除しない
 
 ## AUTH: 認証
-- [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
+- [ ] AUTH-001 [V0] [P1] Android実機でメールアドレスとパスワードを使ってログインできる | D:x I:x P:x V:~ | !Android実機でのログイン検証が未完了
 - [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
 
 ## DATA: データ
@@ -314,7 +314,7 @@ Examples:
 
 ```md
 - [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
-- [ ] AUTH-001 [V0] [P1] メールアドレスとパスワードでログインできる | D:x I:x P:x V:~ | !実機でのログイン検証が未完了
+- [ ] AUTH-001 [V0] [P1] Android実機でメールアドレスとパスワードを使ってログインできる | D:x I:x P:x V:~ | !Android実機でのログイン検証が未完了
 ```
 
 The overall checkbox MUST NOT be edited independently of the progress axes.
@@ -370,11 +370,17 @@ For implementation, UI presence, a mock, fixture, placeholder, or hard-coded dem
 
 For verification, implementation existence alone MUST NOT be treated as verification.
 
+Verification completion is scoped to the specification statement. `V:x` means there is sufficient evidence for the behavior/capability asserted by that statement; it does not mean every conceivable quality check has been performed.
+
+Optional polish, tuning, subjective quality evaluation, or broader acceptance work that is not required by the statement MUST NOT by itself keep verification incomplete.
+
 #### `~` partial
 
 A meaningful subset exists, but the axis is not complete.
 
 If any axis is `~`, a gap segment (`!...`) is REQUIRED.
+
+For verification, `~` MUST reflect missing evidence necessary for the statement itself. The mere fact that additional manual, device, usability, balance, polish, or broader acceptance checks are possible is not sufficient reason for `V:~`.
 
 #### `>` in progress
 
@@ -391,6 +397,21 @@ No qualifying work/result exists yet for the axis.
 The axis does not apply to this item.
 
 It MUST NOT be used merely because work is deferred.
+
+### 10.2 Verification scope
+
+Verification is bounded by the specification statement. When assigning or reconciling `V`, determine what evidence is necessary to establish that exact statement and evaluate only that scope.
+
+Rules:
+
+- a requirement MUST NOT remain incomplete solely because optional polish, tuning, subjective quality evaluation, usability refinement, balance work, or broader acceptance testing remains when the statement does not require that work
+- the existence of an additional possible manual/device check is not by itself evidence that `V` is partial
+- if a manual/device acceptance condition is part of the requirement, the statement SHOULD make that condition explicit; statements that directly assert subjective or device-specific qualities may naturally require corresponding manual/device evidence
+- if out-of-scope quality work is worth tracking, model it as a separate specification item rather than hiding it in the original item's `V:~` gap
+- when the separate work belongs to the same target but has lower urgency, keep the same version and assign an appropriate lower priority
+- when the separate work is outside the current target's completion criteria, assign it to a later version; its incompleteness MUST NOT keep the earlier requirement or target incomplete
+
+Splitting extra quality work into another item does not weaken verification of the original statement: the original item may use `V:x` only when evidence is sufficient for its own stated behavior/capability.
 
 ## 11. Gap segment
 
@@ -561,6 +582,7 @@ Warnings MAY include:
 - `>` remains unchanged for an unusually long period
 - reference path appears missing
 - `x` is asserted without evidence during reconciliation
+- a verification gap appears to describe optional polish, tuning, usability refinement, or broader acceptance work not required by the statement
 
 ## 16. What is intentionally excluded
 
