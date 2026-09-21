@@ -12,7 +12,7 @@ SPECTODO.md
 
 Do not create a second canonical inventory under another filename.
 
-The `.spectodo.md` suffix may be used for non-canonical examples, fixtures, exported inventories, or other explicitly scoped Spectodo files. It is not the canonical project filename and is not used to discover the canonical inventory.
+Spectodo v0.1 does not standardize a generic filename suffix for secondary files. Supporting examples or fixtures should be named according to their role and directory context rather than by inventing a separate canonical-looking suffix.
 
 ## Repository setup
 
@@ -29,7 +29,7 @@ When locating the canonical inventory:
 
 1. Look for root-level `SPECTODO.md`.
 2. If it exists, use it as the canonical inventory.
-3. Do not treat `*.spectodo.md` examples, fixtures, or other scoped files as the canonical project inventory.
+3. Do not treat supporting files under directories such as `examples/` or `fixtures/` as the canonical project inventory.
 4. Do not silently create another inventory when `SPECTODO.md` already exists.
 5. If `SPECTODO.md` is absent, report that state rather than guessing another file is canonical.
 
