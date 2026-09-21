@@ -28,7 +28,7 @@ Core constraints:
 
 ## 2. Document shape
 
-A repository using Spectodo v0.1 MUST keep exactly one canonical inventory at the repository root whose filename ends in `.spectodo.md`. The basename is project-chosen; the `.spectodo.md` suffix is the stable discovery marker. Files below subdirectories such as examples or fixtures do not compete with the root canonical inventory.
+A repository using Spectodo v0.1 MUST keep its canonical inventory at the repository root as `SPECTODO.md`. The canonical project inventory is intentionally a prominent repository document rather than a project-chosen data filename.
 
 A document consists of:
 
