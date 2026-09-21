@@ -48,7 +48,7 @@
 - [x] VALID-001 [V1] [P1] 公式サンプルがlanguage draftに準拠したSpectodo inventoryとして読める | D:x I:x P:- V:x | @examples/sample.spectodo.md
 - [x] VALID-002 [V1] [P1] Spectodo自身をSpectodo形式で管理してself-hosting上の欠点を検出できる | D:x I:x P:- V:x | @SPECTODO.md
 - [x] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:x P:- V:x | @research/2026-09-21-agent-scale-validation.md
-- [ ] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:x P:- V:. | @research/2026-09-21-github-android-validation.md
+- [x] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:x P:- V:x | @research/2026-09-21-github-android-validation.md
 - [x] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:x | @SPECTODO.md @spec/language-v0.1.md
 
 ## DOCS: 文書化
