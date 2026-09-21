@@ -55,3 +55,15 @@ The rendered view fails if any of the following is necessary for normal inspecti
 ## Evidence
 
 Validation requires direct observation in GitHub Android. Repository/API inspection is insufficient because it does not establish the Android app's actual rendered layout.
+
+
+## Observed result
+
+Direct observation in GitHub Android:
+
+- the rendered inventory is not especially easy to read
+- no horizontal scrolling is required because the content is not rendered as a table
+- the current flat one-line requirement structure remains usable for inspection
+- introducing nesting solely to improve readability is not justified for v0.1
+
+Decision: accept the current rendered-Markdown readability for v0.1. Readability improvement may be reconsidered later only if concrete use shows that the flat structure is insufficient.
