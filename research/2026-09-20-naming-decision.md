@@ -27,7 +27,7 @@ Spectodo は単なる TODO アプリではない。
 - scope
 - stage / phase
 - implementation status
-- validation status
+- verification status
 - outstanding work
 - completed work
 - partial implementation とその gap
@@ -56,7 +56,7 @@ Spectodo は単なる TODO アプリではない。
 
 - 単なる内部機能ラベルではなく、固有名として扱いやすい。
 - `Spec + todo` という意味の足場を残せる。
-- TODO を視覚的に強調しすぎず、implemented / partial / omitted / validation まで含む余地がある。
+- TODO を視覚的に強調しすぎず、implemented / partial / omitted / verification まで含む余地がある。
 - 中心概念とのつながりを維持しつつ、product identity を持たせられる。
 - lowercase の技術識別子 `spectodo` と自然に対応する。
 
