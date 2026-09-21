@@ -236,7 +236,7 @@ Project / Scope
 
 **対象:** この開発管理方式/ツール自体を開発・管理する repository。
 
-**role:** specification / scope / stage / implementation status / validation status / work / priority 等を扱う。
+**role:** specification / scope / stage / implementation status / verification status / work / priority 等を扱う。
 
 **users:** 本人、ChatGPT、Coding Agent。将来の他者利用は排除しない。
 
@@ -283,7 +283,7 @@ spec-driven development 系の既存ツールを調べると、`spec` は自然�
 - scope
 - stage / phase
 - implementation status
-- validation status
+- verification status
 - work items
 - priority
 
