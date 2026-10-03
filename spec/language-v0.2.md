@@ -30,7 +30,7 @@ Core constraints:
 
 A v0.2 inventory MUST begin with exactly one Scope section. Its canonical file is named SPECTODO.md and is located at its declared scope root relative to the Git repository root.
 
-A repository MAY keep the stable v0.1 inventory at the repository root and add v0.2 inventories for separately managed nested scopes. The v0.1 inventory remains unchanged and covers the repository-root scope. A repository MUST NOT keep two canonical inventories for the same scope root.
+A repository MAY add v0.2 inventories for separately managed scopes while retaining an existing root v0.1 inventory. Retaining v0.1 MUST NOT change its syntax or semantics. Repository instructions MUST explicitly identify the legacy project represented by that v0.1 inventory and route only workspaces belonging to that project to it. Adding a nested v0.2 inventory MUST NOT silently suspend or transfer any v0.1 record. A repository MUST NOT keep two canonical inventories for the same scope root.
 
 A v0.2 document consists of:
 
@@ -92,7 +92,7 @@ Rules:
 - path_segment is a non-empty path component containing no ASCII whitespace, slash, or backslash. It MUST NOT equal "." or "..".
 - SCOPE_ROOT MUST NOT be absolute or contain a ".." path segment.
 - The canonical inventory MUST be stored at SCOPE_ROOT/SPECTODO.md. For "." this is the repository-root SPECTODO.md.
-- Scope roots MAY be nested. Each inventory owns only its own constraints, versions, requirements, and progress; parent and child inventories do not inherit or combine those records.
+- Scope roots MAY be nested. Each v0.2 inventory owns only its own constraints, versions, requirements, and progress; parent and child inventories do not inherit or combine those records. Shared constraints MUST have an explicit common source that every applicable workspace is instructed to read; scope-local constraints remain in the applicable inventory.
 - Category, version, constraint, and item IDs are unique within one inventory. The same IDs MAY be used in different scopes.
 - Repository-local references in item records remain relative to the Git repository root, not the scope root.
 
@@ -100,11 +100,27 @@ Rules:
 
 Repository or agent instructions MUST map each supported active workspace root to exactly one inventory scope before reading or changing progress.
 
-- A v0.1 inventory without a Scope section implicitly covers the repository-root scope and has no explicit Scope ID.
-- A v0.2 inventory covers only the exact scope root declared in its Scope section.
+- A v0.1 inventory without a Scope section remains at the repository root and follows v0.1 semantics. In a mixed-version repository, instructions MUST declare which project/workspace roots that legacy inventory represents; its project-wide constraints remain applicable to that declared project.
+- A v0.2 inventory covers only the exact scope root declared in its Scope section. Instructions MUST explicitly map each supported active workspace root to one canonical inventory; folder proximity alone does not define inheritance.
 - Request wording, a referenced file path, or a branch name MUST NOT silently switch the active scope.
 - If instructions map the active workspace root to no scope or to more than one scope, stop and clarify before changing progress.
 - In Codex, a repository MAY map each independently opened workspace root to its inventory in AGENTS.md. AGENTS.md is routing guidance and is not part of the SPECTODO grammar. A request that mentions another scope MUST NOT override the active workspace mapping.
+
+### 2.3 Migrating an existing v0.1 project
+
+Repositories that do not need multiple independently tracked scopes SHOULD keep using v0.1 without migration. Adopting v0.2 is opt-in and does not change the stable v0.1 specification or require other repositories to migrate.
+
+When a repository divides a project tracked by a root v0.1 inventory into independent scopes, it MUST complete an explicit migration audit. It MUST NOT leave the old inventory's records ambiguously attached to the repository root.
+
+For every v0.1 constraint, record one disposition before changing the canonical inventory:
+
+- **Shared:** move the invariant to one repository-level policy source that every applicable workspace is explicitly instructed to read. Keep one authoritative copy.
+- **Scope-local:** retain or move the invariant to each scope where it remains true. If it genuinely applies to multiple scopes, identify one authoritative source and a concrete synchronization owner; do not create unsynchronized copies.
+- **Retired or revised:** record the reason and the decision evidence. A constraint MUST NOT disappear merely because its original inventory is being split.
+
+For every v0.1 specification item, assign it to exactly one successor scope. If distinct products need similar behavior, create independent scope-local items and progress rather than copying completion state. Preserve an item's ID and progress only for a one-to-one continuation of the same specification. Map or redefine versions explicitly because versions and progress are scope-local in v0.2.
+
+Update workspace routing and canonical paths before retiring the old inventory. The migration is complete only when every prior constraint and item has an accounted-for disposition, all new canonical paths and routes agree, and a repository-wide audit finds no duplicate or unrouteable inventory. Git history preserves the old file; an extra historical SPECTODO.md copy MUST NOT be left at a path that could be mistaken for canonical.
 
 ## 3. Versions
 
@@ -344,7 +360,7 @@ A statement:
 - MUST fit on one source line
 - MUST describe current or intended application behavior/capability
 - MUST NOT contain design rationale, implementation notes, discussion history, or work logs
-- MUST escape a literal `|` as `\|`
+- MUST encode a literal `|` as `\|` and a literal `\` as `\\`; all other backslash escapes are invalid
 
 ## 8. Overall checkbox
 
@@ -474,7 +490,7 @@ Rules:
 - MUST remain concise
 - MUST describe what is missing, not why a design decision was made
 - MUST NOT become a work log
-- MUST escape a literal `|` as `\|`
+- MUST encode a literal `|` as `\|` and a literal `\` as `\\`; all other backslash escapes are invalid
 
 Only one gap segment is allowed in v0.2. Multiple gaps MUST be compressed into a concise statement or moved to a referenced document.
 
@@ -533,7 +549,7 @@ Strict order reduces parser ambiguity and agent-generated format drift.
 
 The grammar below is normative for Spectodo Language v0.2 except where Markdown parsing itself is concerned.
 
-```ebnf
+~~~ebnf
 document       = scope, blank*, versions, blank*,
                  [ constraints, blank* ],
                  category, { blank*, category }, blank* ;
@@ -594,14 +610,28 @@ statement      = escaped_text_no_pipe_delimiter ;
 gap            = escaped_text_no_pipe_delimiter ;
 reference      = non_whitespace_text ;
 path_segment   = path_char, { path_char } ;
-path_char      = any Unicode code point except U+002F SOLIDUS, U+005C REVERSE SOLIDUS, and ASCII whitespace ;
+
+text_no_newline = { text_code_point } ;
+text_code_point = any Unicode scalar value except U+000A LINE FEED and U+000D CARRIAGE RETURN ;
+non_whitespace_text = non_whitespace_code_point, { non_whitespace_code_point } ;
+non_whitespace_code_point = any Unicode scalar value except ASCII whitespace U+0009 through U+000D and U+0020 ;
+escaped_text_no_pipe_delimiter = escaped_text_unit, { escaped_text_unit } ;
+escaped_text_unit = text_code_point_except_delimiter | escaped_pipe | escaped_backslash ;
+text_code_point_except_delimiter = any Unicode scalar value except U+000A, U+000D, U+005C REVERSE SOLIDUS, and U+007C VERTICAL LINE ;
+escaped_pipe = U+005C REVERSE SOLIDUS, U+007C VERTICAL LINE ;
+escaped_backslash = U+005C REVERSE SOLIDUS, U+005C REVERSE SOLIDUS ;
+path_char      = any Unicode scalar value except U+002F SOLIDUS, U+005C REVERSE SOLIDUS, and ASCII whitespace ;
 
 blank          = newline ;
-newline        = "\n" ;
+newline        = U+000A LINE FEED ;
 upper          = "A" | "B" | ... | "Z" ;
 digit          = "0" | "1" | ... | "9" ;
 nonzero_digit  = "1" | "2" | ... | "9" ;
-```
+~~~
+
+In statement and gap fields, the source sequence `\|` represents a literal vertical line and `\\` represents a literal reverse solidus. A raw vertical line remains the segment delimiter. A raw reverse solidus MUST begin one of those two escape sequences; every other escape is invalid. The escapes decode exactly one character and are not applied to labels, constraints, or references.
+
+`text_no_newline` and `non_whitespace_text` are defined above rather than being implementation-defined parser classes. “ASCII whitespace” means U+0009 through U+000D and U+0020.
 
 ## 15. Validation errors
 
@@ -610,10 +640,14 @@ A validator or Agent Skill MUST treat at least the following as errors:
 - missing or additional scope declaration
 - malformed scope ID or scope root
 - canonical inventory path does not match its declared scope root
-- duplicate scope ID or scope root among inventories in the same repository
+- duplicate scope ID or scope root among canonical v0.2 inventories in the same repository
+- canonical inventory discovery is ambiguous, omits a routed inventory, or includes an undocumented support/example file
+- a legacy v0.1 inventory is routed to a project not declared by repository instructions
+- a v0.1-to-v0.2 migration leaves a constraint or specification item without a disposition
 - active workspace resolves to no scope or more than one scope
 - overall checkbox does not match the derived completion state from D/I/P/V
 - duplicate version ID
+- empty constraint statement
 - duplicate constraint ID
 - constraint ID collides with a specification item ID
 - checkbox/version/priority/progress syntax appears on a constraint
@@ -629,7 +663,9 @@ A validator or Agent Skill MUST treat at least the following as errors:
 - reference segment appears before gap
 - nested list under a specification item
 - a specification item spans multiple source lines
+- empty specification statement or gap segment
 - unescaped structural delimiter inside statement/gap
+- invalid backslash escape inside statement/gap
 - unknown extra field/segment
 
 Warnings MAY include:

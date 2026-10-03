@@ -8,7 +8,7 @@ Spectodo Language v0.1はstableです。明示的なscopeを持つ複数inventor
 
 ## 特徴
 
-- v0.1のcanonical inventoryはrepository rootの `SPECTODO.md`。複数scopeの配置はv0.2 proposalで定義
+- v0.1のcanonical inventoryはrepository rootの `SPECTODO.md`。既存利用者の移行は不要で、複数scopeはopt-inのv0.2 proposalで扱う
 - 1 Requirement = 1 Markdown task-list item = 1 source line
 - category / target version / priority / D-I-P-V progressを保持
 - 完了済みRequirementもinventoryから削除しない
@@ -62,7 +62,7 @@ Spectodo Language v0.1はstableです。明示的なscopeを持つ複数inventor
 
 - [Spectodo v0.1 導入方法](docs/adoption.md) — 導入手順と導入依頼文の正本
 - [Spectodo Language v0.1](spec/language-v0.1.md) — stable版の構文・意味・validation rules
-- [Spectodo Language v0.2 proposal](spec/language-v0.2.md) — 明示scopeと複数inventoryの共存案
+- [Spectodo Language v0.2 proposal](spec/language-v0.2.md) — 明示scope、repository-wide検証、v0.1からの明示移行案
 - [Scoped inventory example](examples/scoped-SPECTODO.md) — v0.2 proposalのnested inventory例
 - [公式example](examples/SPECTODO.md) — 有効なSpectodo inventoryの例
 - [SPECTODO.md](SPECTODO.md) — このrepository自身のcanonical inventory

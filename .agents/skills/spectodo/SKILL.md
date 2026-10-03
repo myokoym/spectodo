@@ -5,7 +5,7 @@ description: Read, add, update, reconcile, prioritize, or audit a Spectodo speci
 
 Use the repository's Spectodo language specification as the authority.
 
-Before modifying a Spectodo inventory, determine its declared scope and read the applicable language specification. v0.2 is currently a proposal; use it only when the repository has explicitly opted into that proposal through its scope declaration and routing instructions:
+Before modifying a Spectodo inventory, read the repository and applicable ancestor workspace instructions, follow their explicit workspace-to-scope route, and read the matching language specification. Read any shared policy source those instructions identify before applying scope-local constraints. v0.2 is currently a proposal; use it only when the repository has explicitly opted into that proposal through its scope declaration and routing instructions:
 
 - An inventory without a `# Scope` section follows `spec/language-v0.1.md`.
 - An inventory with `# Scope` follows the complete, standalone `spec/language-v0.2.md`.
@@ -18,32 +18,34 @@ ChatGPT/agents are the primary inventory updaters. Do not treat human direct sou
 
 ## Resolve scope and locate the inventory
 
-1. Read the active workspace's `AGENTS.md` or equivalent project instructions for an explicit mapping from the active workspace root to a Spectodo scope.
-2. Scope selection follows the actual active workspace root and declared scope. Do not switch because the request mentions a product, a branch, or a file path from another scope.
-3. At the repository root, use the root `SPECTODO.md`; an unscoped inventory follows v0.1 and implicitly covers the repository root.
-4. A nested inventory is canonical only when its `# Scope` declaration matches that scope root and project instructions explicitly route the active workspace there. A nested v0.2 inventory may coexist with a root v0.1 inventory; their IDs and progress do not transfer.
-5. If the active workspace root maps to no unique scope, stop and clarify the workspace root instead of changing another inventory.
-6. Do not treat supporting files under directories such as `examples/` or `fixtures/` as canonical inventories.
-7. If the selected scope has no `SPECTODO.md` and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
+1. Read repository and applicable ancestor instructions for the explicit mapping from the actual active workspace root to one Spectodo scope. Read any shared policy source those instructions require.
+2. Do not switch scope because the request mentions another product, branch, or file path.
+3. A root `SPECTODO.md` without `# Scope` follows v0.1. In a mixed-version repository, use it only for the legacy project and workspace roots explicitly assigned to it; do not treat it as an umbrella for unrelated v0.2 scopes.
+4. A v0.2 inventory is canonical only at the path derived from its `# Scope` declaration and when routing instructions map a supported workspace to that scope. IDs and progress never transfer automatically.
+5. If the active workspace root maps to no unique scope, stop and clarify instead of changing another inventory.
+6. When auditing the repository, enumerate every `SPECTODO.md` path. Use routing instructions to identify canonical files; exclude examples or fixtures only when their support status is explicit. Check that every routed inventory exists and every canonical inventory has one route.
+7. Verify canonical v0.2 paths match declared roots and that scope IDs and roots are unique. Treat an undocumented, duplicate, or unrouteable inventory file as an audit error.
+8. If the selected scope has no `SPECTODO.md` and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
 
 ## Read
 
 When summarizing an inventory:
 
-1. Read an optional `# Constraints` section separately from specification items. Constraints are enduring invariants, not work items, and have no checkbox, version, priority, or D/I/P/V state.
-2. Preserve category and version identities.
-3. Interpret the version as the item's target product/scope version, not as lifecycle progress.
-4. Interpret numeric priority as ordering for selecting the next not-yet-started item to begin designing within the active target version; lower numbers come first.
-5. Interpret progress axes independently:
+1. Read shared repository policy explicitly routed to the active workspace before reading local constraints. Parent or child inventory constraints do not inherit implicitly.
+2. Read an optional `# Constraints` section separately from specification items. Constraints are enduring invariants, not work items, and have no checkbox, version, priority, or D/I/P/V state.
+3. Preserve category and version identities.
+4. Interpret the version as the item's target product/scope version, not as lifecycle progress.
+5. Interpret numeric priority as ordering for selecting the next not-yet-started item to begin designing within the active target version; lower numbers come first.
+6. Interpret progress axes independently:
    - D = design
    - I = implementation
    - P = deployment
    - V = verification
-6. Use the status meanings from the language specification.
-7. Read the leading Markdown checkbox as the derived overall TODO indicator.
-8. Verify that `[x]` appears only when every D/I/P/V axis is `x` or `-`; otherwise it must be `[ ]`.
-9. Do not collapse implementation and verification into one detailed state.
-10. Treat completed items as part of the current application specification, not disposable history.
+7. Use the status meanings from the language specification.
+8. Read the leading Markdown checkbox as the derived overall TODO indicator.
+9. Verify that `[x]` appears only when every D/I/P/V axis is `x` or `-`; otherwise it must be `[ ]`.
+10. Do not collapse implementation and verification into one detailed state.
+11. Treat completed items as part of the current application specification, not disposable history.
 
 ## Select next work
 
@@ -138,6 +140,9 @@ When repository work changes reality covered by the Spectodo inventory:
 
 Check at least:
 
+- repository-wide canonical inventory discovery, route coverage, canonical paths, and unique v0.2 scope IDs/roots
+- every legacy v0.1 constraint/item has a disposition during an explicit migration
+- shared policy sources are identified and instructed for every applicable workspace, with no unowned duplicate copies
 - duplicate constraint IDs or a constraint ID colliding with an item ID
 - checkbox/version/priority/progress syntax incorrectly attached to a constraint
 - a constraint that is actually a progress-trackable capability or temporary task
