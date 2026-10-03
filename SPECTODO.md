@@ -33,6 +33,7 @@
 - [x] LANG-014 [V0] [P1] 永続的なproject constraintをcheckbox version priority D/I/P/Vを持たない独立レコードとしてrequirementと区別できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md
 - [x] LANG-015 [V0] [P1] 明示的targetがない場合のactive versionを最小の未完了versionとして導出しD:.を新規Design候補として一意に判定できる | D:x I:x P:- V:x | @spec/language-v0.1.md @examples/SPECTODO.md @.agents/skills/spectodo/SKILL.md
 - [x] LANG-016 [V1] [P1] verificationを各statementの要求範囲へ限定し任意のpolish tuning broader acceptanceを元項目の未完了理由から分離できる | D:x I:x P:- V:x | @spec/language-v0.1.md
+- [ ] LANG-017 [V2] [P1] repository内で複数scopeのcanonical inventoryをscope root付きで定義し、各scopeのrequirementと進捗を分離できる | D:x I:x P:. V:x | @spec/language-v0.2.md @examples/scoped-SPECTODO.md @research/2026-10-04-scoped-inventory-design.md
 
 ## AGENT: Agent運用
 - [x] AGENT-001 [V1] [P1] repository内Agent SkillがSpectodo inventoryを発見して読み取れる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @README.md
@@ -45,6 +46,7 @@
 - [x] AGENT-008 [V1] [P1] repository作業でSpectodo対象の実態が変わった場合は同じ作業内で関連項目をreconcileしてから終了できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/SPECTODO.md
 - [x] AGENT-010 [V1] [P1] Agent Skillが追加検証の必要性をstatement単位で判定し範囲外のquality workを別Requirementとして適切なversionとpriorityへ分離できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.1.md @docs/adoption.md
+- [ ] AGENT-011 [V2] [P1] Agent Skillが明示scopeとアクティブなworkspace rootの対応から正本inventoryを一意に選び、曖昧な場合に別scopeの進捗を推測で変更しない | D:x I:x P:. V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.2.md @examples/scoped-SPECTODO.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/SPECTODO.md

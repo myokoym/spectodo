@@ -5,21 +5,26 @@ description: Read, add, update, reconcile, prioritize, or audit a Spectodo speci
 
 Use the repository's Spectodo language specification as the authority.
 
-Before modifying a Spectodo inventory, read:
+Before modifying a Spectodo inventory, determine its declared scope and read the applicable language specification. v0.2 is currently a proposal; use it only when the repository has explicitly opted into that proposal through its scope declaration and routing instructions:
 
-- `spec/language-v0.1.md`
+- An inventory without a `# Scope` section follows `spec/language-v0.1.md`.
+- An inventory with `# Scope` follows the complete, standalone `spec/language-v0.2.md`.
+
+Do not apply v0.2 rules to an unscoped v0.1 inventory or combine the two specifications.
 
 The format is intentionally usable without a CLI. Do not require or introduce a dedicated renderer, database, board, or CLI to perform ordinary Spectodo work.
 
 ChatGPT/agents are the primary inventory updaters. Do not treat human direct source editing, source-editor ergonomics, or GitHub's edit UI as required Spectodo workflows. For smartphone acceptance, distinguish ChatGPT Android operation from GitHub Android rendered-Markdown inspection.
 
-## Locate
+## Resolve scope and locate the inventory
 
-1. Look for root-level `SPECTODO.md`.
-2. If it exists, use it as the canonical inventory.
-3. Do not treat supporting files under directories such as `examples/` or `fixtures/` as the canonical project inventory.
-4. Do not silently create another inventory when `SPECTODO.md` already exists.
-5. If `SPECTODO.md` is absent and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
+1. Read the active workspace's `AGENTS.md` or equivalent project instructions for an explicit mapping from the active workspace root to a Spectodo scope.
+2. Scope selection follows the actual active workspace root and declared scope. Do not switch because the request mentions a product, a branch, or a file path from another scope.
+3. At the repository root, use the root `SPECTODO.md`; an unscoped inventory follows v0.1 and implicitly covers the repository root.
+4. A nested inventory is canonical only when its `# Scope` declaration matches that scope root and project instructions explicitly route the active workspace there. A nested v0.2 inventory may coexist with a root v0.1 inventory; their IDs and progress do not transfer.
+5. If the active workspace root maps to no unique scope, stop and clarify the workspace root instead of changing another inventory.
+6. Do not treat supporting files under directories such as `examples/` or `fixtures/` as canonical inventories.
+7. If the selected scope has no `SPECTODO.md` and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
 
 ## Read
 
@@ -56,7 +61,7 @@ When the user asks to proceed without naming a specific item:
 
 ## Add
 
-Before adding a specification item, determine whether the statement is actually an enduring project-wide invariant. If it is, add it under `# Constraints` instead of inventing progress state for it.
+Before adding a specification item, determine whether the statement is actually an enduring invariant within the selected inventory's scope. If it is, add it under `# Constraints` instead of inventing progress state for it.
 
 When adding an item:
 
