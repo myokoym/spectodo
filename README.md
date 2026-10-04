@@ -1,18 +1,18 @@
 # Spectodo
 
-Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・適合確認の進捗を1つのMarkdown inventoryで管理する形式**です。
+Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・適合確認の進捗をscopeごとのMarkdown inventoryで管理する形式**です。
 
 完了済み項目も削除せず残すため、単なるTODO一覧ではなく、現在のプロジェクトが「何を備えていて、どこまで確認できているか」を後から再構成できます。
 
-Spectodo Language v0.1はstableです。
+Spectodo Language v0.1はstableです。明示的なscopeを持つ複数inventoryを扱うv0.2をproposalとして検討しています。
 
 ## 特徴
 
-- canonical inventoryはrepository rootの `SPECTODO.md`
+- v0.1のcanonical inventoryはrepository rootの `SPECTODO.md`。既存利用者の移行は不要で、複数scopeはopt-inのv0.2 proposalで扱う
 - 1 Requirement = 1 Markdown task-list item = 1 source line
 - category / target version / priority / D-I-P-V progressを保持
 - 完了済みRequirementもinventoryから削除しない
-- 永続的なproject-wide ruleは `# Constraints` としてRequirementから分離
+- 永続的な制約は `# Constraints` としてRequirementから分離。v0.1ではproject-wide、v0.2ではinventoryのscope-localな制約を記載し、共有制約は適用対象の全workspaceが読む単一のrepository-level policy sourceへ置く
 - design note、implementation note、work logはinventoryへ埋め込まない
 - 必要な詳細はrepository-relative pathやURLを `@ref` で参照
 - 専用CLI・専用renderer・database・boardを通常利用の前提にしない
@@ -61,7 +61,9 @@ Spectodo Language v0.1はstableです。
 ## 主なファイル
 
 - [Spectodo v0.1 導入方法](docs/adoption.md) — 導入手順と導入依頼文の正本
-- [Spectodo Language v0.1](spec/language-v0.1.md) — 構文・意味・validation rulesの正本
+- [Spectodo Language v0.1](spec/language-v0.1.md) — stable版の構文・意味・validation rules
+- [Spectodo Language v0.2 proposal](spec/language-v0.2.md) — 明示scope、repository-wide検証、v0.1からの明示移行案
+- [Scoped inventory example](examples/scoped-SPECTODO.md) — v0.2 proposalのnested inventory例
 - [公式example](examples/SPECTODO.md) — 有効なSpectodo inventoryの例
 - [SPECTODO.md](SPECTODO.md) — このrepository自身のcanonical inventory
 - [Repository Agent Skill](.agents/skills/spectodo/SKILL.md) — Agent向けの追加・更新・監査ルール
@@ -70,9 +72,10 @@ Spectodo Language v0.1はstableです。
 
 ## 現在の状態
 
-- Spectodo Language: **v0.1 stable**
+- Spectodo Language: **v0.1 stable** / **v0.2 scoped-inventory proposal**
 - canonical project filename: **`SPECTODO.md`**
 - dedicated CLI / renderer: **不要**
-- このrepositoryのV0 / V1 / V2 Requirements: **完了**
+- このrepositoryのV0 / V1 Requirements: **完了**
+- V2 Release readiness: **進行中**（scoped inventory v0.2 proposal）
 
-syntax / semanticsのsource of truthは `spec/language-v0.1.md`、このrepositoryの現在状態のsource of truthは `SPECTODO.md` です。
+現在stableなsyntax / semanticsのsource of truthは `spec/language-v0.1.md` です。v0.2 proposalは `spec/language-v0.2.md` に分け、このrepositoryの現在状態は引き続きrootの `SPECTODO.md` で管理します。
