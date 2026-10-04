@@ -12,7 +12,7 @@ Spectodo Language v0.1はstableです。明示的なscopeを持つ複数inventor
 - 1 Requirement = 1 Markdown task-list item = 1 source line
 - category / target version / priority / D-I-P-V progressを保持
 - 完了済みRequirementもinventoryから削除しない
-- 永続的なproject-wide ruleは `# Constraints` としてRequirementから分離
+- 永続的な制約は `# Constraints` としてRequirementから分離。v0.1ではproject-wide、v0.2ではinventoryのscope-localな制約を記載し、共有制約は適用対象の全workspaceが読む単一のrepository-level policy sourceへ置く
 - design note、implementation note、work logはinventoryへ埋め込まない
 - 必要な詳細はrepository-relative pathやURLを `@ref` で参照
 - 専用CLI・専用renderer・database・boardを通常利用の前提にしない
