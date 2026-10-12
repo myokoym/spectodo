@@ -62,7 +62,11 @@ test('Japanese worked example has three bounded steps and no fabricated completi
   for(const [i,step] of steps.entries())
     for(const field of ['- 前提：','- 対象：','- 作業：','- 期待結果：','- 確認：','- 失敗時：'])
       assert.ok(step.includes(field),'step '+(i+1)+' missing '+field);
-  assert.match(example,/架空の導入先リポジトリ/);
+  assert.match(example,/全体計画の1つの作業単位の見本/);
+  assert.match(example,/docs\/spectodo-execution\/README\.md/);
+  assert.match(example,/PLAN-002/);
+  assert.match(example,/blocked（設計判断待ち）/);
+    assert.match(example,/架空の導入先リポジトリ/);
   assert.match(example,/## 合格条件、差し戻し、停止条件/);
   assert.match(example,/## 中断・引き継ぎ記録/);
   assert.match(example,/最後に確認できた手順：なし/);
@@ -89,10 +93,10 @@ test('canonical kickoff explicitly opts in to repository-wide grouped planning a
   const finish=adoption.indexOf('~~~',start+7);
   const prompt=adoption.slice(start+7,finish);
   assert.ok(start>=0&&finish>start);
-  assert.match(prompt,/【3\.5\. 今回指定された詳細実行計画の追加/);
+  assert.match(prompt,/【3\.5\. 後続作業全体の詳細実行計画を一括整備/);
   assert.ok(prompt.indexOf('【3. 共通Spectodoの詳細導入】') <
-    prompt.indexOf('【3.5. 今回指定された詳細実行計画の追加'));
-  assert.ok(prompt.indexOf('【3.5. 今回指定された詳細実行計画の追加') <
+    prompt.indexOf('【3.5. 後続作業全体の詳細実行計画を一括整備'));
+  assert.ok(prompt.indexOf('【3.5. 後続作業全体の詳細実行計画を一括整備') <
     prompt.indexOf('【4. Codexの作業導線'));
   for (const s of [
     '未完了のRequirement全件', '全ての正本scope', '採用済みの対象Version',
