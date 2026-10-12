@@ -94,7 +94,7 @@ test('canonical kickoff prompt is externally resolvable, pinned and end-to-end s
   const prompt=adoption.slice(fence+7,end);
   for (const required of [
     '配布元Spectodo内', 'ローカルのSkill探索だけで停止しない',
-    '既に配布元コミットSHAが導入先', 'そのSHAを再利用',
+    '既に配布元のv0.2 stableコミットSHAが導入先', 'そのSHAを再利用',
     '配布元mainの現在のHEAD SHA', '同一SHAのREADME',
     'source/evidence', 'crosswalk', '現行要件', '移動・統合前後',
     'disposition ledger', 'D/I/P/V', '第1監査', '第2監査', '第3監査',
