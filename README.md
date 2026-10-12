@@ -64,7 +64,7 @@ Spectodoの詳細実行計画に従って、docs/spectodo-execution/README.mdに
 
 ## 共通導入
 
-**「新規導入」とはSpectodo未導入のリポジトリへの導入です。** リポジトリ自体は空、企画資料のみ、コードありのいずれでも構いません。[短い新規導入依頼文と状態別の処理一覧](docs/adoption.md)をCodexに渡してください。すでにv0.1/v0.2の正本がある場合は新規導入とは区別し、同ガイドの再キックオフ／明示移行を使います。外部配布元 https://github.com/myokoym/spectodo から同一コミットの正式仕様とSkillを取得します。導入したSHAを記録し、再実行ではその固定SHAを使います。配布元の[共通キックオフSkill](.agents/skills/spectodo-kickoff/SKILL.md)が、資料・コード・履歴の棚卸し、scope設定、資料構造の改善、詳細inventory、source index、移行、検証を一貫して実行します。日常的な[運用Skill](.agents/skills/spectodo/SKILL.md)は追加・更新・照合・監査を行います。CLIや専用rendererは日常利用に不要です。
+**「新規導入」とはSpectodo未導入のリポジトリへの導入です。** プロジェクト固有の企画・調査・仕様またはコードが存在することを前提とし、コードなしの検討段階も対象です。Git初期化だけで中身がない場合はSpectodoに登録できる要件がないため対象外です。[短い新規導入依頼文と状態別の処理一覧](docs/adoption.md)をCodexに渡してください。すでにv0.1/v0.2の正本がある場合は新規導入とは区別し、同ガイドの再キックオフ／明示移行を使います。外部配布元 https://github.com/myokoym/spectodo から同一コミットの正式仕様とSkillを取得します。導入したSHAを記録し、再実行ではその固定SHAを使います。配布元の[共通キックオフSkill](.agents/skills/spectodo-kickoff/SKILL.md)が、資料・コード・履歴の棚卸し、scope設定、資料構造の改善、詳細inventory、source index、移行、検証を一貫して実行します。日常的な[運用Skill](.agents/skills/spectodo/SKILL.md)は追加・更新・照合・監査を行います。CLIや専用rendererは日常利用に不要です。
 
 ## 正本と資料
 
