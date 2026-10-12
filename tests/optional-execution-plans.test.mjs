@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const read = path => readFileSync(new URL('../'+path,import.meta.url),'utf8');
 
-test('the Japanese README is the single copyable entry point for opt-in delegation',()=>{
+test('README and copied guide offer the same safe Japanese invocation',()=>{
   const readme=read('README.md');
   const adoption=read('docs/adoption.md');
   const guide=read('docs/optional-execution-plans.md');
@@ -15,7 +15,9 @@ test('the Japanese README is the single copyable entry point for opt-in delegati
   assert.ok(start>=0&&end>start,'copyable Japanese usage must appear in README');
   const entry=readme.slice(start,end);
   const prompts=[...entry.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
+  const portablePrompts=[...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
   assert.equal(prompts.length,2,'must give one planning-only and one execution prompt');
+  assert.deepEqual(portablePrompts,prompts,'copied guide must contain the identical usage commands');
   for(const p of prompts){
     assert.match(p,/Spectodoの詳細実行計画/);
     assert.match(p,/対象「AUTH-001」/);
@@ -25,11 +27,15 @@ test('the Japanese README is the single copyable entry point for opt-in delegati
   assert.match(prompts[0],/失敗時の停止条件/);
   assert.match(prompts[1],/作業を実行してください/);
   assert.match(prompts[1],/想定外の問題/);
+  assert.match(prompts[1],/対象の計画が存在しない、または一意に特定できない場合は停止/);
   assert.match(prompts[1],/SPECTODO\.mdのD\/I\/P\/V/);
   assert.match(entry,/専用コマンドやSkillの全文を読む必要はありません/);
   assert.match(entry,/古い固定SHA/);
   assert.match(adoption,/\[README「指定方法（そのままコピーして使う）」\]\(\.\.\/README\.md#指定方法そのままコピーして使う\)/);
-  assert.match(guide,/READMEのコピペ用指定文/);
+  assert.match(guide,/このガイドを導入先に配布すれば/);
+  assert.match(guide,/## 最短の指定方法（そのままコピー）/);
+  assert.doesNotMatch(guide,/\.\.\/README\.md/, 'consumer README may not contain the Spectodo usage section');
+  assert.match(guide,/https:\/\/github\.com\/myokoym\/spectodo\/blob\/main\/README\.md#指定方法そのままコピーして使う/);
   assert.match(skill,/Optional detailed execution plans/);
   assert.match(skill,/explicitly requests/);
   assert.match(kickoff,/optional-execution-plans\.md/);
@@ -43,7 +49,7 @@ test('Japanese optional execution guide states opt-in, recovery and evidence rul
   for(const rule of ['初期状態では無効','明示的に依頼','D/I/P/V','推測で進まず停止して報告','計画作成やレビューを含む総費用','企画のみ'])
     assert.ok(guide.includes(rule),'missing rule: '+rule);
   assert.match(guide,/\.\.\/examples\/execution-plan\.md/);
-  assert.match(guide,/\.\.\/README\.md#指定方法そのままコピーして使う/);
+  assert.match(guide,/\(#最短の指定方法そのままコピー\)/);
 });
 
 test('Japanese worked example has three bounded steps and no fabricated completion',()=>{
