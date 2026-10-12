@@ -16,7 +16,7 @@
 最初にREADME、設計・提案・決定・議事・調査記録、実装、テスト、構成、
 デプロイ、既存のSPECTODO.mdおよびAgent instructionsをリポジトリ全域で棚卸しする。
 提案・古い仕様を現行仕様と取り違えず、矛盾・未決定・根拠不足を記録する。
-正式なSpectodo v0.2仕様に従い、scope route、必要な資料整理、詳細inventoryを整備する。
+指定されたSpectodo v0.2仕様候補に従い、scope route、必要な資料整理、詳細inventoryを整備する。
 既存v0.1なら移行前に全件のdisposition ledgerを作る。既存v0.2なら冪等に更新する。
 検証とセルフレビューを実施し、変更ファイル、根拠、欠落、未解決事項を報告する。
 ~~~

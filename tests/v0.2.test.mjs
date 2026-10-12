@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync, existsSync} from 'node:fs';
 import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
 
 const read = p => readFileSync(new URL('../'+p,import.meta.url),'utf8');
@@ -38,4 +38,24 @@ test('incremental update preserves item identity while reconciling evidence',()=
   assert.equal((before.match(/PLAN-001/g)||[]).length,1);
   assert.equal((after.match(/PLAN-001/g)||[]).length,1);
   assert.equal(after.replace('D:x I:- P:- V:x','D:x I:- P:- V:.').replace('[x]','[ ]'),before);
+});
+
+test('canonical references exist and documented relative links resolve',()=>{
+  for(const path of ['README.md','docs/adoption.md','docs/migration-v0.1-to-v0.2.md','docs/v0.2-stable-decision.md']){
+    const text=read(path);
+    for(const m of text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)){
+      if(/^(https?:|mailto:|#)/.test(m[1]))continue;
+      const resolved=new URL(m[1].split('#')[0],new URL('../'+path,import.meta.url));
+      assert.ok(existsSync(resolved),path+' has broken Markdown link '+m[1]);
+    }
+  }
+  for(const line of read('SPECTODO.md').split('\n')){
+    if(!line.startsWith('- [')||!line.includes(' | @'))continue;
+    const refs=line.split(' | ').at(-1);
+    if(!refs.startsWith('@'))continue;
+    for(const at of refs.split(' ')){
+      const path=at.slice(1);if(/^https?:/.test(path))continue;
+      assert.ok(existsSync(new URL('../'+path,import.meta.url)),'broken Spectodo @ref '+path);
+    }
+  }
 });
