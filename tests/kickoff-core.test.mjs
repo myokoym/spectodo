@@ -72,42 +72,52 @@ test('human-curated source authority notes survive repeated kickoff updates',()=
 }));
 
 
-test('canonical kickoff prompt is short, external-first, and leaves detailed plans opt-in',()=>{
+test('new-install prompt is short and handles all source states without auto-migration',()=>{
   const guide=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
   const kickoff=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
   const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
-  const label='## 統一キックオフ依頼文（新規リポジトリへそのまま貼り付け）';
-  assert.equal(guide.split(label).length-1,1,'only one default kickoff invocation');
-  const start=guide.indexOf('~~~text',guide.indexOf(label));
-  const end=guide.indexOf('~~~',start+7);
-  assert.ok(start>=0&&end>start,'copyable default prompt');
+  assert.match(guide,/新規導入.*Spectodoの正本がまだない状態/);
+  assert.match(guide,/リポジトリ自体が空とは限りません/);
+  assert.match(guide,/## 新規導入の指定方法（そのままコピー）/);
+  const start=guide.indexOf('~~~text'),end=guide.indexOf('~~~',start+7);
+  assert.ok(start>=0&&end>start);
   const prompt=guide.slice(start+7,end);
-  assert.ok(prompt.length<650,'user-facing invocation must be compact; detailed steps live in the Skill');
-  for (const phrase of [
+  assert.ok(prompt.length<550,'new installation prompt must stay compact');
+  for(const phrase of [
     'https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md',
-    '外部配布元','導入先に存在しなくても配布元から取得',
-    'v0.2 stable','全面調査','構造の再編成','詳細inventory',
-    '既存v0.1','監査付き移行','詳細実行計画は追加で明示指定した場合だけ作成',
-  ]) assert.ok(prompt.includes(phrase),'missing short default behavior: '+phrase);
-  assert.ok(!prompt.includes('【0.')&&!prompt.includes('【3.5.'),
-    'implementation steps belong in Skill, not prompt');
-  assert.match(guide,/## 詳細実行計画も作りたい場合（明示的なオプション）/);
-  const option=guide.slice(guide.indexOf('## 詳細実行計画も作りたい場合'),
-    guide.indexOf('## 配布元・バージョン・参照のルール'));
-  assert.match(option,/上記のキックオフ依頼文の末尾に、次の1文を追加/);
-  assert.match(option,/未完了の全Requirement/);
-  assert.match(option,/実装は開始しないでください/);
-  assert.match(option,/1項目制限ではありません/);
-  assert.match(kickoff,/DEFAULT kickoff read README\.md/);
-  assert.match(kickoff,/Read docs\/optional-execution-plans\.md and examples\/execution-plan\.md ONLY if detailed execution planning is explicitly requested/);
-  assert.match(kickoff,/default kickoff MUST NOT generate/);
-  assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
-  for (const phrase of [
-    '## Phase A — exhaustive discovery BEFORE adopting',
+    'v0.2 stable','新規導入','外部配布元','ローカル未配置','資料・コードがあれば',
+    '構造再編','詳細inventory','資料がなければ要件を捏造せず',
+    'すでにSpectodoがある場合は新規上書き・自動移行せず',
+    '詳細実行計画は明示指定時のみ'
+  ]) assert.ok(prompt.includes(phrase),'missing new-install behavior: '+phrase);
+  assert.doesNotMatch(prompt,/既存v0.1は公式移行手順で監査付き移行/);
+  for(const s of [
+    '完全に空','企画・調査・検討資料のみ','コード・テスト・設定',
+    '一部配置済み','v0.2 inventory導入済み','v0.1 inventory導入済み',
+    'monorepo','未コミット変更'
+  ]) assert.ok(guide.includes(s),'missing detected repository state: '+s);
+  assert.match(guide,/## 導入済みの場合だけ使う別の指示/);
+  assert.match(guide,/既存v0.2の再キックオフ・資料再編/);
+  assert.match(guide,/既存v0.1から共通v0.2への明示的移行/);
+  assert.match(guide,/## 詳細実行計画も必要な場合（任意オプション）/);
+  assert.match(guide,/新規導入または再キックオフの依頼文の末尾にのみ/);
+  assert.match(kickoff,/Default user-facing invocation in docs\/adoption\.md = NEW INSTALL ONLY/);
+  assert.match(kickoff,/Existing canonical v0\.2 inventory/);
+  assert.match(kickoff,/Existing canonical v0\.1 inventory/);
+  assert.match(kickoff,/Do NOT write an invalid fabricated\/empty SPECTODO\.md/);
+  assert.match(kickoff,/Only the separate EXPLICIT v0\.1 migration invocation authorizes migration/);
+  assert.match(kickoff,/The default kickoff MUST NOT generate/);
+  for(const s of ['## Phase A — exhaustive discovery BEFORE adopting',
     '## Phase B — determine scopes and preserve history',
-    '## Phase C — generate inventory',
-    '## Phase D — gates and reporting'
-  ]) assert.ok(kickoff.includes(phrase),'skill contains operational workflow: '+phrase);
-  assert.match(readme,/通常のキックオフでは詳細実行計画を作成しません/);
-  assert.match(readme,/1文だけをキックオフ依頼文へ追加/);
+    '## Phase C — generate inventory','## Phase D — gates and reporting'])
+    assert.ok(kickoff.includes(s),'missing durable procedural skill phase: '+s);
+  assert.match(readme,/新規導入.*Spectodo未導入のリポジトリ/);
+  assert.match(readme,/v0\.1\/v0\.2の正本がある場合は新規導入とは区別/);
+});
+
+test('unsubstantiated empty repository cannot produce a valid fake empty inventory',()=>{
+  const inventory='# Scope\n- PROJECT: .\n\n# Versions\n- V0: Placeholder\n';
+  const valid=validateInventory(inventory,'SPECTODO.md');
+  assert.ok(valid.errors.some(s=>/missing categories/.test(s)),
+    'do not emit a fake empty canonical inventory simply to mark an empty repo done');
 });
