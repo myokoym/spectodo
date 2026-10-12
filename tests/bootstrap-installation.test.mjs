@@ -52,8 +52,8 @@ test('new planning-only repository can install pinned source files, create inven
     assert.doesNotMatch(get('README.md'),/詳細実行計画オプション/);
     const guide=get('docs/optional-execution-plans.md');
     assert.match(guide,/## 最短の指定方法（そのままコピー）/);
-    assert.equal([...guide.matchAll(/~~~text\\n([\\s\\S]*?)\\n~~~/g)].length,2);
-    assert.doesNotMatch(guide,/\\.\\.\\/README\\.md/);
+    assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
+    assert.doesNotMatch(guide,/\.\.\/README\.md/);
     assert.ok(existsSync(join(consumer,'examples/execution-plan.md')),'guide example must be available in consumer');
     const before=required.concat(['SPECTODO.md','AGENTS.md','docs/spectodo-source-inventory.md']).map(p=>get(p));
     const rerun=applyKickoff({root:consumer,inventories:{'SPECTODO.md':inv},routes});
