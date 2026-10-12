@@ -11,7 +11,7 @@
 共通Skill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md
 これは外部配布元です。ローカル未配置でも取得し、共通Skillの新規導入手順で進めてください。
 企画・調査・仕様・コード等の実在する内容を全面調査し、資料構造の再編・根拠付きの詳細inventory・Codex用導線を整備して検証してください。
-製品要件だけを抽出し、導入作業そのものをRequirementにしたり、根拠のないTODOを捏造したりしないでください。
+プロジェクト本来の要件・成果物・制約を抽出し、導入作業そのものをRequirementにしたり、根拠のないTODOを捏造したりしないでください。
 すでにSpectodoがある場合は新規上書き・自動移行せず、状態と適切な次の処理を報告してください。
 詳細実行計画は明示指定時のみ作成してください。
 ~~~
