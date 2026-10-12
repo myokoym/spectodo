@@ -1,6 +1,6 @@
 ---
 name: spectodo
-description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory in this repository. Use when working with Spectodo items, versions, priorities, categories, implementation/deployment/verification progress, or when checking repository state against the Spectodo inventory.
+description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory, or create optional detailed execution plans for model delegation. Use for Spectodo items, versions, priorities, progress, repository reconciliation, or explicitly requested step-by-step handoffs to low-cost models.
 ---
 
 Use the repository's Spectodo language specification as the authority.
