@@ -11,8 +11,8 @@ export function validateInventory(source, path, options={}) {
     if(!line.trim()){
       const next=lines.slice(j+1).find(t=>t.trim())||"";
       if(section==="scope" && scopeDecl===0)error(n,"blank before scope declaration");
-      if(section==="versions" && /^- V\\d+:/.test(next))error(n,"blank within version declarations");
-      if(section==="constraints" && /^- [A-Z][A-Z0-9-]*-\\d{3} /.test(next))error(n,"blank within constraints");
+      if(section==="versions" && /^- V\d+:/.test(next))error(n,"blank within version declarations");
+      if(section==="constraints" && /^- [A-Z][A-Z0-9-]*-\d{3} /.test(next))error(n,"blank within constraints");
       if(section==="category" && next.startsWith("- ["))error(n,"blank within category records");
       continue;
     }
