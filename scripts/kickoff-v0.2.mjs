@@ -7,6 +7,8 @@ const START='<!-- BEGIN SPECTODO ROUTING -->';
 const END='<!-- END SPECTODO ROUTING -->';
 const INDEX='docs/spectodo-source-inventory.md';
 const LEDGER='docs/spectodo-migration-ledger.md';
+const SOURCE_START='<!-- BEGIN SPECTODO SOURCE PATHS -->';
+const SOURCE_END='<!-- END SPECTODO SOURCE PATHS -->';
 function safe(p) {
   if(typeof p!=='string'||!p||p.startsWith('/')||p.includes('\\')||p.split('/').some(x=>!x||x==='.'||x==='..'))throw Error('Unsafe path: '+p);
   return p;
@@ -26,8 +28,14 @@ function put(root,p,value,changes){
   mkdirSync(dirname(join(root,p)),{recursive:true});
   writeFileSync(join(root,p),value);changes.push(p);
 }
-function sourceIndex(paths){
-  return '# Source index\n\n'+paths.filter(p=>!['SPECTODO.md',INDEX,LEDGER].includes(p)&&!p.endsWith('/SPECTODO.md')).map(p=>'- '+p).join('\n')+'\n';
+function sourceIndex(paths,existing=''){
+  const count=paths.filter(p=>!['SPECTODO.md',INDEX,LEDGER].includes(p)&&!p.endsWith('/SPECTODO.md'));
+  const block=SOURCE_START+'\n'+count.map(p=>'- '+p).join('\n')+'\n'+SOURCE_END;
+  const a=existing.indexOf(SOURCE_START),b=existing.indexOf(SOURCE_END);
+  if((a>=0)!==(b>=0)||(a>=0&&(existing.indexOf(SOURCE_START,a+1)>=0||existing.indexOf(SOURCE_END,b+1)>=0)))throw Error('Conflicting source-index markers');
+  if(a>=0)return existing.slice(0,a)+block+existing.slice(b+SOURCE_END.length);
+  if(existing)return existing.trimEnd()+'\n\n'+block+'\n';
+  return '# Source index\n\n'+block+'\n';
 }
 function routing(before,routes){
   const body=START+'\n'+routes.map(r=>'Active workspace root '+r.workspace+' maps to '+r.inventory+' (scope '+r.scope+').').join('\n')+'\n'+END;
@@ -73,7 +81,7 @@ export function applyKickoff({root,inventories,routes,migration=false}){
   if(errs.length)throw Error(errs.join('\n'));
   const prior=exists(root,'AGENTS.md')?get(root,'AGENTS.md'):'# Agent instructions\n';
   const agent=routing(prior,normalized);
-  const census=sourceIndex([...new Set([...all(root),...prepared.map(x=>x.path)])].sort());
+  const census=sourceIndex([...new Set([...all(root),...prepared.map(x=>x.path)])].sort(),exists(root,INDEX)?get(root,INDEX):'');
   const changes=[];
   for(const x of prepared)put(root,x.path,x.source,changes);
   for(const l of ledgers)put(root,LEDGER,l,changes);
