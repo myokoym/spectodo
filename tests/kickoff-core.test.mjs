@@ -102,7 +102,7 @@ test('new-install prompt is short and handles all source states without auto-mig
   assert.match(guide,/既存v0.1から共通v0.2への明示的移行/);
   assert.match(guide,/## 詳細実行計画も必要な場合（任意オプション）/);
   assert.match(guide,/新規導入または再キックオフの依頼文の末尾にのみ/);
-  assert.match(kickoff,/Default user-facing invocation in docs\/adoption\.md = NEW INSTALL ONLY/);
+  assert.match(kickoff,/Default user-facing invocation in docs\/adoption\.md = NEW INSTALL into a repository with real project-specific material/);
   assert.match(kickoff,/Existing canonical v0\.2 inventory/);
   assert.match(kickoff,/Existing canonical v0\.1 inventory/);
   assert.match(kickoff,/OUT OF SCOPE/);
