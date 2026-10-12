@@ -100,8 +100,20 @@ test('new-install prompt is short and handles all source states without auto-mig
   assert.match(guide,/## 導入済みの場合だけ使う別の指示/);
   assert.match(guide,/既存v0.2の再キックオフ・資料再編/);
   assert.match(guide,/既存v0.1から共通v0.2への明示的移行/);
-  assert.match(guide,/## 詳細実行計画も必要な場合（任意オプション）/);
-  assert.match(guide,/新規導入または再キックオフの依頼文の末尾にのみ/);
+  assert.match(guide,/## 詳細実行計画付き新規導入の指定方法（そのままコピー）/);
+  const blocks=[...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(m=>m[1]);
+  assert.equal(blocks.length,2,'default and optional full copy-ready prompts');
+  const normalLines=blocks[0].trim().split('\n');
+  const optionalLines=blocks[1].trim().split('\n');
+  assert.deepEqual(normalLines.slice(0,-1),optionalLines.slice(0,-1),
+    'optional kickoff must share all initial/structural steps with default; only opt-in toggle differs');
+  assert.ok(blocks[1].length<650,'optional prompt must stay concise');
+  assert.match(optionalLines.at(-1),/詳細実行計画オプションも有効にし/);
+  assert.match(optionalLines.at(-1),/全Requirement/);
+  assert.match(optionalLines.at(-1),/一括作成/);
+  assert.match(optionalLines.at(-1),/実装は開始しない/);
+  assert.match(guide,/次のコードブロックを丸ごとコピーしてください/);
+  assert.match(readme,/新規導入＋詳細実行計画（オプション有効）/);
   assert.match(kickoff,/Default user-facing invocation in docs\/adoption\.md = NEW INSTALL into a repository with real project-specific material/);
   assert.match(kickoff,/Existing canonical v0\.2 inventory/);
   assert.match(kickoff,/Existing canonical v0\.1 inventory/);
