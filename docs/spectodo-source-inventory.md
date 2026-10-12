@@ -32,6 +32,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | scripts/validate-v0.2.mjs | verification machinery | supporting / no direct link |
 | spec/language-v0.1.md | legacy compatibility | LANG-011, LANG-013, LANG-014, LANG-015, LANG-016, AGENT-010, VALID-005, DOCS-003, REL-001, REL-002 |
 | spec/language-v0.2.md | current guidance/policy | LANG-017, AGENT-011, BOOT-001 |
+| tests/kickoff-e2e.test.mjs | repeatable local end-to-end lifecycle scenarios | supporting / no direct link |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
 
 | docs/spectodo-source-inventory.md | source crosswalk (supporting only) | supporting / no direct link |
