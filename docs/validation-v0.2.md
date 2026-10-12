@@ -52,3 +52,9 @@ The scripted fixture workflow exercises actual file writes, a second no-op pass,
 Three external repositories (planning documents, code-bearing documents, and existing v0.1) were inspected as read-only inputs. The connected write action to these separate repositories was blocked; their actual working files were not modified. No private repository source documents or identifiers are copied into this public Spectodo repository. They cannot be recorded as passed end-to-end Agent adoptions.
 
 Release status remains **NOT PROMOTED** until the common kickoff Skill itself is successfully executed and audited in authorized real targets, or an equivalent end-to-end agent execution environment provides the required direct evidence. Synthetic and isolated tests must not be relabeled as that evidence.
+
+## 2026-10-12 final scenario rerun
+
+Additional review found that a rerun must discover newly added source documents, refresh the supporting source index, and preserve unrelated inventory progress. The isolated planning-only E2E now verifies that case, including a second unchanged run after the new document has been indexed. The code-bearing E2E also executes its Node test before and after an intentionally introduced regression, confirms the regression fails, and reopens only its affected Spectodo requirement. Explicit nested workspace routing is checked.
+
+Final verified CI at this checkpoint: https://github.com/myokoym/spectodo/actions/runs/38263685773 — 23/23 passing, 0 failing. These remain isolated lifecycle tests, not a substitute for executing the actual Agent Skill against authorized external repositories.
