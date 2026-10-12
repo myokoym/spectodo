@@ -72,37 +72,40 @@ test('human-curated source authority notes survive repeated kickoff updates',()=
 }));
 
 
-test('canonical kickoff prompt is externally resolvable, pinned and end-to-end scoped',()=>{
-  const adoption=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
+test('canonical kickoff prompt is short, external-first, and leaves detailed plans opt-in',()=>{
+  const guide=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
   const kickoff=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
   const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
-  const upstream='https://github.com/myokoym/spectodo/blob/main/';
-  for (const relative of [
-    'docs/adoption.md',
-    '.agents/skills/spectodo-kickoff/SKILL.md',
-    '.agents/skills/spectodo/SKILL.md',
-    'spec/language-v0.2.md',
-    'spec/language-v0.1.md',
-    'docs/migration-v0.1-to-v0.2.md',
-  ]) assert.ok(adoption.includes(upstream+relative),relative+' must have complete upstream URL');
-
-  const intro='## 統一キックオフ依頼文（新規リポジトリへそのまま貼り付け）';
-  const from=adoption.indexOf(intro);
-  const fence=adoption.indexOf('~~~text',from);
-  const end=adoption.indexOf('~~~',fence+7);
-  assert.ok(from>=0&&fence>from&&end>fence,'one complete copyable prompt must be present');
-  const prompt=adoption.slice(fence+7,end);
-  for (const required of [
-    '配布元Spectodo内', 'ローカルのSkill探索だけで停止しない',
-    '既に配布元のv0.2 stableコミットSHAが導入先', 'そのSHAを再利用',
-    '配布元mainの現在のHEAD SHA', '同一SHAのREADME',
-    'source/evidence', 'crosswalk', '現行要件', '移動・統合前後',
-    'disposition ledger', 'D/I/P/V', '第1監査', '第2監査', '第3監査',
-    '解消不能な問題は未完了',
-  ]) assert.ok(prompt.includes(required),'missing in canonical prompt: '+required);
-  assert.equal(adoption.split(intro).length-1,1,'one canonical prompt only');
-  assert.match(kickoff,/Never stop simply because they are absent locally/);
-  assert.match(kickoff,/REUSE that SHA on routine reruns/);
-  assert.match(kickoff,/source-to-ID coverage/);
-  assert.match(readme,/新規リポジトリでは、ローカルSkillの存在を前提にしません/);
+  const label='## 統一キックオフ依頼文（新規リポジトリへそのまま貼り付け）';
+  assert.equal(guide.split(label).length-1,1,'only one default kickoff invocation');
+  const start=guide.indexOf('~~~text',guide.indexOf(label));
+  const end=guide.indexOf('~~~',start+7);
+  assert.ok(start>=0&&end>start,'copyable default prompt');
+  const prompt=guide.slice(start+7,end);
+  assert.ok(prompt.length<650,'user-facing invocation must be compact; detailed steps live in the Skill');
+  for (const phrase of [
+    'https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md',
+    '外部配布元','導入先に存在しなくても配布元から取得',
+    'v0.2 stable','全面調査','構造の再編成','詳細inventory',
+    '既存v0.1','監査付き移行','詳細実行計画は今回は生成せず',
+  ]) assert.ok(prompt.includes(phrase),'missing short default behavior: '+phrase);
+  assert.ok(!prompt.includes('【0.')&&!prompt.includes('【3.5.'),
+    'implementation steps belong in Skill, not prompt');
+  assert.match(guide,/## 詳細実行計画も作りたい場合（明示的なオプション）/);
+  const option=guide.slice(guide.indexOf('## 詳細実行計画も作りたい場合'),
+    guide.indexOf('## 配布元・バージョン・参照のルール'));
+  assert.match(option,/上記のキックオフ依頼文の末尾に、次の1文を追加/);
+  assert.match(option,/未完了の全Requirement/);
+  assert.match(option,/実装は開始しないでください/);
+  assert.match(option,/1項目制限ではありません/);
+  assert.match(kickoff,/default kickoff MUST NOT generate/);
+  assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
+  for (const phrase of [
+    '## Phase A — exhaustive discovery BEFORE adopting',
+    '## Phase B — determine scopes and preserve history',
+    '## Phase C — generate inventory',
+    '## Phase D — gates and reporting'
+  ]) assert.ok(kickoff.includes(phrase),'skill contains operational workflow: '+phrase);
+  assert.match(readme,/通常のキックオフでは詳細実行計画を作成しません/);
+  assert.match(readme,/1文だけをキックオフ依頼文へ追加/);
 });
