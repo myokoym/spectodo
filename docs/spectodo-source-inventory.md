@@ -34,9 +34,13 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | spec/language-v0.2.md | current guidance/policy | LANG-017, AGENT-011, BOOT-001 |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
 
+| docs/spectodo-source-inventory.md | source crosswalk (supporting only) | supporting / no direct link |
+| docs/spectodo-migration-ledger.md | migration evidence (supporting only) | supporting / no direct link |
+| docs/validation-v0.2.md | promotion evidence and blockers (supporting only) | supporting / no direct link |
+
 ## Coverage and decisions
 
-- Primary normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
+- Current proposed normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
 - Legacy frozen rule set: spec/language-v0.1.md. Historical v0.1 example: examples/SPECTODO.md. Neither is reinterpreted as v0.2.
 - The research records remain in-place for provenance. The 2026-10-04 scoped-inventory proposal is superseded where it says v0.2 is opt-in or recommends v0.1 for single-project repositories. The stable decision file documents that change.
 - No exact design/code/deployment files of an adopting external repository were available in this source repository. The generic kickoff Skill cannot prove full external adoption merely from its own instructions.

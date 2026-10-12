@@ -1,11 +1,11 @@
 ---
 name: spectodo-kickoff
-description: Reproducibly inventory an entire repository, organize source documentation, install or reconcile stable Spectodo v0.2, generate workspace routes, audit migrations, and verify idempotence for documentation-only, coded, and pre-existing Spectodo projects. Invoke for initial kickoff, re-kickoff, modernization, structural inventory audits, or repository-wide refresh.
+description: Reproducibly inventory an entire repository, organize source documentation, install or reconcile Spectodo v0.2 after stable promotion, generate workspace routes, audit migrations, and verify idempotence for documentation-only, coded, and pre-existing Spectodo projects. Invoke for initial kickoff, re-kickoff, modernization, structural inventory audits, or repository-wide refresh.
 ---
 
-# Common kickoff: always use stable Spectodo v0.2
+# Common kickoff: use the centrally approved Spectodo v0.2 target
 
-Read the canonical current stable policy in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. New installs and explicitly requested upgrades MUST use this version. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
+Read the canonical current stable policy in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. This repository's v0.2 is a release candidate, not yet stable. Once released, all new installs and explicitly requested upgrades MUST use this version; until then, exercise this Skill as an adoption candidate and do not claim stable availability. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
 
 ## Phase A — exhaustive discovery BEFORE adopting
 

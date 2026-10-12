@@ -18,3 +18,24 @@ test('v0.1 root migration preserves all record lines exactly',()=>{const old=rea
 test('v0.2 scoped sample matches declared canonical path',()=>assert.deepEqual(validateInventory(read('examples/scoped-SPECTODO.md'),'apps/storefront/SPECTODO.md').errors,[]));
 test('v0.2 root/planning samples pass with staged paths',()=>{assert.deepEqual(validateInventory(read('examples/root-v0.2.md'),'SPECTODO.md').errors,[]);assert.deepEqual(validateInventory(read('examples/planning-v0.2.md'),'SPECTODO.md').errors,[]);});
 test('duplicate scope roots are rejected',()=>{const dup=nested.replace('STORE: apps/store/','ANOTHER: .');assert.ok(validateRepository([{path:'SPECTODO.md',source:single},{path:'SPECTODO.md',source:dup}],[{workspace:'.',inventory:'SPECTODO.md'}],['.']).length>0);});
+
+test('duplicate item IDs are rejected',()=>{
+  const two=single.replace('Documentation can be reviewed |','Documentation can be reviewed |')+'\n- [ ] PLAN-001 [V0] [P2] Another behavior is specified | D:x I:. P:. V:.';
+  assert.ok(validateInventory(two,'SPECTODO.md').errors.some(x=>x.includes('duplicate ID')));
+});
+test('references can be checked against actual repository files',()=>{
+  const good=single+' | @README.md';
+  assert.deepEqual(validateInventory(good,'SPECTODO.md',{knownPaths:new Set(['README.md'])}).errors,[]);
+  assert.ok(validateInventory(good,'SPECTODO.md',{knownPaths:new Set()}).errors.some(x=>x.includes('missing reference')));
+});
+test('invalid backslash escapes are rejected',()=>{
+  assert.ok(validateInventory(single.replace('Documentation can be reviewed','Invalid \\n escape'),'SPECTODO.md').errors.length>0);
+});
+test('incremental update preserves item identity while reconciling evidence',()=>{
+  const before=single,after=single.replace('D:x I:- P:- V:.','D:x I:- P:- V:x').replace('[ ]','[x]');
+  assert.deepEqual(validateInventory(before,'SPECTODO.md').errors,[]);
+  assert.deepEqual(validateInventory(after,'SPECTODO.md').errors,[]);
+  assert.equal((before.match(/PLAN-001/g)||[]).length,1);
+  assert.equal((after.match(/PLAN-001/g)||[]).length,1);
+  assert.equal(after.replace('D:x I:- P:- V:x','D:x I:- P:- V:.').replace('[x]','[ ]'),before);
+});

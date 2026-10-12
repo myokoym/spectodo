@@ -1,6 +1,6 @@
 # Spectodo Language v0.2
 
-> Status: stable v0.2 (2026-10-12). This is the complete normative specification for new Spectodo integrations. Stable v0.1 remains a supported, unmodified legacy format; no silent reinterpretation is permitted.
+> Status: RELEASE CANDIDATE, not yet stable (2026-10-12). Promotion is blocked pending the end-to-end acceptance tests in docs/validation-v0.2.md. This defines the intended common v0.2 contract. v0.1 remains the stable, unmodified legacy format until promotion; no silent reinterpretation is permitted.
 
 ## 1. Design goals
 

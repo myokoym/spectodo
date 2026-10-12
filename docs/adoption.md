@@ -1,6 +1,6 @@
-# Spectodo stable v0.2: 共通導入ガイド
+# Spectodo v0.2共通導入ガイド（正式化候補）
 
-新規導入は、対象リポジトリの内容・開発段階・scope数にかかわらず **Spectodo Language v0.2 stable** を使う。既存v0.1の維持は互換性対応であって、新規導入の選択肢ではない。
+この手順はv0.2正式化後の新規導入標準として確定する候補です。現在のv0.2はまだstableへ昇格していません。正式化後の新規導入は、対象リポジトリの内容・開発段階・scope数にかかわらず **Spectodo Language v0.2** を使う。既存v0.1の維持は互換性対応であって、新規導入の選択肢ではない。
 
 ## 統一キックオフ依頼文
 
@@ -9,7 +9,7 @@
 ~~~text
 このリポジトリを全面調査し、Spectodoの共通キックオフを実行してください。
 参照元：https://github.com/myokoym/spectodo
-正式仕様：spec/language-v0.2.md
+正式化候補仕様：spec/language-v0.2.md
 標準Skill：.agents/skills/spectodo/SKILL.md
 キックオフSkill：.agents/skills/spectodo-kickoff/SKILL.md
 

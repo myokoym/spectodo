@@ -12,7 +12,7 @@ Promotion criteria: (1) no unresolved normative contradiction; (2) root self-inv
 
 ## Observed checks
 
-The initial V8 in-session structural checker produced no errors for the migrated root inventory, root/nested two-scope routing, or positive no-code fixtures. It correctly detected intentionally malformed checkbox and gap cases. The corresponding dependency-free Node test suite is committed for CI; GitHub Actions results must be inspected independently, and they are not claimed to have passed here until visible.
+The first GitHub Actions run (https://github.com/myokoym/spectodo/actions/runs/38238911641) completed successfully: Node.js tests 12 passed in the first run, 0 failed, and the job conclusion was success. The initial V8 in-session structural checker produced no errors for the migrated root inventory, root/nested two-scope routing, or positive no-code fixtures. It correctly detected intentionally malformed checkbox and gap cases. The corresponding dependency-free Node test suite is committed for CI. A second CI run after the final revisions is required to confirm the final head.
 
 ## Remaining acceptance gaps
 
@@ -20,4 +20,4 @@ A semantic, end-to-end exercise of the kickoff Skill on three REAL target reposi
 
 ## Release decision
 
-The language specification may be marked stable as a central syntactic and compatibility decision after structural checks and CI confirmation. Operational rollout of the common kickoff foundation is NOT fully verified until real-world end-to-end scenarios pass; BOOT items with outstanding checks remain incomplete.
+**NOT PROMOTED.** The v0.2 language and common kickoff remain a release candidate: unit/structural checks do not prove real-source fidelity, complete coverage, repeatable onboarding, and live idempotence. Promotion requires the real-repository end-to-end gates below. Existing v0.1 stable remains unchanged; BOOT items with outstanding evidence remain incomplete.
