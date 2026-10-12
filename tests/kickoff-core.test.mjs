@@ -72,7 +72,7 @@ test('human-curated source authority notes survive repeated kickoff updates',()=
 }));
 
 
-test('fresh-repository bootstrap uses verified external Spectodo URLs instead of requiring local Skills',()=>{
+test('canonical kickoff prompt is externally resolvable, pinned and end-to-end scoped',()=>{
   const adoption=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
   const kickoff=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
   const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
@@ -82,13 +82,27 @@ test('fresh-repository bootstrap uses verified external Spectodo URLs instead of
     '.agents/skills/spectodo-kickoff/SKILL.md',
     '.agents/skills/spectodo/SKILL.md',
     'spec/language-v0.2.md',
+    'spec/language-v0.1.md',
     'docs/migration-v0.1-to-v0.2.md',
-  ]) {
-    assert.ok(adoption.includes(upstream+relative),relative+' must have a complete upstream URL');
-  }
-  assert.match(adoption,/導入先のローカルに存在しなくて正常/);
-  assert.match(adoption,/最新コミットSHAを取得/);
+  ]) assert.ok(adoption.includes(upstream+relative),relative+' must have complete upstream URL');
+
+  const intro='## 統一キックオフ依頼文（新規リポジトリへそのまま貼り付け）';
+  const from=adoption.indexOf(intro);
+  const fence=adoption.indexOf('~~~text',from);
+  const end=adoption.indexOf('~~~',fence+7);
+  assert.ok(from>=0&&fence>from&&end>fence,'one complete copyable prompt must be present');
+  const prompt=adoption.slice(fence+7,end);
+  for (const required of [
+    '配布元Spectodo内', 'ローカルのSkill探索だけで停止しない',
+    '既に配布元のv0.2 stableコミットSHAが導入先', 'そのSHAを再利用',
+    '配布元mainの現在のHEAD SHA', '同一SHAのREADME',
+    'source/evidence', 'crosswalk', '現行要件', '移動・統合前後',
+    'disposition ledger', 'D/I/P/V', '第1監査', '第2監査', '第3監査',
+    '解消不能な問題は未完了',
+  ]) assert.ok(prompt.includes(required),'missing in canonical prompt: '+required);
+  assert.equal(adoption.split(intro).length-1,1,'one canonical prompt only');
   assert.match(kickoff,/Never stop simply because they are absent locally/);
-  assert.match(kickoff,/from that same source commit SHA/);
+  assert.match(kickoff,/REUSE that SHA on routine reruns/);
+  assert.match(kickoff,/source-to-ID coverage/);
   assert.match(readme,/新規リポジトリでは、ローカルSkillの存在を前提にしません/);
 });
