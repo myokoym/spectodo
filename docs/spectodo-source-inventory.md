@@ -33,7 +33,8 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | scripts/validate-v0.2.mjs | verification machinery | supporting / no direct link |
 | spec/language-v0.1.md | legacy compatibility | LANG-011, LANG-013, LANG-014, LANG-015, LANG-016, AGENT-010, VALID-005, DOCS-003, REL-001, REL-002 |
 | spec/language-v0.2.md | current guidance/policy | LANG-017, AGENT-011, BOOT-001 |
-| tests/kickoff-core.test.mjs | preflight and non-destructive error handling tests | supporting / no direct link |
+| tests/bootstrap-installation.test.mjs | clean-repository local-source installation and repeat-run test (not a Codex live pilot) | supporting / no direct link |
+| tests/kickoff-core.test.mjs | preflight and canonical prompt contract tests | supporting / no direct link |
 | tests/kickoff-e2e.test.mjs | repeatable local end-to-end lifecycle scenarios | supporting / no direct link |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
 
