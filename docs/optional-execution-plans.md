@@ -1,57 +1,60 @@
-# Optional execution plans for low-cost model delegation
+# 詳細実行計画オプション（低コストモデルへの作業委譲）
 
-Status: optional operational guidance for Spectodo Language v0.2 stable. This does not change the Spectodo grammar, scope routing, priority, version, or D/I/P/V rules. The canonical inventory remains the only source of specification and progress truth.
+Spectodo Language v0.2 stableに追加する、**任意の運用手順**です。言語の構文・スコープの振り分け・優先度・対象バージョン・D/I/P/Vは変更しません。仕様と進捗の唯一の正本は従来どおり `SPECTODO.md` です。
 
-## Activation and ownership
+**まず利用方法を知りたい場合は、[READMEのコピペ用指定文](../README.md#指定方法そのままコピーして使う) を使用してください。** 以下はAIが従う詳細規則であり、利用者が全文を読む必要はありません。
 
-- Default: OFF. Do not generate step-by-step plans during ordinary kickoff, inventory updates, audits, or implementation without an explicit request to detail/delegate that work. An existing authorized plan may be resumed when the user asks to continue that work.
-- An explicit request for low-cost-model delegation, detailed executable steps, or a reproducible handoff activates this workflow for the named scope/items only. It does not authorize implementing unrelated features or silently changing design decisions.
-- Use the canonical inventory selected by effective AGENTS.md workspace routing; a referenced path alone never switches scopes. Read effective agent instructions, constraints, current requirements, actual source files, tests, and evidence first.
-- The planning pass resolves justified design choices and supplies decisions/evidence before delegation. The delegated model follows the documented plan and may not invent missing requirements, commands, policies, or completion evidence.
-- The plan is a **supporting document**, not a second SPECTODO.md, a replacement requirement, a task tracker, or a new progress axis. No special renderer, new CLI, or service is required.
+## 1. 使う条件と責任の所在
 
-## Deterministic file identity
+- **初期状態では無効です。** 通常のキックオフ・仕様一覧の更新・監査・実装では、詳細実行計画を自動生成しません。すでに作成が許可された計画は、続きを求められたときに再開できます。
+- 低コストモデルへの委譲、具体的な実行手順、作業の引き継ぎなどが**明示的に依頼された場合**、指定されたスコープ・項目に限って使用します。その指示だけで、無関係な機能の実装や未承認の設計変更まで許可されたことにはなりません。
+- 有効な `AGENTS.md` による振り分けで正本の仕様一覧を特定します。ユーザーが文中で示したファイル名だけでスコープを切り替えません。実際の作業前に指示・制約・仕様・関連ファイル・テスト・根拠を確認します。
+- 計画作成側は、確定済みの設計判断とその根拠を整理してから委譲します。実行側は不足している要件・コマンド・規則・検証結果を推測で埋めません。
+- 計画は**補助文書**です。2つ目の `SPECTODO.md`、新たな仕様正本、別の進捗管理台帳、独自の進捗軸を作りません。専用画面・CLI・サービスも不要です。
 
-Use repository-root-relative `docs/spectodo-execution/<SCOPE_ID>/<ITEM_ID>.md` when possible (e.g. `docs/spectodo-execution/PROJECT/APP-001.md`). Scope ID and item ID must match the active canonical inventory. Group multiple IDs only if one shared change is inseparable; give the file a stable work-unit name, enumerate all covered IDs, and avoid duplicate plans for the same work unit. Preserve existing useful project documentation and use a different stable support path only if needed to avoid a collision.
+## 2. 保存場所と識別方法
 
-Record the current repository commit, branch and relevant input file references or content fingerprints when available. For a documentation-only/ungitted project, name the inspected files and mark the revision unverified; never invent a SHA. Record the pinned upstream Spectodo SHA if installed. The source-version pin and the language version are different from the project's V0/V1 target milestones.
+標準の保存先はリポジトリのルートからの相対パス `docs/spectodo-execution/<スコープID>/<項目ID>.md` です。例：`docs/spectodo-execution/PROJECT/APP-001.md`。IDは対象の正本に存在するものを使います。
 
-Add the plan path as an `@ref` to the applicable item only when it improves discoverability; preserve all existing `@ref` values. Plan steps and checkboxes MUST NOT be replicated inside the canonical one-line inventory item. Do not add a new scope or convert any other document into a canonical inventory.
+- 複数項目の変更が不可分な場合に限り、安定した作業名のファイルでまとめ、対象IDをすべて列挙します。同じ作業の重複計画を作りません。
+- 既存の有用な文書やパスと衝突する場合だけ、適切な別の補助文書パスを使います。
+- 判明していれば現在のブランチ、コミット、参照元ファイルや内容の識別情報を記録します。Git管理外・企画資料のみの場合は未確認と明記し、架空のSHAを記載しません。導入済みの配布元Spectodo固定SHAも必要に応じて記録します。
+- 発見しやすくなる場合だけ正本の該当項目に計画への `@ref` を追加し、既存の参照を維持します。計画の手順やチェック欄を仕様一覧の1行へ転記しません。新しいスコープは作りません。
 
-## Required sections of every plan
+## 3. 計画に必要な内容
 
-1. **Identity and goal:** scope ID/root, canonical inventory path, item IDs, target product version, concrete requested outcome, scope exclusions, source authority, and design decisions already approved.
-2. **Starting snapshot:** branch/revision, clean/dirty working tree, relevant paths and expected preconditions, dependencies, environment/runtime versions when material, and observed unknowns. Never assume code exists in planning-only repositories.
-3. **Ordered executable steps:** each independently verifiable step names exact affected paths, prerequisites, explicit action/change, expected observable result, verification method (commands or review procedure), and what to do on failure. Use commands only after confirming they exist in the target environment; include working directory and platform assumptions.
-4. **Acceptance and recovery:** checks mapped to each original statement, precise pass/fail gates, tests that must remain green, no-destructive-change guards, rollback/retry boundaries, and conditions requiring escalation instead of guesswork.
-5. **Checkpoint / handoff:** last confirmed step, evidence and outputs, next unstarted step, blockers, known changes since plan creation, and affected D/I/P/V reconciliation to perform. Plan step status is evidence-backed and subordinate to the canonical inventory.
+1. **対象と目的：** スコープIDと場所、正本ファイル、対象項目ID、製品の対象バージョン、完了させる結果、対象外、根拠となる仕様と承認済みの判断。
+2. **着手前の状態：** ブランチ・コミット・作業ツリーの変更有無、関連ファイル、前提条件、必要な依存関係・環境、未確認事項。企画のみのプロジェクトにコードがあると仮定しません。
+3. **順番に実行できる手順：** 各手順に、前提、変更・確認する具体的なパス、操作内容、観測できる期待結果、確認方法（コマンドまたは人手での照合）、失敗時の行動を記載します。コマンドは対象環境で使えることを確認してから記載し、作業ディレクトリやOSの条件も必要に応じて明記します。
+4. **合格条件と復旧方法：** 元の仕様文と対応する確認事項、合否判定、維持すべきテスト、既存変更を壊さない条件、やり直し・差し戻しの範囲、推測せず相談する条件。
+5. **中断・引き継ぎ：** 最後に確認できた手順、実測した証拠と成果物、次の未着手手順、停止理由、計画後の変更、最終的に照合すべきD/I/P/Vの状態。計画側のチェックは正本の進捗より優先されません。
 
-A step such as “implement feature” or “test thoroughly” without file-specific action and check is invalid for delegation. Do not manufacture exact patches for unseen code, expected outputs for unrun tests, or acceptance criteria not grounded in the requirement. When facts are insufficient, make the first step a bounded discovery/check and specify a stop-and-escalate condition, rather than guessing.
+「機能を実装する」「十分にテストする」だけでは、委譲可能な手順として不十分です。まだ確認できない内容を仮定して架空のパッチ・期待出力・完了条件を作らず、まず範囲を限定した調査を行う手順と停止条件を設けます。
 
-## Authoring procedure
+## 4. 計画の作成手順
 
-1. **Resolve:** identify the active workspace routing, affected IDs and existing in-progress work. Read current authoritative references and repository state; note historical/proposed sources separately.
-2. **Choose granularity:** split at decisions, independently testable edits, and risky side effects. Prefer one substantial change per step; avoid microsteps for trivial shell commands. Provide paths, patterns, input/output examples and commands only when evidence supports them.
-3. **Preflight:** identify unknown design questions, restricted operations, API/credentials, missing tools, user changes, and destructive effects. Escalate irreversible decisions, credentials, source conflicts, or unsupported actions before authorizing execution.
-4. **Write:** use the format in [the worked example](../examples/execution-plan.md), replacing fictional paths with actual verified references. Describe alternative paths only where a deterministic condition decides between them.
-5. **Self-review:** independently check path existence or explicit creation, step order/dependencies, missing choices, reproducibility on a fresh context, exact statement-to-test coverage, rollback, and re-entry after interruption. Correct defects and repeat the review until no known actionable defects remain.
-6. **Handoff:** supply the plan's concrete path and initial step; allow the delegated agent to read the same effective instructions and source evidence. Do not instruct it to execute without inspecting the current state.
+1. **特定：** 有効なスコープ、対象項目ID、進行中の仕事を確認します。現行資料を読み、採用前の提案や古い記録と分けます。
+2. **手順の粒度：** 設計判断の境目、独立して検証できる変更、危険な操作を基準に分割します。単純なコマンドまで過度に細分化しません。
+3. **事前確認：** 未決定事項、認証情報、権限、環境不足、既存の未コミット変更、破壊的操作を特定します。承認されていない不可逆な判断は勝手に行いません。
+4. **文書化：** [記入例](../examples/execution-plan.md)の構造に沿い、架空のパスを実際に確認したパスへ置き換えます。選択肢がある場合は、何を観測したらどちらに進むか明記します。
+5. **自己点検：** ファイルの存在（新規作成の場合はその明記）、手順順序、依存関係、残る設計判断、別の会話でも再現できるか、仕様ごとの検証、復旧方法、中断後の再開方法を別の視点から点検します。問題が見つかれば修正し、影響範囲を再確認します。
+6. **引き継ぎ：** 計画のパスと最初の手順を伝えます。実行側にも、現在の指示・前提を確認してから進めさせます。
 
-## Execution, stopping and re-planning
+## 5. 実行・停止・計画更新
 
-- Before each step, confirm prerequisites and that relevant input state still matches the planned assumptions. An unrelated commit does not invalidate the plan automatically, but changed target files, requirements, route, policy, acceptance tests, or conflicting user edits do. Compare relevant diffs, not just commit SHA.
-- Execute only the next eligible step. Record the observed outcome and evidence; if a step is partly done or its outcome cannot be verified, leave it open and state the exact reason.
-- STOP and escalate with paths, observed values and failed checks if a file is missing unexpectedly, authority is conflicting, instructions require an unapproved decision, an unexpected diff appears, a command or permission is unavailable, tests fail outside the documented recovery path, or a dangerous change is required. Do not replace a blocked path with a speculative shortcut.
-- Resume by rereading the plan, canonical inventory, current diffs and last evidence. Validate earlier completed steps against changed inputs as needed; do not blindly rerun destructive steps or reset progress.
-- After actual repository changes, reconcile only affected D/I/P/V statuses in the canonical inventory using evidence and recompute checkboxes. A checked plan step is never sufficient evidence for I:x or V:x. Report remaining manual checks, blockers, changed paths, and what was not run.
-- Re-plan only the affected steps when source evidence changes; preserve history, IDs, and confirmed work. Repeated plan generation on unchanged inputs should produce no speculative extra tasks or churn.
+- 各手順の前に、前提条件と関連資料の内容が計画時から変わっていないか確かめます。無関係なコミットだけで失効とはしませんが、対象ファイル・要件・スコープ・指示・合格条件・ユーザーの変更に影響がある場合は差分を評価します。
+- 実行可能な次の手順だけを進め、確認できた結果と根拠を記録します。部分的にしかできなかった手順や未検証の手順を完了にしません。
+- ファイルの欠落、規則の衝突、承認のない判断、想定外の差分、権限・コマンド不足、復旧手順外のテスト失敗、危険な操作が発生したら、**推測で進まず停止して報告**します。対象パス、観測事実、失敗した確認方法を示します。
+- 再開時は計画、正本、作業ツリーの差分、最後の証拠を再確認します。変更された前提の影響を調べ、破壊的手順を無条件に再実行せず、進捗も勝手にリセットしません。
+- 実際の作業で状態が変わったら、証拠に基づいて正本の該当D/I/P/Vだけを更新し、チェック欄を整合させます。計画の手順をチェックしただけでは `I:x` や `V:x` の根拠になりません。
+- 情報が変わった場合は必要な手順のみ修正し、確定済みの成果・ID・経緯を残します。同じ入力で計画を作り直しても、根拠のない新規作業や無意味な差分が増えない状態を目指します。
 
-## Validation and cost-benefit pilot (not yet established)
+## 6. 実モデル・費用対効果の検証（未実施）
 
-Documentation/contract tests can establish that the plan format and Skill are integrated. They do **not** show that a low-cost model can execute an actual task, nor prove economic savings. Before claiming this outcome, run real delegated tasks covering (a) planning-only research, (b) code+tests, and (c) interrupted or changed-input resumption, using the same baseline and predeclared acceptance checks for planned and unplanned runs.
+ガイドやテストが整っていることは、低コストモデルで実際に作業できることや費用削減の証明ではありません。効果を主張する前に、**企画のみ／コードとテストあり／途中中断・入力変更からの再開**という条件で実タスクを実行し、計画あり・なしを、事前に決めた同じ合格基準で比較します。
 
-Record exact model/version, pricing basis, token and tool usage, planning and execution costs, retries, human interventions, elapsed time, successful checks, regressions, and unresolved blockers. Compare total end-to-end cost including creation/review/maintenance of the plan, not execution tokens alone; report failures and cases where a plan costs more. Select the approach on correctness first and cost second. No economic or autonomous-agent success claim is warranted without measured evidence.
+モデル名と版、料金基準、トークン・ツール使用量、計画の作成・実行・保守費、再試行、人間による介入、経過時間、成功した検証、回帰、不明な問題を記録します。実行だけでなく**計画作成やレビューを含む総費用**を比較し、計画を作った方が高くついた例も報告します。正確性を先に評価し、そのうえで費用を判断します。
 
-## Handoff request
+## 7. 短い指定文の入口
 
-The user or coordinating model can say: “Create or refresh the optional Spectodo execution plan for <scope>/<item IDs> under docs/spectodo-execution/, verify source assumptions and all steps, then hand it to the delegated agent; do not start unrelated implementation.” The delegated agent can be told: “Read effective AGENTS.md, the canonical inventory and the specified plan; verify current preconditions, execute the next authorized step, stop on any unplanned choice, run the listed checks, record evidence, and reconcile D/I/P/V before closing.”
+コピーして使える正式な指定例は [READMEの「指定方法」](../README.md#指定方法そのままコピーして使う) に集約しています。Skillの長文を利用者が読んで指示文を作り直す必要はありません。
