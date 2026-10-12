@@ -94,21 +94,28 @@ test('optional multi-requirement batch planning is disabled by default, enabled 
   const defaultPrompt=adoption.slice(defaultStart+7,defaultEnd);
   assert.match(defaultPrompt,/詳細実行計画は明示指定時のみ作成/);
   assert.doesNotMatch(defaultPrompt,/詳細実行計画も有効化/);
-  const optStart=adoption.indexOf('## 詳細実行計画も必要な場合');
+  const kickoffPrompts=[...adoption.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
+  assert.equal(kickoffPrompts.length,2,'both kickoff modes must offer a complete prompt');
+  assert.ok(kickoffPrompts[1].includes('共通Skill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md'));
+  assert.ok(kickoffPrompts[1].includes('資料構造の再編'));
+  assert.ok(kickoffPrompts[1].includes('詳細inventory'));
+  assert.ok(kickoffPrompts[1].includes('実装は開始しない'));
+  assert.ok(kickoffPrompts[1].length<650);
+  const optStart=adoption.indexOf('## 詳細実行計画付き新規導入の指定方法');
   const optEnd=adoption.indexOf('## 配布元・再現性・役割分担');
   const optIn=adoption.slice(optStart,optEnd);
   assert.ok(optStart>defaultEnd&&optEnd>optStart);
-  for(const word of ['末尾にのみ','未完了の採用済みRequirement全体','依存順','一括作成','実装は開始しない'])
+  for(const word of ['丸ごとコピー','採用済み・未完了の全Requirement','依存順','一括作成','実装は開始しない'])
     assert.ok(optIn.includes(word),'missing optional switch: '+word);
   assert.match(kickoff,/default kickoff MUST NOT generate/);
-  assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
+  assert.match(kickoff,/Only when the user chooses the complete/);
   assert.match(kickoff,/all adopted incomplete Requirements/);
   assert.match(kickoff,/planning only/);
   assert.match(guide,/通常のキックオフ・仕様一覧の更新・監査では、詳細実行計画を自動生成しません/);
-  assert.match(guide,/明示的に追加した場合にのみ/);
+  assert.match(guide,/選んだ場合にのみ/);
   assert.match(guide,/標準キックオフそのものは詳細計画作成の依頼ではありません/);
   assert.match(readme,/通常のキックオフでは詳細実行計画を作成しません/);
-  assert.match(readme,/1文だけをキックオフ依頼文へ追加/);
+  assert.match(readme,/標準文への追記・Skill全文の読解は不要/);
   // Standalone copyable plan/build and execute prompts must remain usable.
   const readmeCommands=[...readme.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
   const guideCommands=[...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
