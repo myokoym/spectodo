@@ -11,6 +11,7 @@
 - 正式仕様：https://github.com/myokoym/spectodo/blob/main/spec/language-v0.2.md
 - キックオフSkill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md
 - 運用Skill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo/SKILL.md
+- 任意実行計画ガイド：https://github.com/myokoym/spectodo/blob/main/docs/optional-execution-plans.md
 - 移行規程：https://github.com/myokoym/spectodo/blob/main/docs/migration-v0.1-to-v0.2.md
 - 既存v0.1形式の読み取り用：https://github.com/myokoym/spectodo/blob/main/spec/language-v0.1.md
 
@@ -42,6 +43,7 @@ Spectodoの配布元リポジトリは、参照用であって作業対象では
 - 公式ガイド：https://github.com/myokoym/spectodo/blob/main/docs/adoption.md
 - キックオフSkill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md
 - 通常運用Skill：https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo/SKILL.md
+- 任意実行計画ガイド：https://github.com/myokoym/spectodo/blob/main/docs/optional-execution-plans.md
 - v0.2正式仕様：https://github.com/myokoym/spectodo/blob/main/spec/language-v0.2.md
 - v0.1移行規程：https://github.com/myokoym/spectodo/blob/main/docs/migration-v0.1-to-v0.2.md
 - v0.1旧仕様：https://github.com/myokoym/spectodo/blob/main/spec/language-v0.1.md
@@ -55,12 +57,12 @@ Spectodoの配布元リポジトリは、参照用であって作業対象では
   初回v0.2取得と同様に配布元mainを確認してください。
   初回またはSHA未記録なら、GitHub接続ツール/API/git clone等から
   配布元mainの現在のHEAD SHAを取得してください。
-  同一SHAのREADME・正式仕様・ガイド・両Skillを取得・照合し、
+  同一SHAのREADME・正式仕様・ガイド・両Skill・任意実行計画ガイドを取得・照合し、
   v0.2 stableであることを確認してください。
   旧v0.1の移行が必要なら移行規程と旧仕様も同じSHAから取得してください。
   必要に応じて配布元の任意の検証スクリプトを取得できますが、
   専用CLIや追加サービスは必須ではありません。
-  取得した仕様・両Skillを導入先の対応パスへ配置・同期し、
+  取得した仕様・両Skill・任意実行計画ガイドを導入先の対応パスへ配置・同期し、
   使用した配布元URL・SHAと配置先をAGENTS.mdおよび完了報告に記録してください。
   既存ローカルファイルの差分を確認してから更新し、無断で破棄しないでください。
   言語バージョンはv0.2 stableに統一します。個別に選択しないでください。
@@ -132,6 +134,10 @@ Spectodoの配布元リポジトリは、参照用であって作業対象では
 根拠の対応状況・未解決事項、監査ごとの実測結果、再実行時の差分、
 未実施・ブロッカーを報告してください。提案だけで完了扱いにしないでください。
 ~~~
+
+## 任意の詳細実行計画（初期導入では生成しない）
+
+同じ固定SHAから導入した docs/optional-execution-plans.md は、低コストモデルなどへの委譲時に明示要求があった作業にだけ使用する。通常のキックオフと日常更新では実行計画を自動生成しない。計画は補助文書であり、SPECTODO.md の構文・D/I/P/V・正本性を変更しない。導入先に旧ピンしかない場合は共通基盤の明示更新としてSkillとガイドを同じ新SHAへ揃える。検証済みの低コスト化・自律実行を現時点で保証しない。
 
 ## 何を入れるか
 
