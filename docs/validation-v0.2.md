@@ -34,3 +34,21 @@ A semantic, end-to-end exercise of the kickoff Skill on three REAL target reposi
 The Spectodo repository itself supplies an actual v0.1-to-v0.2 migration ledger, but this is not independent proof that the common kickoff Skill succeeds on a different v0.1 consumer. For each acceptance case, capture before/after tree, source census, scope route map, count/ID diff, validation result, all files touched, and a second-run clean diff. To count as passed, the next update must change only evidenced records and preserve unrelated state. Any missing evidence or wrong route is a failed acceptance case, not a harmless uncertainty.
 
 The automated tests are development-only structural tests, not an autonomous agent execution harness. Passing them does not discharge the live acceptance matrix.
+
+## 2026-10-12: executable end-to-end acceptance run
+
+The following three scenarios were executed in isolated temporary Git workspaces by `tests/kickoff-e2e.test.mjs`. The same code executes on GitHub Actions:
+
+| Scenario | Initial adopt/migrate | No-change second run | Evidence-driven update | Structural and reference audit | Result |
+|---|---|---|---|---|---|
+| Planning-only without source code | yes | byte-for-byte unchanged | design verification adjusted; future I:. preserved | yes | PASS |
+| Application code plus two explicit scope roots | yes | byte-for-byte unchanged | actual application test passes, then detects an injected regression; only affected item is reopened | yes | PASS |
+| Existing v0.1 inventory | lossless record migration + ledger | byte-for-byte unchanged | original item ID retained through progress update | yes | PASS |
+
+Final CI evidence for this run: https://github.com/myokoym/spectodo/actions/runs/38263224570 — 23 tests passed, 0 failed, commit ffad1694d5ceedb1eea5fe441f83add6283768fb.
+
+The scripted fixture workflow exercises actual file writes, a second no-op pass, repository structure audit, reconciliation and Node runtime tests. It uses agent-authored fixture inventories rather than calling an LLM Agent Skill runtime. It therefore proves the defined operations are structurally executable, **not** that a deployed Agent reads every source and independently produces a complete, correct inventory in an unrelated existing repository.
+
+Three external repositories (planning documents, code-bearing documents, and existing v0.1) were inspected as read-only inputs. The connected write action to these separate repositories was blocked; their actual working files were not modified. No private repository source documents or identifiers are copied into this public Spectodo repository. They cannot be recorded as passed end-to-end Agent adoptions.
+
+Release status remains **NOT PROMOTED** until the common kickoff Skill itself is successfully executed and audited in authorized real targets, or an equivalent end-to-end agent execution environment provides the required direct evidence. Synthetic and isolated tests must not be relabeled as that evidence.
