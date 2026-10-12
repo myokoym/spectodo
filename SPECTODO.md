@@ -51,7 +51,7 @@
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/SPECTODO.md
 - [x] AGENT-010 [V1] [P1] Agent Skillが追加検証の必要性をstatement単位で判定し範囲外のquality workを別Requirementとして適切なversionとpriorityへ分離できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.1.md @docs/adoption.md
 - [x] AGENT-011 [V2] [P1] Agent Skillが全canonical inventoryのscope・route・path重複を監査し、workspaceごとに正本を一意に選んでprogressやshared constraintを誤適用しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.2.md @examples/scoped-SPECTODO.md
-- [ ] AGENT-012 [V3] [P1] 明示的な委譲依頼に対してAgent Skillが正本を維持したまま停止・再開・検証可能な詳細実行計画を補助文書として扱える | D:x I:x P:- V:~ | !PR CIと外部委譲での手順適用確認が未実施 | @docs/optional-execution-plans.md @examples/execution-plan.md @.agents/skills/spectodo/SKILL.md
+- [ ] AGENT-012 [V3] [P1] 明示的な委譲依頼に対してAgent Skillが正本を維持したまま停止・再開・検証可能な詳細実行計画を補助文書として扱える | D:x I:x P:- V:~ | !外部委譲での手順適用確認が未実施 | @docs/optional-execution-plans.md @examples/execution-plan.md @.agents/skills/spectodo/SKILL.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/SPECTODO.md
