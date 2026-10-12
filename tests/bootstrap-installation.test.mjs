@@ -25,7 +25,7 @@ test('new planning-only repository can install pinned source files, create inven
     for(const p of required)assert.equal(existsSync(join(consumer,p)),false,'consumer must start without '+p);
     // In CI all source files come from the single checkout commit, mirroring a pinned source SHA.
     for(const p of required){
-      const original=new URL('../'+p,source);
+      const original=new URL(p,source);
       const target=join(consumer,p);
       assert.ok(existsSync(original),'required upstream source must exist: '+p);
       mkdirSync(dirname(target),{recursive:true});
