@@ -89,7 +89,7 @@ test('kickoff E2E: documentation-only initial / repeated / evidence update / aud
     const stateBeforeNewEvidence=get(root,'SPECTODO.md');
     put(root,'docs/new-evidence.md','# New evidence added after initial adoption\\n');
     install(root,{inventory:inv,scope:'STUDY'});
-    assert.match(get(root,'docs/spectodo-source-inventory.md'),/docs\\/new-evidence\\.md/);
+    assert.ok(get(root,'docs/spectodo-source-inventory.md').includes('docs/new-evidence.md'));
     assert.equal(get(root,'SPECTODO.md'),stateBeforeNewEvidence,'new source must not reset existing progress');
     const updatedHash=digest(root);
     install(root,{inventory:inv,scope:'STUDY'});
