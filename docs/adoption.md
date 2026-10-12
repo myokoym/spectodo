@@ -4,7 +4,7 @@
 
 ## 初回導入の原則（配布元と導入先を混同しない）
 
-ここに記す \`.agents/skills/...\`、\`spec/...\`、\`docs/...\` は **配布元 myokoym/spectodo 内のパス**。導入先には一切存在しなくてよい。導入先にSkillがないことを理由に停止・v0.1への後退・独自仕様の生成をしない。
+ここに記す `.agents/skills/...`、`spec/...`、`docs/...` は **配布元 myokoym/spectodo 内のパス**。導入先には一切存在しなくてよい。導入先にSkillがないことを理由に停止・v0.1への後退・独自仕様の生成をしない。
 
 - 配布元：https://github.com/myokoym/spectodo
 - この正本：https://github.com/myokoym/spectodo/blob/main/docs/adoption.md
@@ -16,7 +16,7 @@
 
 **ピン留め規則**：初回だけ配布元mainのHEAD SHAを確認し、同じSHAからすべて取得する。導入後は適用した配布元コミットSHAをAGENTS.mdに記録し、次回の再実行はその固定SHAで行う。Spectodo共通基盤の明示的な更新を頼まれた場合に限り、新しいmain SHAを取得して一式を同期・検証する。これにより日常の再実行が外部更新に左右されない。Spectodo Languageのバージョンは共通の **v0.2 stable** であり、プロジェクト別に選ばせない。既存v0.1は維持可能だが、以下のキックオフ依頼はv0.2への明示的な監査付き移行を含む。
 
-**アクセス規則**：まず配布元のmain SHAをGitHub API/接続済みツール/git cloneで確認する。以後、\`https://raw.githubusercontent.com/myokoym/spectodo/<固定SHA>/<パス>\` 等で全ファイルを固定SHAから取得する。最初に配布元README・仕様のv0.2 stable表示を照合する。失敗時は利用可能な別手段を試し、取得先とエラーを報告する。全経路で参照不能ならSpectodo固有のファイル変更は行わず、対象リポジトリの非破壊的調査だけ進める。未確認の仕様を推測して進めない。
+**アクセス規則**：まず配布元のmain SHAをGitHub API/接続済みツール/git cloneで確認する。以後、`https://raw.githubusercontent.com/myokoym/spectodo/<固定SHA>/<パス>` 等で全ファイルを固定SHAから取得する。最初に配布元README・仕様のv0.2 stable表示を照合する。失敗時は利用可能な別手段を試し、取得先とエラーを報告する。全経路で参照不能ならSpectodo固有のファイル変更は行わず、対象リポジトリの非破壊的調査だけ進める。未確認の仕様を推測して進めない。
 
 ## 統一キックオフ依頼文（新規リポジトリへそのまま貼り付け）
 
@@ -49,8 +49,10 @@ Spectodoの配布元リポジトリは、参照用であって作業対象では
   これらのパスはすべて「配布元Spectodo内」のパスです。
   導入先に存在しない状態が正常です。ローカルのSkill探索だけで停止しないでください。
 
-  既に配布元コミットSHAが導入先のAGENTS.md等に記録されている場合、
+  既に配布元のv0.2 stableコミットSHAが導入先のAGENTS.md等に記録されている場合、
   共通基盤の明示的更新指示がなければそのSHAを再利用してください。
+  旧v0.1由来のSHAだけが記録されている場合は、今回のv0.2移行に使わず、
+  初回v0.2取得と同様に配布元mainを確認してください。
   初回またはSHA未記録なら、GitHub接続ツール/API/git clone等から
   配布元mainの現在のHEAD SHAを取得してください。
   同一SHAのREADME・正式仕様・ガイド・両Skillを取得・照合し、
@@ -151,6 +153,6 @@ Spectodoの配布元リポジトリは、参照用であって作業対象では
 
 ## 更新
 
-同じSkillを再実行して更新・監査する。新しいinventoryを複製しない。増分情報を突き合わせて必要な行だけ変更する。ステータスのxは実装と独立した検証証拠による。対象target version（V0等）はSpectodo Languageのv0.2と無関係。
+同じSkillと記録済みのv0.2配布元SHAを用いて再実行・監査する。配布元の更新は別途明示して一式を同期する。新しいinventoryを複製しない。増分情報を突き合わせて必要な行だけ変更する。ステータスのxは実装と独立した検証証拠による。対象target version（V0等）はSpectodo Languageのv0.2と無関係。
 
 参照：[共通キックオフSkill](../.agents/skills/spectodo-kickoff/SKILL.md) / [移行手順](migration-v0.1-to-v0.2.md) / [v0.2検証記録](validation-v0.2.md)。
