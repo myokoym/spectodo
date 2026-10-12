@@ -70,3 +70,25 @@ test('human-curated source authority notes survive repeated kickoff updates',()=
   assert.deepEqual(again.changes,[]);
   assert.equal(get('docs/spectodo-source-inventory.md'),updated);
 }));
+
+
+test('fresh-repository bootstrap uses verified external Spectodo URLs instead of requiring local Skills',()=>{
+  const adoption=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
+  const kickoff=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
+  const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
+  const upstream='https://github.com/myokoym/spectodo/blob/main/';
+  for (const relative of [
+    'docs/adoption.md',
+    '.agents/skills/spectodo-kickoff/SKILL.md',
+    '.agents/skills/spectodo/SKILL.md',
+    'spec/language-v0.2.md',
+    'docs/migration-v0.1-to-v0.2.md',
+  ]) {
+    assert.ok(adoption.includes(upstream+relative),relative+' must have a complete upstream URL');
+  }
+  assert.match(adoption,/導入先のローカルに存在しなくて正常/);
+  assert.match(adoption,/最新コミットSHAを取得/);
+  assert.match(kickoff,/Never stop simply because they are absent locally/);
+  assert.match(kickoff,/from that same source commit SHA/);
+  assert.match(readme,/新規リポジトリでは、ローカルSkillの存在を前提にしません/);
+});
