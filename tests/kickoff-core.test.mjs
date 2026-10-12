@@ -98,6 +98,8 @@ test('canonical kickoff prompt is short, external-first, and leaves detailed pla
   assert.match(option,/未完了の全Requirement/);
   assert.match(option,/実装は開始しないでください/);
   assert.match(option,/1項目制限ではありません/);
+  assert.match(kickoff,/DEFAULT kickoff read README\.md/);
+  assert.match(kickoff,/Read docs\/optional-execution-plans\.md and examples\/execution-plan\.md ONLY if detailed execution planning is explicitly requested/);
   assert.match(kickoff,/default kickoff MUST NOT generate/);
   assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
   for (const phrase of [
