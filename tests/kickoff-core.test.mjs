@@ -4,6 +4,7 @@ import {mkdtempSync,mkdirSync,readFileSync,writeFileSync,rmSync,existsSync} from
 import {join,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {applyKickoff,reconcileItem} from '../scripts/kickoff-v0.2.mjs';
+import {validateInventory} from '../scripts/validate-v0.2.mjs';
 function fixture(fn) {
   const root=mkdtempSync(join(tmpdir(),'spectodo-core-'));
   const put=(p,s)=>{mkdirSync(dirname(join(root,p)),{recursive:true});writeFileSync(join(root,p),s)};
