@@ -20,14 +20,14 @@ function digest(root) {
   return createHash('sha256').update(all(root).map(p=>p+'\0'+get(root,p)).join('\0')).digest('hex');
 }
 function install(root,{inventory,scope='PROJECT',path='SPECTODO.md',routes=[{workspace:'.',inventory:'SPECTODO.md',scope}]}) {
-  const originalFiles=all(root).filter(p=>!p.startsWith('.agents/') && !p.startsWith('spec/'));
+  const originalFiles=all(root).filter(p=>!p.startsWith('.agents/') && !p.startsWith('spec/') && !['SPECTODO.md','docs/spectodo-source-inventory.md','docs/spectodo-migration-ledger.md'].includes(p) && !p.endsWith('/SPECTODO.md'));
   const sourceIndex='# Source index\n\n'+originalFiles.map(p=>'- '+p).join('\n')+'\n';
   const existingAgents=existsSync(join(root,'AGENTS.md'))?get(root,'AGENTS.md'):'# Agent instructions\n';
   const marker='\n<!-- BEGIN SPECTODO ROUTING -->\n';
   const routing=marker+routes.map(r=>`Active workspace root ${r.workspace} maps to ${r.inventory} (scope ${r.scope}).`).join('\n')+'\n<!-- END SPECTODO ROUTING -->\n';
   const agent=existingAgents.includes(marker)?existingAgents.replace(/\n<!-- BEGIN SPECTODO ROUTING -->[\s\S]*?<!-- END SPECTODO ROUTING -->\n/,routing):existingAgents.trimEnd()+'\n'+routing;
   if(!existsSync(join(root,path)))put(root,path,inventory);
-  if(!existsSync(join(root,'docs/spectodo-source-inventory.md')))put(root,'docs/spectodo-source-inventory.md',sourceIndex);
+  if(!existsSync(join(root,'docs/spectodo-source-inventory.md')) || get(root,'docs/spectodo-source-inventory.md')!==sourceIndex)put(root,'docs/spectodo-source-inventory.md',sourceIndex);
   if(agent!==existingAgents)put(root,'AGENTS.md',agent);
   return {originalFiles};
 }
@@ -86,6 +86,14 @@ test('kickoff E2E: documentation-only initial / repeated / evidence update / aud
     updateItem(root,'SPECTODO.md','- [ ] PLAN-001 [V0] [P1] A design baseline can be reviewed | D:x I:- P:- V:.','- [x] PLAN-001 [V0] [P1] A design baseline can be reviewed | D:x I:- P:- V:x');
     audit(root,['SPECTODO.md'],[{workspace:'.',inventory:'SPECTODO.md'}],['.']);
     assert.match(get(root,'SPECTODO.md'),/PRODUCT-001 .* I:\. P:\. V:\./);
+    const stateBeforeNewEvidence=get(root,'SPECTODO.md');
+    put(root,'docs/new-evidence.md','# New evidence added after initial adoption\\n');
+    install(root,{inventory:inv,scope:'STUDY'});
+    assert.match(get(root,'docs/spectodo-source-inventory.md'),/docs\\/new-evidence\\.md/);
+    assert.equal(get(root,'SPECTODO.md'),stateBeforeNewEvidence,'new source must not reset existing progress');
+    const updatedHash=digest(root);
+    install(root,{inventory:inv,scope:'STUDY'});
+    assert.equal(digest(root),updatedHash,'second update run must not churn bytes');
   } finally {rmSync(root,{recursive:true,force:true});}
 });
 
