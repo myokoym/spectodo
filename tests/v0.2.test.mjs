@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
 
 const read = p => readFileSync(new URL('../'+p,import.meta.url),'utf8');
@@ -58,4 +59,22 @@ test('canonical references exist and documented relative links resolve',()=>{
       assert.ok(existsSync(new URL('../'+path,import.meta.url)),'broken Spectodo @ref '+path);
     }
   }
+});
+
+test('section grammar rejects blank gaps within required consecutive records',()=>{
+  const splitVersion=single.replace('- V0: Planning','- V0: Planning\n\n- V1: Later');
+  assert.ok(validateInventory(splitVersion,'SPECTODO.md').errors.some(x=>x.includes('blank within version')));
+  const preScope=single.replace('# Scope\n- PROJECT: .','# Scope\n\n- PROJECT: .');
+  assert.ok(validateInventory(preScope,'SPECTODO.md').errors.some(x=>x.includes('blank before scope')));
+  const splitItems=single+'\n\n- [ ] PLAN-002 [V0] [P2] Another output exists | D:. I:- P:- V:.';
+  assert.ok(validateInventory(splitItems,'SPECTODO.md').errors.some(x=>x.includes('blank within category')));
+});
+test('source inventory covers every tracked file including itself',()=>{
+  const files=execFileSync('git',['ls-files'],{encoding:'utf8'}).trim().split('\n');
+  const index=read('docs/spectodo-source-inventory.md');
+  for(const p of files)assert.ok(index.includes('| '+p+' |'),'path not indexed: '+p);
+});
+test('AGENTS root route is explicit and unique',()=>{
+  const routes=read('AGENTS.md').split('\n').filter(x=>/^\| \. \| SPECTODO.md \| SPECTODO \|/.test(x));
+  assert.equal(routes.length,1);
 });

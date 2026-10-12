@@ -8,7 +8,14 @@ export function validateInventory(source, path, options={}) {
   function escapedTextValid(s){if(!s.trim())return false;for(let i=0;i<s.length;i++){if(s[i]==="|")return false;if(s[i]==="\\"){if(i+1>=s.length||!["|","\\"].includes(s[i+1]))return false;i++;}}return true;}
   for(let j=0;j<lines.length;j++){
     const line=lines[j], n=j+1;
-    if(!line.trim())continue;
+    if(!line.trim()){
+      const next=lines.slice(j+1).find(t=>t.trim())||"";
+      if(section==="scope" && scopeDecl===0)error(n,"blank before scope declaration");
+      if(section==="versions" && /^- V\\d+:/.test(next))error(n,"blank within version declarations");
+      if(section==="constraints" && /^- [A-Z][A-Z0-9-]*-\\d{3} /.test(next))error(n,"blank within constraints");
+      if(section==="category" && next.startsWith("- ["))error(n,"blank within category records");
+      continue;
+    }
     if(line==="# Scope"){flushCat(n);sections.push("scope");section="scope";category="";scopeCount++;continue;}
     if(line==="# Versions"){flushCat(n);sections.push("versions");section="versions";category="";continue;}
     if(line==="# Constraints"){flushCat(n);sections.push("constraints");section="constraints";category="";continue;}
