@@ -20,14 +20,17 @@ test('README and copied guide offer the same safe Japanese invocation',()=>{
   assert.deepEqual(portablePrompts,prompts,'copied guide must contain the identical usage commands');
   for(const p of prompts){
     assert.match(p,/Spectodoの詳細実行計画/);
-    assert.match(p,/対象「AUTH-001」/);
+    assert.match(p,/docs\/spectodo-execution\/README\.md/);
     assert.match(p,/検証|確認/);
   }
-  assert.match(prompts[0],/今回は実作業を開始しない/);
-  assert.match(prompts[0],/失敗時の停止条件/);
-  assert.match(prompts[1],/作業を実行してください/);
-  assert.match(prompts[1],/想定外の問題/);
-  assert.match(prompts[1],/対象の計画が存在しない、または一意に特定できない場合は停止/);
+  assert.match(prompts[0],/未完了Requirement全件/);
+  assert.match(prompts[0],/全Scope・対象Version/);
+  assert.match(prompts[0],/実行順序/);
+  assert.match(prompts[0],/不明点は該当単位だけblocked/);
+  assert.match(prompts[0],/実作業を開始しない/);
+  assert.match(prompts[1],/依存順に連続して実行してください/);
+  assert.match(prompts[1],/項目や計画ファイルごとに確認待ちせず/);
+  assert.match(prompts[1],/影響しない作業は継続してください/);
   assert.match(prompts[1],/SPECTODO\.mdのD\/I\/P\/V/);
   assert.match(entry,/専用コマンドやSkillの全文を読む必要はありません/);
   assert.match(entry,/古い固定SHA/);
@@ -77,7 +80,7 @@ test('canonical inventory preserves language grammar and keeps model pilot incom
 });
 
 
-test('canonical kickoff explicitly opts in to exactly one planning-only execution handoff after inventory',()=>{
+test('canonical kickoff explicitly opts in to repository-wide grouped planning after inventory',()=>{
   const adoption=read('docs/adoption.md');
   const kickoff=read('.agents/skills/spectodo-kickoff/SKILL.md');
   const guide=read('docs/optional-execution-plans.md');
@@ -92,20 +95,26 @@ test('canonical kickoff explicitly opts in to exactly one planning-only executio
   assert.ok(prompt.indexOf('【3.5. 今回指定された詳細実行計画の追加') <
     prompt.indexOf('【4. Codexの作業導線'));
   for (const s of [
-    '最初に着手する作業1件', 'まだ実装・設計変更の実作業は開始しない',
+    '未完了のRequirement全件', '全ての正本scope', '採用済みの対象Version',
     'docs/optional-execution-plans.md','examples/execution-plan.md',
-    '進行中項目', '同優先度', '計画生成だけ保留', 'docs/spectodo-execution/',
-    '対象パス', '具体的操作', '期待結果', '検証方法', '失敗時の停止',
-    '再開時のチェックポイント', '計画を作っただけで実装や検証を完了扱いにしない',
-    'キックオフ全体を投げ出さず', '詳細実行計画の対象ID・保存先',
-  ]) assert.ok(prompt.includes(s),'Missing kickoff-plan requirement: '+s);
-  assert.match(kickoff,/NOW explicitly requests \*\*one planning-only detailed execution plan\*\*/);
-  assert.match(kickoff,/do not abandon the other kickoff phases or guess/);
+    'docs/spectodo-execution/README.md', '1項目だけ選んで終了してはいけません',
+    'coverage表', '依存関係の順に段階化', '同一優先度や複数scopeは停止理由ではありません',
+    '作業単位', '具体操作', '期待結果', '検証', '失敗時の停止',
+    '再開位置', '該当する作業単位だけをblocked',
+    '計画の一括作成', '開始しません',
+    '独立した他の作業', '詳細計画がカバーするID数',
+  ]) {
+    if(s==='該当する作業単位だけをblocked') assert.match(prompt,/作業単位だけをblocked/);
+    else assert.ok(prompt.includes(s),'Missing repository-wide kickoff requirement: '+s);
+  }
+  assert.match(kickoff,/complete, planning-only coverage/);
+  assert.match(kickoff,/Do NOT arbitrarily stop after the first item/);
+  assert.match(kickoff,/without per-ID confirmation/);
   assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
-  assert.match(guide,/次の着手対象1件だけを計画します/);
+  assert.match(guide,/採用済み未完了Requirement全件をカバーする/);
   assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
   assert.match(readme,/初回キックオフで詳細手順も残したい場合/);
   assert.match(guide,/^## 最短の指定方法（そのままコピー）/m);
-  // Existing instructions for creating a single plan or safely executing one must remain intact.
+  // Both copyable instructions must support batches; targeting one ID remains optional.
   assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
 });
