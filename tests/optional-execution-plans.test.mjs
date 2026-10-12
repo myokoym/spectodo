@@ -32,7 +32,7 @@ test('README and copied guide offer the same safe Japanese invocation',()=>{
   assert.match(prompts[1],/項目や計画ファイルごとに確認待ちせず/);
   assert.match(prompts[1],/影響しない作業は継続してください/);
   assert.match(prompts[1],/SPECTODO\.mdのD\/I\/P\/V/);
-  assert.match(entry,/専用コマンドやSkillの全文を読む必要はありません/);
+  assert.match(entry,/専用コマンドやSkillの全文を読む必要もありません/);
   assert.match(entry,/古い固定SHA/);
   assert.match(adoption,/\[README「指定方法（そのままコピーして使う）」\]\(\.\.\/README\.md#指定方法そのままコピーして使う\)/);
   assert.match(guide,/このガイドを導入先に配布すれば/);
@@ -113,7 +113,7 @@ test('canonical kickoff explicitly opts in to repository-wide grouped planning a
   }
   assert.match(kickoff,/complete, planning-only coverage/);
   assert.match(kickoff,/Do NOT arbitrarily stop after the first item/);
-  assert.match(kickoff,/without per-ID confirmation/);
+  assert.match(kickoff,/without per-ID confirmation/i);
   assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
   assert.match(guide,/採用済み未完了Requirement全件をカバーする/);
   assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
