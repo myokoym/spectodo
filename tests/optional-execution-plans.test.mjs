@@ -75,3 +75,37 @@ test('canonical inventory preserves language grammar and keeps model pilot incom
   assert.ok(!inventory.includes('### 手順1：'));
   assert.ok(!read('spec/language-v0.2.md').includes('## 詳細実行計画'),'no change to grammar');
 });
+
+
+test('canonical kickoff explicitly opts in to exactly one planning-only execution handoff after inventory',()=>{
+  const adoption=read('docs/adoption.md');
+  const kickoff=read('.agents/skills/spectodo-kickoff/SKILL.md');
+  const guide=read('docs/optional-execution-plans.md');
+  const readme=read('README.md');
+  const start=adoption.indexOf('~~~text');
+  const finish=adoption.indexOf('~~~',start+7);
+  const prompt=adoption.slice(start+7,finish);
+  assert.ok(start>=0&&finish>start);
+  assert.match(prompt,/【3\.5\. 今回指定された詳細実行計画の追加/);
+  assert.ok(prompt.indexOf('【3. 共通Spectodoの詳細導入】') <
+    prompt.indexOf('【3.5. 今回指定された詳細実行計画の追加'));
+  assert.ok(prompt.indexOf('【3.5. 今回指定された詳細実行計画の追加') <
+    prompt.indexOf('【4. Codexの作業導線'));
+  for (const s of [
+    '最初に着手する作業1件', 'まだ実装・設計変更の実作業は開始しない',
+    'docs/optional-execution-plans.md','examples/execution-plan.md',
+    '進行中項目', '同優先度', '計画生成だけ保留', 'docs/spectodo-execution/',
+    '対象パス', '具体的操作', '期待結果', '検証方法', '失敗時の停止',
+    '再開時のチェックポイント', '計画を作っただけで実装や検証を完了扱いにしない',
+    'キックオフ全体を投げ出さず', '詳細実行計画の対象ID・保存先',
+  ]) assert.ok(prompt.includes(s),'Missing kickoff-plan requirement: '+s);
+  assert.match(kickoff,/NOW explicitly requests \*\*one planning-only detailed execution plan\*\*/);
+  assert.match(kickoff,/do not abandon the other kickoff phases or guess/);
+  assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
+  assert.match(guide,/次の着手対象1件だけを計画します/);
+  assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
+  assert.match(readme,/初回キックオフで詳細手順も残したい場合/);
+  assert.match(guide,/^## 最短の指定方法（そのままコピー）/m);
+  // Existing instructions for creating a single plan or safely executing one must remain intact.
+  assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
+});
