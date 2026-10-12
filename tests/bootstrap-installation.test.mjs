@@ -47,6 +47,14 @@ test('new planning-only repository can install pinned source files, create inven
     assert.deepEqual(validateRepository([{path:'SPECTODO.md',source:inv}],[{workspace:'.',inventory:'SPECTODO.md'}],['.']),[]);
     const firstIndex=get('docs/spectodo-source-inventory.md');
     for(const p of required)assert.ok(firstIndex.includes('- '+p),'installed source missing from index: '+p);
+    // Consumer README is intentionally *not* a copy of upstream's README.
+    // All invocation instructions must remain available in the pinned guide itself.
+    assert.doesNotMatch(get('README.md'),/詳細実行計画オプション/);
+    const guide=get('docs/optional-execution-plans.md');
+    assert.match(guide,/## 最短の指定方法（そのままコピー）/);
+    assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
+    assert.doesNotMatch(guide,/\.\.\/README\.md/);
+    assert.ok(existsSync(join(consumer,'examples/execution-plan.md')),'guide example must be available in consumer');
     const before=required.concat(['SPECTODO.md','AGENTS.md','docs/spectodo-source-inventory.md']).map(p=>get(p));
     const rerun=applyKickoff({root:consumer,inventories:{'SPECTODO.md':inv},routes});
     assert.deepEqual(rerun.changes,[],'fixed-source rerun must not churn installed files');
