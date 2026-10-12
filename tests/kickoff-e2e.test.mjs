@@ -110,6 +110,7 @@ test('kickoff E2E: application code, two explicit scopes, rerun and failed test 
     const hash=digest(root);install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes});
     assert.equal(digest(root),hash);
     put(root,'apps/web/src/app.mjs',"export const answer = () => 41;\n");
+    assert.throws(()=>execFileSync(process.execPath,['--test',testFile],{encoding:'utf8',stdio:'pipe'}),'a real regression must fail the application test');
     updateItem(root,'apps/web/SPECTODO.md',
       '- [x] APP-001 [V0] [P1] App answer is 42 | D:x I:x P:- V:x',
       '- [ ] APP-001 [V0] [P1] App answer is 42 | D:x I:~ P:- V:~ | !Implementation no longer returns 42');
