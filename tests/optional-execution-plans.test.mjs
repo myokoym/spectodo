@@ -113,7 +113,7 @@ test('canonical kickoff explicitly opts in to repository-wide grouped planning a
   }
   assert.match(kickoff,/complete, planning-only coverage/);
   assert.match(kickoff,/Do NOT arbitrarily stop after the first item/);
-  assert.match(kickoff,/without per-ID confirmation/i);
+  assert.match(kickoff,/without seeking permission after every ID/);
   assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
   assert.match(guide,/採用済み未完了Requirement全件をカバーする/);
   assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
