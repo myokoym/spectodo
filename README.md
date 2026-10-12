@@ -24,7 +24,7 @@ Scopeはinventoryが表す対象を定義します。単一プロジェクトは
 
 ## 共通導入
 
-[唯一の導入手順・Agent依頼文](docs/adoption.md)を使います。参照元の[共通キックオフSkill](.agents/skills/spectodo-kickoff/SKILL.md)が、資料・コード・履歴の棚卸し、scope設定、詳細inventory、source index、移行、検証を一貫して実行します。日常的な[運用Skill](.agents/skills/spectodo/SKILL.md)は追加・更新・照合・監査を行います。CLIや専用rendererは日常利用に不要です。
+**新規リポジトリでは、ローカルSkillの存在を前提にしません。** [ゼロから使える統一依頼文・外部取得手順](docs/adoption.md)を対象リポジトリのCodexに渡し、外部配布元 https://github.com/myokoym/spectodo から同一コミットの正式仕様とSkillを取得して導入します。配布元の[共通キックオフSkill](.agents/skills/spectodo-kickoff/SKILL.md)が、資料・コード・履歴の棚卸し、scope設定、資料構造の改善、詳細inventory、source index、移行、検証を一貫して実行します。日常的な[運用Skill](.agents/skills/spectodo/SKILL.md)は追加・更新・照合・監査を行います。CLIや専用rendererは日常利用に不要です。
 
 ## 正本と資料
 
