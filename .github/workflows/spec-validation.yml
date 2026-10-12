@@ -1,0 +1,12 @@
+name: Spectodo v0.2 conformity
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node.js test suite (no external dependencies)
+        run: node --test tests/*.test.mjs

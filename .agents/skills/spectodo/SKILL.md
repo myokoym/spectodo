@@ -5,12 +5,12 @@ description: Read, add, update, reconcile, prioritize, or audit a Spectodo speci
 
 Use the repository's Spectodo language specification as the authority.
 
-Before modifying a Spectodo inventory, read any existing repository and applicable ancestor workspace instructions, select the canonical inventory using the rules below, and read the matching language specification. A v0.1-only repository implicitly routes its repository-root workspace to the root `SPECTODO.md`; it does not require explicit routing instructions or an AGENTS.md file. Explicit workspace-to-scope routing is required only for mixed-version repositories or repositories using v0.2. Read any shared policy source those instructions identify before applying scope-local constraints. v0.2 is currently a proposal; use it only when the repository has explicitly opted into that proposal through its scope declaration and routing instructions:
+Before modifying a Spectodo inventory, read any existing repository and applicable ancestor workspace instructions, select the canonical inventory using the rules below, and read the matching language specification. A v0.1-only legacy repository implicitly routes its root workspace to the old root inventory; it does not require explicit routing instructions. New installations and deliberate upgrades use the single stable v0.2 format and require generated explicit workspace routing. Read any shared policy source those instructions identify before applying scope-local constraints. The kickoff Skill at .agents/skills/spectodo-kickoff/SKILL.md is the single standard entrypoint; do not ask a consumer to choose the Spectodo language version:
 
 - An inventory without a `# Scope` section follows `spec/language-v0.1.md`.
 - An inventory with `# Scope` follows the complete, standalone `spec/language-v0.2.md`.
 
-Do not apply v0.2 rules to an unscoped v0.1 inventory or combine the two specifications.
+Do not apply v0.2 rules to an unscoped legacy v0.1 inventory or combine specifications. Never silently migrate legacy on routine updates. For a new repository, start with v0.2 even for root-only or no-code cases. For existing v0.1 upgrades, use the migration ledger and common kickoff.
 
 The format is intentionally usable without a CLI. Do not require or introduce a dedicated renderer, database, board, or CLI to perform ordinary Spectodo work.
 
@@ -26,6 +26,10 @@ ChatGPT/agents are the primary inventory updaters. Do not treat human direct sou
 6. When auditing the repository, enumerate every `SPECTODO.md` path. Use the implicit root route for a v0.1-only repository and explicit routing instructions for mixed-version or v0.2 repositories to identify canonical files; exclude examples or fixtures only when their support status is explicit. Check that every routed inventory exists and every canonical inventory has one applicable route.
 7. Verify canonical v0.2 paths match declared roots and that scope IDs and roots are unique. Treat an undocumented, duplicate, or unrouteable inventory file as an audit error.
 8. If the selected scope has no `SPECTODO.md` and the task is only analysis/audit, report that instead of inventing or guessing another canonical file.
+
+## Bootstrap, rerun and repository-wide inventory
+
+For initial adoption, large documentation refactors, v0.1 upgrades, or a repository-wide refresh, invoke spectodo-kickoff first. It reads complete source inventory before deciding scope and records evidence, provenance, current vs proposal vs historical authority, ambiguities, document coverage and missing requirements. Keep source index in supporting docs, not in canonical SPECTODO.md. On rerun reuse stable IDs and axes, generate no duplicate routes and perform an idempotence audit. Research-only verifiable outcomes may have I:-/P:- when those axes do not apply; absence of code is never proof of completion or non-applicability for an intended implementation.
 
 ## Read
 

@@ -1,0 +1,80 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync, existsSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
+
+const read = p => readFileSync(new URL('../'+p,import.meta.url),'utf8');
+const single = '# Scope\n- PROJECT: .\n\n# Versions\n- V0: Planning\n\n## PLAN: Planning\n- [ ] PLAN-001 [V0] [P1] Documentation can be reviewed | D:x I:- P:- V:.';
+const nested = '# Scope\n- STORE: apps/store/\n\n# Versions\n- V0: Build\n\n## WEB: Store\n- [ ] WEB-001 [V0] [P1] Product catalog is visible | D:x I:. P:. V:.';
+test('root v0.2 repository is structurally valid',()=> assert.deepEqual(validateInventory(read('SPECTODO.md'),'SPECTODO.md').errors,[]));
+test('planning-only design outcome is valid',()=> assert.deepEqual(validateInventory(single.replace('V:.','V:x').replace('[ ]','[x]'),'SPECTODO.md').errors,[]));
+test('intended future implementation stays pending',()=> assert.deepEqual(validateInventory(nested,'apps/store/SPECTODO.md').errors,[]));
+test('root and nested routes are unambiguous',()=>assert.deepEqual(validateRepository([{path:'SPECTODO.md',source:single},{path:'apps/store/SPECTODO.md',source:nested}],[{workspace:'.',inventory:'SPECTODO.md'},{workspace:'apps/store/',inventory:'apps/store/SPECTODO.md'}],['.','apps/store/']),[]));
+test('missing and duplicate routes are rejected',()=> assert.ok(validateRepository([{path:'SPECTODO.md',source:single}],[{workspace:'.',inventory:'SPECTODO.md'},{workspace:'.',inventory:'SPECTODO.md'}],['.']).length>0));
+test('checkbox mismatch is rejected',()=> assert.ok(validateInventory(single.replace('[ ]','[x]'),'SPECTODO.md').errors.length>0));
+test('gap and escapes are validated',()=>{const bad=single.replace('D:x','D:~');assert.ok(validateInventory(bad,'SPECTODO.md').errors.length>0); const ok=single.replace('Documentation can be reviewed','Pipe \\| and slash \\\\ can be read');assert.deepEqual(validateInventory(ok,'SPECTODO.md').errors,[]);});
+test('idempotent read/audit leaves identical file bytes',()=>{const source=read('SPECTODO.md');assert.deepEqual(validateInventory(source,'SPECTODO.md'),validateInventory(source,'SPECTODO.md'));assert.equal(source,read('SPECTODO.md'));});
+test('v0.1 root migration preserves all record lines exactly',()=>{const old=read('examples/SPECTODO.md');const migrated='# Scope\n- PROJECT: .\n\n'+old;assert.deepEqual(validateInventory(migrated,'SPECTODO.md').errors,[]); assert.equal(migrated.replace(/^# Scope\n- PROJECT: \.\n\n/,''),old);});
+test('v0.2 scoped sample matches declared canonical path',()=>assert.deepEqual(validateInventory(read('examples/scoped-SPECTODO.md'),'apps/storefront/SPECTODO.md').errors,[]));
+test('v0.2 root/planning samples pass with staged paths',()=>{assert.deepEqual(validateInventory(read('examples/root-v0.2.md'),'SPECTODO.md').errors,[]);assert.deepEqual(validateInventory(read('examples/planning-v0.2.md'),'SPECTODO.md').errors,[]);});
+test('duplicate scope roots are rejected',()=>{const dup=nested.replace('STORE: apps/store/','ANOTHER: .');assert.ok(validateRepository([{path:'SPECTODO.md',source:single},{path:'SPECTODO.md',source:dup}],[{workspace:'.',inventory:'SPECTODO.md'}],['.']).length>0);});
+
+test('duplicate item IDs are rejected',()=>{
+  const two=single.replace('Documentation can be reviewed |','Documentation can be reviewed |')+'\n- [ ] PLAN-001 [V0] [P2] Another behavior is specified | D:x I:. P:. V:.';
+  assert.ok(validateInventory(two,'SPECTODO.md').errors.some(x=>x.includes('duplicate ID')));
+});
+test('references can be checked against actual repository files',()=>{
+  const good=single+' | @README.md';
+  assert.deepEqual(validateInventory(good,'SPECTODO.md',{knownPaths:new Set(['README.md'])}).errors,[]);
+  assert.ok(validateInventory(good,'SPECTODO.md',{knownPaths:new Set()}).errors.some(x=>x.includes('missing reference')));
+});
+test('invalid backslash escapes are rejected',()=>{
+  assert.ok(validateInventory(single.replace('Documentation can be reviewed','Invalid \\n escape'),'SPECTODO.md').errors.length>0);
+});
+test('incremental update preserves item identity while reconciling evidence',()=>{
+  const before=single,after=single.replace('D:x I:- P:- V:.','D:x I:- P:- V:x').replace('[ ]','[x]');
+  assert.deepEqual(validateInventory(before,'SPECTODO.md').errors,[]);
+  assert.deepEqual(validateInventory(after,'SPECTODO.md').errors,[]);
+  assert.equal((before.match(/PLAN-001/g)||[]).length,1);
+  assert.equal((after.match(/PLAN-001/g)||[]).length,1);
+  assert.equal(after.replace('D:x I:- P:- V:x','D:x I:- P:- V:.').replace('[x]','[ ]'),before);
+});
+
+test('canonical references exist and documented relative links resolve',()=>{
+  for(const path of ['README.md','docs/adoption.md','docs/migration-v0.1-to-v0.2.md','docs/v0.2-stable-decision.md']){
+    const text=read(path);
+    for(const m of text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)){
+      if(/^(https?:|mailto:|#)/.test(m[1]))continue;
+      const resolved=new URL(m[1].split('#')[0],new URL('../'+path,import.meta.url));
+      assert.ok(existsSync(resolved),path+' has broken Markdown link '+m[1]);
+    }
+  }
+  for(const line of read('SPECTODO.md').split('\n')){
+    if(!line.startsWith('- [')||!line.includes(' | @'))continue;
+    const refs=line.split(' | ').at(-1);
+    if(!refs.startsWith('@'))continue;
+    for(const at of refs.split(' ')){
+      const path=at.slice(1);if(/^https?:/.test(path))continue;
+      assert.ok(existsSync(new URL('../'+path,import.meta.url)),'broken Spectodo @ref '+path);
+    }
+  }
+});
+
+test('section grammar rejects blank gaps within required consecutive records',()=>{
+  const splitVersion=single.replace('- V0: Planning','- V0: Planning\n\n- V1: Later');
+  assert.ok(validateInventory(splitVersion,'SPECTODO.md').errors.some(x=>x.includes('blank within version')));
+  const preScope=single.replace('# Scope\n- PROJECT: .','# Scope\n\n- PROJECT: .');
+  assert.ok(validateInventory(preScope,'SPECTODO.md').errors.some(x=>x.includes('blank before scope')));
+  const splitItems=single+'\n\n- [ ] PLAN-002 [V0] [P2] Another output exists | D:. I:- P:- V:.';
+  assert.ok(validateInventory(splitItems,'SPECTODO.md').errors.some(x=>x.includes('blank within category')));
+});
+test('source inventory covers every tracked file including itself',()=>{
+  const files=execFileSync('git',['ls-files'],{encoding:'utf8'}).trim().split('\n');
+  const index=read('docs/spectodo-source-inventory.md');
+  for(const p of files)assert.ok(index.includes('| '+p+' |'),'path not indexed: '+p);
+});
+test('AGENTS root route is explicit and unique',()=>{
+  const routes=read('AGENTS.md').split('\n').filter(x=>/^\| \. \| SPECTODO.md \| SPECTODO \|/.test(x));
+  assert.equal(routes.length,1);
+});

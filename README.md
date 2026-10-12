@@ -1,81 +1,39 @@
 # Spectodo
 
-Spectodoは、**プロジェクトの仕様と、その設計・実装・デプロイ・適合確認の進捗をscopeごとのMarkdown inventoryで管理する形式**です。
+Spectodoは、検証可能な仕様と設計・実装・デプロイ・検証の状態を、GitHubで読めるMarkdown inventoryとして残す形式です。完了済み項目を保存し、企画・調査だけの段階からコード実装・運用まで同じ形式で扱います。
 
-完了済み項目も削除せず残すため、単なるTODO一覧ではなく、現在のプロジェクトが「何を備えていて、どこまで確認できているか」を後から再構成できます。
+**現在の正式仕様は Spectodo Language v0.2 stable** です。新規導入・明示的なアップグレードは共通のv0.2を使用し、対象プロジェクトに言語バージョンを選ばせません。既存v0.1ファイルはそのまま有効で、明示的な移行なしに再解釈しません。
 
-Spectodo Language v0.1はstableです。明示的なscopeを持つ複数inventoryを扱うv0.2をproposalとして検討しています。
+## 仕様の見方
 
-## 特徴
+~~~
+# Scope
+- PROJECT: .
 
-- v0.1のcanonical inventoryはrepository rootの `SPECTODO.md`。既存利用者の移行は不要で、複数scopeはopt-inのv0.2 proposalで扱う
-- 1 Requirement = 1 Markdown task-list item = 1 source line
-- category / target version / priority / D-I-P-V progressを保持
-- 完了済みRequirementもinventoryから削除しない
-- 永続的な制約は `# Constraints` としてRequirementから分離。v0.1ではproject-wide、v0.2ではinventoryのscope-localな制約を記載し、共有制約は適用対象の全workspaceが読む単一のrepository-level policy sourceへ置く
-- design note、implementation note、work logはinventoryへ埋め込まない
-- 必要な詳細はrepository-relative pathやURLを `@ref` で参照
-- 専用CLI・専用renderer・database・boardを通常利用の前提にしない
-- ChatGPT / Coding Agentを主な更新者とし、人間によるsource直接編集を必須にしない
-
-## 例
-
-```md
 # Versions
-- V0: Prototype
-- V1: MVP
+- V0: 企画
 
 # Constraints
-- SEC-001 認証情報を平文保存しない
+- DOC-001 未確認事項を確定事項として記載しない
 
-## AUTH: 認証
-- [ ] AUTH-001 [V0] [P1] Android実機でメールアドレスとパスワードを使ってログインできる | D:x I:x P:x V:~ | !Android実機でのログイン検証が未完了
-- [x] AUTH-002 [V0] [P1] ログアウトできる | D:x I:x P:x V:x
-```
+## PLAN: 企画
+- [ ] PLAN-001 [V0] [P1] 主要ユースケースが確認可能な仕様文として定義されている | D:~ I:- P:- V:. | !ユースケース一覧の検証が未完了
+~~~
 
-進捗軸:
+Scopeはinventoryが表す対象を定義します。単一プロジェクトはroot SPECTODO.md、独立した複数scopeは各rootにSPECTODO.mdを配置します。V0等は製品の目標バージョンで、Spectodo Language v0.2とは別です。x=完了、~=部分、>=進行中、.=未着手、-=非適用です。全軸がxまたは-のときだけチェックボックスが[x]になります。
 
-- `D` = Design
-- `I` = Implementation
-- `P` = Deployment
-- `V` = Verification
+## 共通導入
 
-状態:
+[唯一の導入手順・Agent依頼文](docs/adoption.md)を使います。参照元の[共通キックオフSkill](.agents/skills/spectodo-kickoff/SKILL.md)が、資料・コード・履歴の棚卸し、scope設定、詳細inventory、source index、移行、検証を一貫して実行します。日常的な[運用Skill](.agents/skills/spectodo/SKILL.md)は追加・更新・照合・監査を行います。CLIや専用rendererは日常利用に不要です。
 
-- `x` = done
-- `~` = partial
-- `>` = in progress
-- `.` = todo
-- `-` = not applicable
+## 正本と資料
 
-先頭checkboxはD/I/P/Vから導出します。すべてが `x` または `-` のときだけ `[x]` になります。
+- [v0.2 stable仕様](spec/language-v0.2.md) — 新規導入の正式仕様
+- [v0.1 stable仕様](spec/language-v0.1.md) — 既存利用者の互換形式（変更なし）
+- [v0.2正式化レビュー](docs/v0.2-stable-decision.md) — 差分、解決事項、互換性
+- [v0.1移行・rollback規程](docs/migration-v0.1-to-v0.2.md)
+- [検証・残存課題](docs/validation-v0.2.md)
+- [root新規例](examples/root-v0.2.md) / [複数scope例](examples/scoped-SPECTODO.md) / [設計-only例](examples/planning-v0.2.md) / [legacy v0.1例](examples/SPECTODO.md)
+- [このrepositoryのinventory](SPECTODO.md) と [workspace routing](AGENTS.md)
 
-`V` はstatement自体を証明するために必要な検証へ限定します。statementが要求していないpolish・tuning・主観的なquality評価を元Requirementの `V:~` 理由にせず、追跡する場合は別Requirementとしてversionとpriorityを割り当てます。
-
-## 導入
-
-既存プロジェクトへの導入手順と、ChatGPT / Coding Agentへそのまま渡せる導入依頼文は **[Spectodo v0.1 導入方法](docs/adoption.md)** を参照してください。
-
-導入時に人間がSpectodo構文を手入力することは前提にしていません。
-
-## 主なファイル
-
-- [Spectodo v0.1 導入方法](docs/adoption.md) — 導入手順と導入依頼文の正本
-- [Spectodo Language v0.1](spec/language-v0.1.md) — stable版の構文・意味・validation rules
-- [Spectodo Language v0.2 proposal](spec/language-v0.2.md) — 明示scope、repository-wide検証、v0.1からの明示移行案
-- [Scoped inventory example](examples/scoped-SPECTODO.md) — v0.2 proposalのnested inventory例
-- [公式example](examples/SPECTODO.md) — 有効なSpectodo inventoryの例
-- [SPECTODO.md](SPECTODO.md) — このrepository自身のcanonical inventory
-- [Repository Agent Skill](.agents/skills/spectodo/SKILL.md) — Agent向けの追加・更新・監査ルール
-
-調査・検討履歴は `research/` に保存しています。historical researchは、現行仕様が明示的に採用していない限りnormativeではありません。
-
-## 現在の状態
-
-- Spectodo Language: **v0.1 stable** / **v0.2 scoped-inventory proposal**
-- canonical project filename: **`SPECTODO.md`**
-- dedicated CLI / renderer: **不要**
-- このrepositoryのV0 / V1 Requirements: **完了**
-- V2 Release readiness: **進行中**（scoped inventory v0.2 proposal）
-
-現在stableなsyntax / semanticsのsource of truthは `spec/language-v0.1.md` です。v0.2 proposalは `spec/language-v0.2.md` に分け、このrepositoryの現在状態は引き続きrootの `SPECTODO.md` で管理します。
+調査履歴は research/ に保存しています。過去の提案と当時の調査は、現行仕様が明示的に採用しない限りnormativeではありません。
