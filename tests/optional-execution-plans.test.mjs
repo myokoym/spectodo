@@ -92,13 +92,13 @@ test('optional multi-requirement batch planning is disabled by default, enabled 
   const defaultStart=adoption.indexOf('~~~text');
   const defaultEnd=adoption.indexOf('~~~',defaultStart+7);
   const defaultPrompt=adoption.slice(defaultStart+7,defaultEnd);
-  assert.match(defaultPrompt,/詳細実行計画は追加で明示指定した場合だけ作成/);
+  assert.match(defaultPrompt,/詳細実行計画は明示指定時のみ作成/);
   assert.doesNotMatch(defaultPrompt,/詳細実行計画も有効化/);
-  const optStart=adoption.indexOf('## 詳細実行計画も作りたい場合');
-  const optEnd=adoption.indexOf('## 配布元・バージョン・参照のルール');
+  const optStart=adoption.indexOf('## 詳細実行計画も必要な場合');
+  const optEnd=adoption.indexOf('## 配布元・再現性・役割分担');
   const optIn=adoption.slice(optStart,optEnd);
   assert.ok(optStart>defaultEnd&&optEnd>optStart);
-  for(const word of ['1文を追加','未完了の全Requirement','依存順','一括作成','実装は開始しない'])
+  for(const word of ['末尾にのみ','未完了の採用済みRequirement全体','依存順','一括作成','実装は開始しない'])
     assert.ok(optIn.includes(word),'missing optional switch: '+word);
   assert.match(kickoff,/default kickoff MUST NOT generate/);
   assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
