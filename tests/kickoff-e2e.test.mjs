@@ -4,6 +4,7 @@ import {mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync, readdir
 import {join, dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
 
 function sandbox() { return mkdtempSync(join(tmpdir(), 'spectodo-kickoff-')); }
@@ -18,13 +19,13 @@ function all(root,rel='') {
 function digest(root) {
   return createHash('sha256').update(all(root).map(p=>p+'\0'+get(root,p)).join('\0')).digest('hex');
 }
-function install(root,{inventory,scope='PROJECT',path='SPECTODO.md'}) {
+function install(root,{inventory,scope='PROJECT',path='SPECTODO.md',routes=[{workspace:'.',inventory:'SPECTODO.md',scope}]}) {
   const originalFiles=all(root).filter(p=>!p.startsWith('.agents/') && !p.startsWith('spec/'));
   const sourceIndex='# Source index\n\n'+originalFiles.map(p=>'- '+p).join('\n')+'\n';
   const existingAgents=existsSync(join(root,'AGENTS.md'))?get(root,'AGENTS.md'):'# Agent instructions\n';
   const marker='\n<!-- BEGIN SPECTODO ROUTING -->\n';
-  const routing=marker+'Active workspace root . maps to SPECTODO.md (scope '+scope+').\n<!-- END SPECTODO ROUTING -->\n';
-  const agent=existingAgents.includes(marker)?existingAgents:existingAgents.trimEnd()+'\n'+routing;
+  const routing=marker+routes.map(r=>`Active workspace root ${r.workspace} maps to ${r.inventory} (scope ${r.scope}).`).join('\n')+'\n<!-- END SPECTODO ROUTING -->\n';
+  const agent=existingAgents.includes(marker)?existingAgents.replace(/\n<!-- BEGIN SPECTODO ROUTING -->[\s\S]*?<!-- END SPECTODO ROUTING -->\n/,routing):existingAgents.trimEnd()+'\n'+routing;
   if(!existsSync(join(root,path)))put(root,path,inventory);
   if(!existsSync(join(root,'docs/spectodo-source-inventory.md')))put(root,'docs/spectodo-source-inventory.md',sourceIndex);
   if(agent!==existingAgents)put(root,'AGENTS.md',agent);
@@ -81,6 +82,7 @@ test('kickoff E2E: documentation-only initial / repeated / evidence update / aud
     assert.equal(digest(root),hash,'second run must produce zero changed bytes');
     assert.deepEqual(ids(get(root,'SPECTODO.md')),ids(initial));
     assert.ok(baseline.every(x=>all(root).includes(x)),'initial documents must survive');
+    for(const p of baseline)assert.ok(get(root,'docs/spectodo-source-inventory.md').includes('- '+p),'source census missing '+p);
     updateItem(root,'SPECTODO.md','- [ ] PLAN-001 [V0] [P1] A design baseline can be reviewed | D:x I:- P:- V:.','- [x] PLAN-001 [V0] [P1] A design baseline can be reviewed | D:x I:- P:- V:x');
     audit(root,['SPECTODO.md'],[{workspace:'.',inventory:'SPECTODO.md'}],['.']);
     assert.match(get(root,'SPECTODO.md'),/PRODUCT-001 .* I:\. P:\. V:\./);
@@ -97,12 +99,15 @@ test('kickoff E2E: application code, two explicit scopes, rerun and failed test 
     put(root,'apps/web/tests/app.test.mjs',"import test from 'node:test';\nimport assert from 'node:assert/strict';\nimport {answer} from '../src/app.mjs';\ntest('answer',()=>assert.equal(answer(),42));\n");
     const rootInv='# Scope\n- SHARED: .\n\n# Versions\n- V0: Shared policy\n\n## DOC: Documentation\n- [x] DOC-001 [V0] [P1] A shared policy can be read | D:x I:- P:- V:x | @docs/policy.md\n';
     const webInv='# Scope\n- WEB: apps/web/\n\n# Versions\n- V0: Working application\n\n## APP: App\n- [x] APP-001 [V0] [P1] App answer is 42 | D:x I:x P:- V:x | @apps/web/src/app.mjs @apps/web/tests/app.test.mjs\n';
-    install(root,{inventory:rootInv,scope:'SHARED'});
+    const declaredRoutes=[{workspace:'.',inventory:'SPECTODO.md',scope:'SHARED'},{workspace:'apps/web/',inventory:'apps/web/SPECTODO.md',scope:'WEB'}];
+    install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes});
     put(root,'apps/web/SPECTODO.md',webInv);
     const routes=[{workspace:'.',inventory:'SPECTODO.md'},{workspace:'apps/web/',inventory:'apps/web/SPECTODO.md'}];
     audit(root,['SPECTODO.md','apps/web/SPECTODO.md'],routes,['.','apps/web/']);
-    assert.match(get(root,'apps/web/tests/app.test.mjs'),/assert.equal/);
-    const hash=digest(root);install(root,{inventory:rootInv,scope:'SHARED'});
+    assert.match(get(root,'AGENTS.md'),/apps\/web\/SPECTODO\.md \(scope WEB\)/);
+    const testFile=join(root,'apps/web/tests/app.test.mjs');
+    execFileSync(process.execPath,['--test',testFile],{encoding:'utf8'});
+    const hash=digest(root);install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes});
     assert.equal(digest(root),hash);
     put(root,'apps/web/src/app.mjs',"export const answer = () => 41;\n");
     updateItem(root,'apps/web/SPECTODO.md',
