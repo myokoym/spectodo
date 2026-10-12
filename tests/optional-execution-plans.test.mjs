@@ -18,6 +18,9 @@ test('optional execution plan contract is discoverable and opt-in',()=>{
   assert.match(skill,/explicitly requests/);
   assert.match(skill,/staleness/);
   assert.match(kickoff,/optional-execution-plans\.md/);
+  assert.match(kickoff,/examples\/execution-plan\.md/);
+  assert.match(adoption,/https:\/\/github\.com\/myokoym\/spectodo\/blob\/main\/examples\/execution-plan\.md/);
+  assert.match(guide,/\.\.\/examples\/execution-plan\.md/);
   assert.match(adoption,/https:\/\/github\.com\/myokoym\/spectodo\/blob\/main\/docs\/optional-execution-plans\.md/);
   assert.match(readme,/任意の詳細実行計画/);
   assert.match(example,/fictional consumer repository example/);
