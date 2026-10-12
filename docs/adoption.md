@@ -1,86 +1,46 @@
-# Spectodo v0.1 導入方法
+# Spectodo stable v0.2: 共通導入ガイド
 
-## ChatGPT / Coding Agent への依頼
+新規導入は、対象リポジトリの内容・開発段階・scope数にかかわらず **Spectodo Language v0.2 stable** を使う。既存v0.1の維持は互換性対応であって、新規導入の選択肢ではない。
 
-既存プロジェクトへ導入する場合は、対象repositoryを開いた状態で次のように依頼する。
+## 統一キックオフ依頼文
 
-```text
-このプロジェクトにSpectodo v0.1を導入して。
-参照元: https://github.com/myokoym/spectodo
+以下を対象リポジトリを開いたAgentに渡す。言語バージョンをプロジェクト単位で選ばせない。
 
-参照元の現在のstable v0.1に従い、
-- rootに SPECTODO.md を作成する
-- spec/language-v0.1.md を導入する
-- .agents/skills/spectodo/SKILL.md を導入する
-- 既存のREADME、仕様書、実装、設定、テスト等を確認し、現在分かる範囲から初期inventoryを作成する
-- 既存文書はSpectodo導入を理由に削除・置換しない
-- 不明な進捗を推測で完了扱いしない
-- 導入後にSPECTODO.mdの構文と参照切れを監査する
-```
+~~~text
+このリポジトリを全面調査し、Spectodoの共通キックオフを実行してください。
+参照元：https://github.com/myokoym/spectodo
+正式仕様：spec/language-v0.2.md
+標準Skill：.agents/skills/spectodo/SKILL.md
+キックオフSkill：.agents/skills/spectodo-kickoff/SKILL.md
 
-これだけでよい。人間がSpectodoの構文を手入力することは前提にしない。
+最初にREADME、設計・提案・決定・議事・調査記録、実装、テスト、構成、
+デプロイ、既存のSPECTODO.mdおよびAgent instructionsをリポジトリ全域で棚卸しする。
+提案・古い仕様を現行仕様と取り違えず、矛盾・未決定・根拠不足を記録する。
+正式なSpectodo v0.2仕様に従い、scope route、必要な資料整理、詳細inventoryを整備する。
+既存v0.1なら移行前に全件のdisposition ledgerを作る。既存v0.2なら冪等に更新する。
+検証とセルフレビューを実施し、変更ファイル、根拠、欠落、未解決事項を報告する。
+~~~
 
-既に `SPECTODO.md` が存在する場合は、新規作成せず既存inventoryを読み取り、stable v0.1との整合を確認する。
+## 何を入れるか
 
-## 導入されるファイル
+- 単一プロジェクト：root SPECTODO.md にScope宣言、通常は PROJECT: .。
+- 独立した複数scope：各scope root直下に SPECTODO.md、全workspace routeをAGENTS.mdなどの共通instructionsで宣言する。
+- 仕様書のみ：実在する企画・調査成果から検証可能なstatementを起こす。I:-、P:- は本当に適用外の場合だけ。将来実装予定なら I:. のまま保持する。
+- 既存v0.1：維持運用は許されるが、明示された共通基盤へのアップグレードでは全recordを監査し、v0.2へ移行する。silent migrationは禁止。
 
-最低限、次の3つを使う。
+必須成果物は正本inventory、workspace-to-inventory route、適用する言語仕様とAgent Skill、source/evidence crosswalk・移行ledger（該当時）、検証報告。詳細記録をinventoryの1行に押し込まない。
 
-```text
-SPECTODO.md
-spec/language-v0.1.md
-.agents/skills/spectodo/SKILL.md
-```
+## 作業順序
 
-- `SPECTODO.md`: そのプロジェクトの仕様・進捗inventory。rootに置くcanonical file。
-- `spec/language-v0.1.md`: Spectodo v0.1の構文・意味・validation rules。
-- `.agents/skills/spectodo/SKILL.md`: Agentがinventoryを追加・更新・監査するためのrepository skill。
+1. 全ファイルと履歴の候補を分類（current / historical / superseded / uncertain）。既存の根拠を優先し、推測で実装や検証をxにしない。
+2. 正本候補・独立した管理境界を発見。単一プロジェクトはroot 1件を既定値とし、明確な独立scopeだけ分割する。
+3. 既存inventoryは破棄せず、ID/statement/axisごとに突合。v0.1移行ならdocs/migration-v0.1-to-v0.2.mdに従う。
+4. 詳細inventoryを作り、証拠文書は@refで結ぶ。古い提案を実装済みにしない。
+5. エージェントルート、共有policy、資料索引を同期。既存資料は根拠なく削除しない。
+6. 構文・参照・coverage・情報欠落・重複・scope衝突・冪等性を検証する。仕様と実態が合わない箇所は未完了で報告する。
 
-`SPECTODO.md` は参照元repositoryからコピーするものではない。導入先プロジェクトの実態を調べて新しく作る。
+## 更新
 
-`spec/language-v0.1.md` と `.agents/skills/spectodo/SKILL.md` は参照元のstable v0.1をそのまま導入する。
+同じSkillを再実行して更新・監査する。新しいinventoryを複製しない。増分情報を突き合わせて必要な行だけ変更する。ステータスのxは実装と独立した検証証拠による。対象target version（V0等）はSpectodo Languageのv0.2と無関係。
 
-## canonical inventory
-
-プロジェクトのcanonical Spectodo inventoryはrepository rootの次のファイルとする。
-
-```text
-SPECTODO.md
-```
-
-別名のcanonical inventoryを追加しない。
-
-v0.1ではsecondary file向けのgeneric suffixは標準化しない。
-
-## 導入時の初期inventory作成
-
-Agentは導入先repositoryを確認し、既に確認できる仕様と進捗を `SPECTODO.md` に反映する。
-
-原則:
-
-- 既存の仕様・README・code・test・deployment configuration等を証拠として使う
-- 永続的なproject-wide ruleは `# Constraints`
-- 検証可能なcapability/outcomeはRequirement
-- 完了済み仕様も削除せずinventoryへ残す
-- design / implementation / deployment / verificationを独立して扱う
-- 証拠が足りない状態を推測で `x` にしない
-- verificationは各Requirementのstatementを証明するために必要な範囲へ限定し、「追加検証が可能」というだけで `V:~` にしない
-- statementが要求しないpolish・tuning・usability refinement・broader acceptanceを追跡する場合は別Requirementに分離し、同一targetならpriority、current target外ならlater versionで管理する
-- design note、implementation note、work logはinventoryへ埋め込まない
-- 必要な詳細は `@ref` で既存文書等へ参照する
-- Spectodo導入を理由に既存文書を削除・統合しない
-
-## Agentによる発見
-
-Agentはrootの `SPECTODO.md` をcanonical inventoryとして扱う。
-
-- `SPECTODO.md` があればそれを使う
-- supporting fileやexampleをcanonicalとみなさない
-- `SPECTODO.md` が既にある場合、別inventoryを勝手に作らない
-- `SPECTODO.md` がなければ、導入作業でのみ新規作成する
-
-## 人間の利用
-
-通常運用ではChatGPT / Agentが更新する。
-
-人間は主にGitHub等の通常Markdown表示から `SPECTODO.md` を確認する。sourceを直接編集する操作性はv0.1の必須要件ではない。
+参照：[共通キックオフSkill](../.agents/skills/spectodo-kickoff/SKILL.md) / [移行手順](migration-v0.1-to-v0.2.md) / [v0.2検証記録](validation-v0.2.md)。

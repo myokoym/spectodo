@@ -1,6 +1,6 @@
 # Spectodo Language v0.2
 
-> Status: Proposal for review; not yet stable. This document is the complete proposed specification for Spectodo Language v0.2. The stable v0.1 specification remains unchanged.
+> Status: stable v0.2 (2026-10-12). This is the complete normative specification for new Spectodo integrations. Stable v0.1 remains a supported, unmodified legacy format; no silent reinterpretation is permitted.
 
 ## 1. Design goals
 
@@ -30,7 +30,7 @@ Core constraints:
 
 A v0.2 inventory MUST begin with exactly one Scope section. Its canonical file is named SPECTODO.md and is located at its declared scope root relative to the Git repository root.
 
-A repository MAY add v0.2 inventories for separately managed scopes while retaining an existing root v0.1 inventory. Retaining v0.1 MUST NOT change its syntax or semantics. Repository instructions MUST explicitly identify the legacy project represented by that v0.1 inventory and route only workspaces belonging to that project to it. Adding a nested v0.2 inventory MUST NOT silently suspend or transfer any v0.1 record. A repository MUST NOT keep two canonical inventories for the same scope root.
+A repository MAY retain a legacy root v0.1 inventory while adopting v0.2 for separately managed scopes. New integrations MUST use stable v0.2, including repositories with one project. Retaining a legacy v0.1 inventory MUST NOT change its syntax or semantics. Repository instructions MUST explicitly identify the legacy project represented by that v0.1 inventory and route only workspaces belonging to that project to it. Adding a nested v0.2 inventory MUST NOT silently suspend or transfer any v0.1 record. A repository MUST NOT keep two canonical inventories for the same scope root.
 
 A v0.2 document consists of:
 
@@ -41,7 +41,7 @@ A v0.2 document consists of:
 5. one or more category sections
 6. zero or more blank lines between sections
 
-No free-form text or additional list items are allowed in the Scope section.
+No free-form text or additional list items are allowed in the Scope section. For a single-project repository, the canonical inventory MUST be root SPECTODO.md with declaration '- PROJECT: .' (or another stable scope ID); a project MUST NOT fall back to v0.1 because it has only one scope.
 
 Example:
 
@@ -104,11 +104,11 @@ Repository or agent instructions MUST map each supported active workspace root t
 - A v0.2 inventory covers only the exact scope root declared in its Scope section. Instructions MUST explicitly map each supported active workspace root to one canonical inventory; folder proximity alone does not define inheritance.
 - Request wording, a referenced file path, or a branch name MUST NOT silently switch the active scope.
 - If instructions map the active workspace root to no scope or to more than one scope, stop and clarify before changing progress.
-- In Codex, a repository MAY map each independently opened workspace root to its inventory in AGENTS.md. AGENTS.md is routing guidance and is not part of the SPECTODO grammar. A request that mentions another scope MUST NOT override the active workspace mapping.
+- In Codex, repository AGENTS.md SHOULD carry the generated route table; equivalent agent instructions MAY carry it elsewhere. AGENTS.md is routing guidance and is not part of the SPECTODO grammar. A request that mentions another scope MUST NOT override the active workspace mapping. The common kickoff MUST generate routing from discovered canonical scope roots, not ask each consumer to select a Spectodo version. For each supported workspace root, exact routing is authoritative: the repository root routes to a root inventory if one exists; an explicitly supported nested workspace root routes to its own inventory. Overlapping scopes do not imply inheritance. If the repository root has no canonical inventory, opening it requires selecting a declared supported workspace rather than guessing. Routing changes MUST be reconciled atomically with canonical inventory creation, movement, or deletion.
 
 ### 2.3 Migrating an existing v0.1 project
 
-Repositories that do not need multiple independently tracked scopes SHOULD keep using v0.1 without migration. Adopting v0.2 is opt-in and does not change the stable v0.1 specification or require other repositories to migrate.
+All NEW installations use stable v0.2 even for a single project. Existing v0.1 inventories remain supported unchanged; a maintenance-only operation MUST NOT silently migrate them. A centrally requested upgrade to the current stable format follows the migration audit below. Agents and adopting repositories MUST NOT select or invent a different Spectodo language version based on the project phase, code presence, or number of scopes.
 
 When a repository divides a project tracked by a root v0.1 inventory into independent scopes, it MUST complete an explicit migration audit. It MUST NOT leave the old inventory's records ambiguously attached to the repository root.
 
@@ -121,6 +121,25 @@ For every v0.1 constraint, record one disposition before changing the canonical 
 For every v0.1 specification item, assign it to exactly one successor scope. If distinct products need similar behavior, create independent scope-local items and progress rather than copying completion state. Preserve an item's ID and progress only for a one-to-one continuation of the same specification. Map or redefine versions explicitly because versions and progress are scope-local in v0.2.
 
 Update workspace routing and canonical paths before retiring the old inventory. The migration is complete only when every prior constraint and item has an accounted-for disposition, all new canonical paths and routes agree, and a repository-wide audit finds no duplicate or unrouteable inventory. Git history preserves the old file; an extra historical SPECTODO.md copy MUST NOT be left at a path that could be mistaken for canonical.
+
+
+### 2.4 Stable adoption and lifecycle neutrality
+
+The Spectodo project makes the language-version decision centrally: new installations and deliberate migrations MUST use the published stable v0.2 specification, never choose v0.1/v0.2 per target repository. A pre-existing v0.1 inventory is still valid and MUST remain readable and writable according to v0.1 until an explicit, audited migration. A project can be planning-only, developing code, or running in production without changing the Spectodo language or scope model.
+
+The four axes describe the requirement's asserted outcome, not a forced waterfall. For planning-only work, a verifiable design/research output can be represented as D:x I:- P:- V:x when review evidence exists. For an eventual application capability not yet implemented use I:. and any relevant P:./V:. rather than I:-. The same inventory persists when code is later added; reconcile the axes with evidence rather than replacing the inventory or reallocating IDs.
+
+A first installation MUST inventory existing requirements, enduring constraints, decisions and evidence before synthesizing new ones. The kickoff MUST classify sources as normative/current, historical, superseded, and uncertain; historical claims MUST NOT be silently promoted to current requirements. Design notes stay in supporting documents. Missing evidence MUST NOT be filled in with invented completion states.
+
+### 2.5 Deterministic routing and repeat runs
+
+The stable kickoff workflow MUST inspect the entire repository and all existing canonical candidates before writing. Default to one root scope for a previously unmanaged single project. Create additional scopes only where separately managed project/workspace boundaries are evidenced; do not split on directory structure alone. If boundaries are not demonstrably independent, use the root scope, list the uncertainty, and avoid speculative inventory duplication.
+
+Maintain one explicit workspace-root-to-canonical-inventory table in the applicable repository instructions (AGENTS.md for Codex). The table MUST cover supported workspace roots exactly once and identify shared policy documents read by each applicable workspace. Nested scope roots are NOT inherited automatically. Example and fixture SPECTODO files MUST live outside canonical scope roots and be explicitly excluded by instructions.
+
+On every rerun, load the existing mapping and inventory first; reconcile by stable IDs and statement identity; update in place; do not reassign IDs, duplicate records, or reset completion merely because new source documents were found. Scope changes and v0.1 migrations MUST produce a per-record disposition ledger before rewriting canonical paths. If a conflicting route, scope or item cannot be resolved from evidence, report the blocker; do not guess or overwrite.
+
+Audits MUST cover repository-wide scope/path uniqueness, route completeness, structural correctness, ID stability, required reference existence, policy ownership, duplicate requirements, source coverage, and whether D/I/P/V assertions are traceable to evidence. The bundled optional automated checker provides structural checks; agents remain responsible for semantic coverage and evidence interpretation.
 
 ## 3. Versions
 
@@ -154,7 +173,7 @@ VERSION_ID := "V" DIGIT+
 
 Version IDs MUST be unique within the document.
 
-A specification item MUST reference exactly one declared version.
+A specification item MUST reference exactly one declared version. These V0/V1 identifiers refer to target milestones WITHIN a scope; they are not Spectodo Language versions. A project MUST NOT choose the Spectodo Language version via its target-version labels.
 
 The numeric part expresses ordered target versions. Lower version numbers precede higher version numbers.
 
@@ -358,7 +377,7 @@ A statement:
 
 - MUST be non-empty
 - MUST fit on one source line
-- MUST describe current or intended application behavior/capability
+- MUST describe current or intended verifiable product, design, research, or operational capability/outcome
 - MUST NOT contain design rationale, implementation notes, discussion history, or work logs
 - MUST encode a literal `|` as `\|` and a literal `\` as `\\`; all other backslash escapes are invalid
 
@@ -452,7 +471,7 @@ No qualifying work/result exists yet for the axis.
 
 The axis does not apply to this item.
 
-It MUST NOT be used merely because work is deferred.
+It MUST NOT be used merely because work is deferred. An item whose outcome is a research/design deliverable MAY have I:- and P:- only if no implementation or deployment is required by that statement. A future implementation is a separate item or requires changing the original statement and revalidating its axes. If implementation is intended but has not begun, use I:.; do not mark absent code as implemented or not-applicable solely because the repository is early-stage.
 
 ### 10.2 Verification scope
 
