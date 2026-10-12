@@ -17,8 +17,6 @@ test('new planning-only repository can install pinned source files, create inven
     'spec/language-v0.2.md',
     '.agents/skills/spectodo-kickoff/SKILL.md',
     '.agents/skills/spectodo/SKILL.md',
-    'docs/optional-execution-plans.md',
-    'examples/execution-plan.md',
   ];
   try {
     put('README.md','# Museum research\nDocumentation-only planning.\n');
@@ -49,17 +47,35 @@ test('new planning-only repository can install pinned source files, create inven
       'default clean kickoff must not generate optional detailed plans');
     const firstIndex=get('docs/spectodo-source-inventory.md');
     for(const p of required)assert.ok(firstIndex.includes('- '+p),'installed source missing from index: '+p);
-    // Consumer README is intentionally *not* a copy of upstream's README.
-    // All invocation instructions must remain available in the pinned guide itself.
+    // Default bootstrap does not fetch or install optional guidance.
+    assert.equal(existsSync(join(consumer,'docs/optional-execution-plans.md')),false);
+    assert.equal(existsSync(join(consumer,'examples/execution-plan.md')),false);
     assert.doesNotMatch(get('README.md'),/詳細実行計画オプション/);
-    const guide=get('docs/optional-execution-plans.md');
-    assert.match(guide,/## 最短の指定方法（そのままコピー）/);
-    assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
-    assert.doesNotMatch(guide,/\.\.\/README\.md/);
-    assert.ok(existsSync(join(consumer,'examples/execution-plan.md')),'guide example must be available in consumer');
     const before=required.concat(['SPECTODO.md','AGENTS.md','docs/spectodo-source-inventory.md']).map(p=>get(p));
     const rerun=applyKickoff({root:consumer,inventories:{'SPECTODO.md':inv},routes});
     assert.deepEqual(rerun.changes,[],'fixed-source rerun must not churn installed files');
     assert.deepEqual(required.concat(['SPECTODO.md','AGENTS.md','docs/spectodo-source-inventory.md']).map(p=>get(p)),before);
+
+    // An explicit later opt-in adds the guide and example together from the pinned checkout.
+    const optIn=['docs/optional-execution-plans.md','examples/execution-plan.md'];
+    for(const p of optIn){
+      const original=new URL(p,source);
+      const target=join(consumer,p);
+      mkdirSync(dirname(target),{recursive:true});
+      copyFileSync(original,target);
+      assert.equal(get(p),readFileSync(original,'utf8'));
+    }
+    const guide=get('docs/optional-execution-plans.md');
+    assert.match(guide,/## 最短の指定方法（そのままコピー）/);
+    assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
+    assert.doesNotMatch(guide,/\.\.\/README\.md/);
+    const postOptIn=applyKickoff({root:consumer,inventories:{'SPECTODO.md':inv},routes});
+    assert.ok(postOptIn.changes.includes('docs/spectodo-source-inventory.md'));
+    for(const p of optIn)assert.ok(get('docs/spectodo-source-inventory.md').includes('- '+p));
+    const postOptInFiles=[...required,...optIn,'SPECTODO.md','AGENTS.md','docs/spectodo-source-inventory.md'];
+    const state=postOptInFiles.map(p=>get(p));
+    const repeat=applyKickoff({root:consumer,inventories:{'SPECTODO.md':inv},routes});
+    assert.deepEqual(repeat.changes,[],'opted-in bundle rerun should be idempotent');
+    assert.deepEqual(postOptInFiles.map(p=>get(p)),state);
   } finally {rmSync(consumer,{recursive:true,force:true});}
 });
