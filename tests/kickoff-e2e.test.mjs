@@ -4,7 +4,7 @@ import {mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync, readdir
 import {join, dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
+import {spawnSync} from 'node:child_process';
 import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
 
 function sandbox() { return mkdtempSync(join(tmpdir(), 'spectodo-kickoff-')); }
@@ -106,11 +106,17 @@ test('kickoff E2E: application code, two explicit scopes, rerun and failed test 
     audit(root,['SPECTODO.md','apps/web/SPECTODO.md'],routes,['.','apps/web/']);
     assert.match(get(root,'AGENTS.md'),/apps\/web\/SPECTODO\.md \(scope WEB\)/);
     const testFile=join(root,'apps/web/tests/app.test.mjs');
-    execFileSync(process.execPath,['--test',testFile],{encoding:'utf8'});
+    const isolatedEnv={...process.env};
+    delete isolatedEnv.NODE_TEST_CONTEXT;
+    const runAppTest=()=>spawnSync(process.execPath,['--test',testFile],{encoding:'utf8',env:isolatedEnv});
+    const verified=runAppTest();
+    assert.equal(verified.status,0,verified.stdout+'\n'+verified.stderr);
     const hash=digest(root);install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes});
     assert.equal(digest(root),hash);
     put(root,'apps/web/src/app.mjs',"export const answer = () => 41;\n");
-    assert.throws(()=>execFileSync(process.execPath,['--test',testFile],{encoding:'utf8',stdio:'pipe'}),'a real regression must fail the application test');
+    assert.equal(get(root,'apps/web/src/app.mjs'),"export const answer = () => 41;\n");
+    const broken=runAppTest();
+    assert.notEqual(broken.status,0,'a real regression must fail the application test: '+broken.stdout+' '+broken.stderr);
     updateItem(root,'apps/web/SPECTODO.md',
       '- [x] APP-001 [V0] [P1] App answer is 42 | D:x I:x P:- V:x',
       '- [ ] APP-001 [V0] [P1] App answer is 42 | D:x I:~ P:- V:~ | !Implementation no longer returns 42');
