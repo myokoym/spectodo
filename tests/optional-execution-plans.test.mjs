@@ -34,7 +34,7 @@ test('README and copied guide offer the same safe Japanese invocation',()=>{
   assert.match(prompts[1],/SPECTODO\.mdのD\/I\/P\/V/);
   assert.match(entry,/専用コマンドやSkillの全文を読む必要もありません/);
   assert.match(entry,/古い固定SHA/);
-  assert.match(adoption,/\[README「指定方法（そのままコピーして使う）」\]\(\.\.\/README\.md#指定方法そのままコピーして使う\)/);
+  assert.match(adoption,/\[詳細実行計画ガイド\]\(optional-execution-plans\.md\)/);
   assert.match(guide,/このガイドを導入先に配布すれば/);
   assert.match(guide,/## 最短の指定方法（そのままコピー）/);
   assert.doesNotMatch(guide,/\.\.\/README\.md/, 'consumer README may not contain the Spectodo usage section');
@@ -84,41 +84,36 @@ test('canonical inventory preserves language grammar and keeps model pilot incom
 });
 
 
-test('canonical kickoff explicitly opts in to repository-wide grouped planning after inventory',()=>{
+test('optional multi-requirement batch planning is disabled by default, enabled only by explicit addition',()=>{
   const adoption=read('docs/adoption.md');
   const kickoff=read('.agents/skills/spectodo-kickoff/SKILL.md');
   const guide=read('docs/optional-execution-plans.md');
   const readme=read('README.md');
-  const start=adoption.indexOf('~~~text');
-  const finish=adoption.indexOf('~~~',start+7);
-  const prompt=adoption.slice(start+7,finish);
-  assert.ok(start>=0&&finish>start);
-  assert.match(prompt,/【3\.5\. 後続作業全体の詳細実行計画を一括整備/);
-  assert.ok(prompt.indexOf('【3. 共通Spectodoの詳細導入】') <
-    prompt.indexOf('【3.5. 後続作業全体の詳細実行計画を一括整備'));
-  assert.ok(prompt.indexOf('【3.5. 後続作業全体の詳細実行計画を一括整備') <
-    prompt.indexOf('【4. Codexの作業導線'));
-  for (const s of [
-    '未完了のRequirement全件', '全ての正本scope', '採用済みの対象Version',
-    'docs/optional-execution-plans.md','examples/execution-plan.md',
-    'docs/spectodo-execution/README.md', '1項目だけ選んで終了してはいけません',
-    'coverage表', '依存関係の順に段階化', '同一優先度や複数scopeは停止理由ではありません',
-    '作業単位', '具体操作', '期待結果', '検証', '失敗時の停止',
-    '再開位置', '該当する作業単位だけをblocked',
-    '計画の一括作成', '開始しません',
-    '独立した他の作業', '詳細計画がカバーするID数',
-  ]) {
-    if(s==='該当する作業単位だけをblocked') assert.match(prompt,/作業単位だけをblocked/);
-    else assert.ok(prompt.includes(s),'Missing repository-wide kickoff requirement: '+s);
-  }
-  assert.match(kickoff,/complete, planning-only coverage/);
-  assert.match(kickoff,/Do NOT arbitrarily stop after the first item/);
-  assert.match(kickoff,/without seeking permission after every ID/);
-  assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
-  assert.match(guide,/採用済み未完了Requirement全件をカバーする/);
-  assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
-  assert.match(readme,/初回キックオフで詳細手順も残したい場合/);
-  assert.match(guide,/^## 最短の指定方法（そのままコピー）/m);
-  // Both copyable instructions must support batches; targeting one ID remains optional.
-  assert.equal([...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].length,2);
+  const defaultStart=adoption.indexOf('~~~text');
+  const defaultEnd=adoption.indexOf('~~~',defaultStart+7);
+  const defaultPrompt=adoption.slice(defaultStart+7,defaultEnd);
+  assert.match(defaultPrompt,/詳細実行計画は追加で明示指定した場合だけ作成/);
+  assert.doesNotMatch(defaultPrompt,/詳細実行計画も有効化/);
+  const optStart=adoption.indexOf('## 詳細実行計画も作りたい場合');
+  const optEnd=adoption.indexOf('## 配布元・バージョン・参照のルール');
+  const optIn=adoption.slice(optStart,optEnd);
+  assert.ok(optStart>defaultEnd&&optEnd>optStart);
+  for(const word of ['1文を追加','未完了の全Requirement','依存順','一括作成','実装は開始しない'])
+    assert.ok(optIn.includes(word),'missing optional switch: '+word);
+  assert.match(kickoff,/default kickoff MUST NOT generate/);
+  assert.match(kickoff,/Only if the user explicitly adds the optional kickoff sentence/);
+  assert.match(kickoff,/all adopted incomplete Requirements/);
+  assert.match(kickoff,/planning only/);
+  assert.match(guide,/通常のキックオフ・仕様一覧の更新・監査では、詳細実行計画を自動生成しません/);
+  assert.match(guide,/明示的に追加した場合にのみ/);
+  assert.match(guide,/標準キックオフそのものは詳細計画作成の依頼ではありません/);
+  assert.match(readme,/通常のキックオフでは詳細実行計画を作成しません/);
+  assert.match(readme,/1文だけをキックオフ依頼文へ追加/);
+  // Standalone copyable plan/build and execute prompts must remain usable.
+  const readmeCommands=[...readme.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
+  const guideCommands=[...guide.matchAll(/~~~text\n([\s\S]*?)\n~~~/g)].map(x=>x[1]);
+  assert.equal(guideCommands.length,2);
+  assert.deepEqual(guideCommands,readmeCommands);
+  assert.match(guideCommands[0],/未完了Requirement全件/);
+  assert.match(guideCommands[1],/依存順に連続して実行してください/);
 });
