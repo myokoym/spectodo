@@ -6,6 +6,7 @@ import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {validateInventory, validateRepository} from '../scripts/validate-v0.2.mjs';
+import {applyKickoff, reconcileItem} from '../scripts/kickoff-v0.2.mjs';
 
 function sandbox() { return mkdtempSync(join(tmpdir(), 'spectodo-kickoff-')); }
 function put(root, path, content) { const out=join(root,path); mkdirSync(dirname(out),{recursive:true}); writeFileSync(out,content); }
@@ -19,17 +20,12 @@ function all(root,rel='') {
 function digest(root) {
   return createHash('sha256').update(all(root).map(p=>p+'\0'+get(root,p)).join('\0')).digest('hex');
 }
-function install(root,{inventory,scope='PROJECT',path='SPECTODO.md',routes=[{workspace:'.',inventory:'SPECTODO.md',scope}]}) {
-  const originalFiles=all(root).filter(p=>!p.startsWith('.agents/') && !p.startsWith('spec/') && !['SPECTODO.md','docs/spectodo-source-inventory.md','docs/spectodo-migration-ledger.md'].includes(p) && !p.endsWith('/SPECTODO.md'));
-  const sourceIndex='# Source index\n\n'+originalFiles.map(p=>'- '+p).join('\n')+'\n';
-  const existingAgents=existsSync(join(root,'AGENTS.md'))?get(root,'AGENTS.md'):'# Agent instructions\n';
-  const marker='\n<!-- BEGIN SPECTODO ROUTING -->\n';
-  const routing=marker+routes.map(r=>`Active workspace root ${r.workspace} maps to ${r.inventory} (scope ${r.scope}).`).join('\n')+'\n<!-- END SPECTODO ROUTING -->\n';
-  const agent=existingAgents.includes(marker)?existingAgents.replace(/\n<!-- BEGIN SPECTODO ROUTING -->[\s\S]*?<!-- END SPECTODO ROUTING -->\n/,routing):existingAgents.trimEnd()+'\n'+routing;
-  if(!existsSync(join(root,path)))put(root,path,inventory);
-  if(!existsSync(join(root,'docs/spectodo-source-inventory.md')) || get(root,'docs/spectodo-source-inventory.md')!==sourceIndex)put(root,'docs/spectodo-source-inventory.md',sourceIndex);
-  if(agent!==existingAgents)put(root,'AGENTS.md',agent);
-  return {originalFiles};
+function install(root,{inventory,scope='PROJECT',path='SPECTODO.md',routes=[{workspace:'.',inventory:'SPECTODO.md',scope}],additional={}}) {
+  const inventories={};
+  for (const r of routes) {
+    inventories[r.inventory]=existsSync(join(root,r.inventory)) ? get(root,r.inventory) : (additional[r.inventory]??inventory);
+  }
+  return applyKickoff({root,inventories,routes});
 }
 function audit(root, paths, routes, workspaces) {
   const candidates=paths.map(path=>({path,source:get(root,path)}));
@@ -44,25 +40,24 @@ function ids(text) {
 }
 function migrateLegacy(root,scope) {
   const old=get(root,'SPECTODO.md');
-  assert.ok(old.startsWith('# Versions\n'),'precondition: existing unscoped v0.1');
+  assert.ok(old.startsWith('# Versions\n'));
   const records=old.split('\n').filter(l=>/^- \[[ x]\] |^- [A-Z][A-Z0-9-]*-\d{3} /.test(l));
   const versionNames=old.split('\n').filter(l=>/^- V\d+: /.test(l));
-  assert.ok(records.length>0 && versionNames.length>0);
-  const newText='# Scope\n- '+scope+': .\n\n'+old;
-  put(root,'SPECTODO.md',newText);
-  const ledger='# Migration ledger\n\n'+records.map(l=>'- preserve: '+l).join('\n')+'\n\n'+versionNames.map(v=>'- version-preserved: '+v).join('\n')+'\n';
-  put(root,'docs/spectodo-migration-ledger.md',ledger);
-  assert.equal(newText.replace(/^# Scope\n- [A-Z]+: \.\n\n/,''),old);
-  for(const line of records)assert.ok(newText.includes(line));
+  const next='# Scope\n- '+scope+': .\n\n'+old;
+  applyKickoff({root,migration:true,inventories:{'SPECTODO.md':next},routes:[{workspace:'.',inventory:'SPECTODO.md',scope}]});
+  assert.equal(next.replace(/^# Scope\n- [A-Z]+: \.\n\n/,''),old);
   return {records,versionNames};
 }
 function updateItem(root,path,from,to) {
-  const before=get(root,path);
-  assert.ok(before.includes(from));
-  const after=before.replace(from,to);
-  put(root,path,after);
-  assert.deepEqual(ids(after),ids(before));
-  return {before,after};
+  const source=get(root,path);
+  const current=source.split('\n').find(l=>l.includes(from));
+  assert.ok(current,'expected existing line');
+  const updated=current.replace(from,to);
+  const match=current.match(/^- \[[ x]\] ([A-Z][A-Z0-9-]*-\d{3}) /);
+  assert.ok(match,'item identity');
+  const result=reconcileItem({root,path,id:match[1],before:current,after:updated});
+  assert.deepEqual(result.changes,[path]);
+  return {before:source,after:get(root,path)};
 }
 
 test('kickoff E2E: documentation-only initial / repeated / evidence update / audit',()=>{
@@ -108,8 +103,7 @@ test('kickoff E2E: application code, two explicit scopes, rerun and failed test 
     const rootInv='# Scope\n- SHARED: .\n\n# Versions\n- V0: Shared policy\n\n## DOC: Documentation\n- [x] DOC-001 [V0] [P1] A shared policy can be read | D:x I:- P:- V:x | @docs/policy.md\n';
     const webInv='# Scope\n- WEB: apps/web/\n\n# Versions\n- V0: Working application\n\n## APP: App\n- [x] APP-001 [V0] [P1] App answer is 42 | D:x I:x P:- V:x | @apps/web/src/app.mjs @apps/web/tests/app.test.mjs\n';
     const declaredRoutes=[{workspace:'.',inventory:'SPECTODO.md',scope:'SHARED'},{workspace:'apps/web/',inventory:'apps/web/SPECTODO.md',scope:'WEB'}];
-    install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes});
-    put(root,'apps/web/SPECTODO.md',webInv);
+    install(root,{inventory:rootInv,scope:'SHARED',routes:declaredRoutes,additional:{'apps/web/SPECTODO.md':webInv}});
     const routes=[{workspace:'.',inventory:'SPECTODO.md'},{workspace:'apps/web/',inventory:'apps/web/SPECTODO.md'}];
     audit(root,['SPECTODO.md','apps/web/SPECTODO.md'],routes,['.','apps/web/']);
     assert.match(get(root,'AGENTS.md'),/apps\/web\/SPECTODO\.md \(scope WEB\)/);
