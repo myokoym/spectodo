@@ -9,16 +9,18 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 
 | Path | Authority / role | Direct inventory references |
 |---|---|---|
-| .agents/skills/spectodo-kickoff/SKILL.md | current guidance/policy | BOOT-002, BOOT-003 |
-| .agents/skills/spectodo/SKILL.md | current guidance/policy | LANG-015, AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007, AGENT-008, AGENT-009, AGENT-010, AGENT-011 |
+| .agents/skills/spectodo-kickoff/SKILL.md | current guidance/policy | BOOT-002, BOOT-003, AGENT-012 |
+| .agents/skills/spectodo/SKILL.md | current guidance/policy | LANG-015, AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007, AGENT-008, AGENT-009, AGENT-010, AGENT-011, AGENT-012 |
 | .github/workflows/spec-validation.yml | verification machinery | supporting / no direct link |
 | AGENTS.md | current guidance/policy | BOOT-003 |
 | README.md | current guidance/policy | AGENT-001, DOCS-001, DOCS-004 |
 | SPECTODO.md | canonical scoped inventory | CORE-005, AGENT-002, AGENT-003, AGENT-008, AGENT-009, VALID-002, VALID-005 |
 | docs/adoption.md | current guidance/policy | AGENT-010, DOCS-004, REL-002, BOOT-001 |
 | docs/migration-v0.1-to-v0.2.md | current guidance/policy | BOOT-004 |
+| docs/optional-execution-plans.md | optional current guidance/policy; not language grammar | AGENT-012, VALID-007 |
 | docs/v0.2-stable-decision.md | current guidance/policy | supporting / no direct link |
 | examples/SPECTODO.md | legacy compatibility | LANG-013, LANG-014, LANG-015, AGENT-007, AGENT-009, VALID-001 |
+| examples/execution-plan.md | fictional supporting plan example, not canonical | AGENT-012 |
 | examples/planning-v0.2.md | example/fixture (not canonical) | supporting / no direct link |
 | examples/root-v0.2.md | example/fixture (not canonical) | supporting / no direct link |
 | examples/scoped-SPECTODO.md | example/fixture (not canonical) | LANG-017, AGENT-011 |
@@ -33,7 +35,8 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | scripts/validate-v0.2.mjs | verification machinery | supporting / no direct link |
 | spec/language-v0.1.md | legacy compatibility | LANG-011, LANG-013, LANG-014, LANG-015, LANG-016, AGENT-010, VALID-005, DOCS-003, REL-001, REL-002 |
 | spec/language-v0.2.md | current guidance/policy | LANG-017, AGENT-011, BOOT-001 |
-| tests/bootstrap-installation.test.mjs | clean-repository local-source installation and repeat-run test (not a Codex live pilot) | supporting / no direct link |
+| tests/bootstrap-installation.test.mjs | clean-repository local-source installation and repeat-run test (not a Codex live pilot) | AGENT-012 |
+| tests/optional-execution-plans.test.mjs | opt-in contract and bounded example assertions; not a real model pilot | AGENT-012 |
 | tests/kickoff-core.test.mjs | preflight and canonical prompt contract tests | supporting / no direct link |
 | tests/kickoff-e2e.test.mjs | repeatable local end-to-end lifecycle scenarios | supporting / no direct link |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
@@ -44,13 +47,15 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 
 ## Coverage and decisions
 
-- Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
+- Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, docs/optional-execution-plans.md (optional procedure only), and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
 - Legacy frozen rule set: spec/language-v0.1.md. Historical v0.1 example: examples/SPECTODO.md. Neither is reinterpreted as v0.2.
 - The research records remain in-place for provenance. The 2026-10-04 scoped-inventory proposal is superseded where it says v0.2 is opt-in or recommends v0.1 for single-project repositories. The stable decision file documents that change.
 - No exact design/code/deployment files of an adopting external repository were available in this source repository. The generic kickoff Skill cannot prove full external adoption merely from its own instructions.
 - Example references such as @docs/product.md and @docs/architecture-comparison.md are illustrative paths in fictional sample repositories; they do not exist here and the examples are excluded from root-scope reference checks.
 
 ## Known gaps
+
+- The optional detailed-plan contract and worked example have static tests; no external low-cost-model delegation, interruption/resume, or total-cost comparison has yet been run. VALID-007 tracks that separately.
 
 - Functional tests prove formal invariants and synthetic route scenarios; actual cross-repository coverage, semantic duplicate detection, source completeness and usability still require run results against representative target repositories.
 - A README or research file may refer to prior proposal language as historical evidence; preserve its context instead of rewriting it into false chronology.
