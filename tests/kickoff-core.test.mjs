@@ -55,3 +55,18 @@ test('explicit reconciliation rejects unknown IDs and stale expected states',()=
   assert.throws(()=>reconcileItem({root,id:'APP-001',before:before+'!',after}),/previous state mismatch/);
   assert.equal(get('SPECTODO.md'),inventory);
 }));
+
+test('human-curated source authority notes survive repeated kickoff updates',()=>fixture(({root,put,get})=>{
+  put('docs/policy.md','# Policy\n');
+  applyKickoff({root,inventories:{'SPECTODO.md':inventory},routes:route});
+  const original=get('docs/spectodo-source-inventory.md');
+  put('docs/spectodo-source-inventory.md',original.replace('# Source index\n','# Source index\n\n## Authority review\n- docs/policy.md: current normative project policy\n'));
+  put('docs/alternative.md','# Unselected proposal\n');
+  applyKickoff({root,inventories:{'SPECTODO.md':get('SPECTODO.md')},routes:route});
+  assert.match(get('docs/spectodo-source-inventory.md'),/current normative project policy/);
+  assert.match(get('docs/spectodo-source-inventory.md'),/- docs\/alternative\.md/);
+  const updated=get('docs/spectodo-source-inventory.md');
+  const again=applyKickoff({root,inventories:{'SPECTODO.md':get('SPECTODO.md')},routes:route});
+  assert.deepEqual(again.changes,[]);
+  assert.equal(get('docs/spectodo-source-inventory.md'),updated);
+}));
