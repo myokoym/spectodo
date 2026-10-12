@@ -45,6 +45,8 @@ test('new planning-only repository can install pinned source files, create inven
     const known=new Set(['README.md','AGENTS.md','docs/requirements.md','SPECTODO.md',...required,'docs/spectodo-source-inventory.md']);
     assert.deepEqual(validateInventory(inv,'SPECTODO.md',{knownPaths:known}).errors,[]);
     assert.deepEqual(validateRepository([{path:'SPECTODO.md',source:inv}],[{workspace:'.',inventory:'SPECTODO.md'}],['.']),[]);
+    assert.equal(existsSync(join(consumer,'docs/spectodo-execution/README.md')),false,
+      'default clean kickoff must not generate optional detailed plans');
     const firstIndex=get('docs/spectodo-source-inventory.md');
     for(const p of required)assert.ok(firstIndex.includes('- '+p),'installed source missing from index: '+p);
     // Consumer README is intentionally *not* a copy of upstream's README.
