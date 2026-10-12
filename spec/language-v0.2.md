@@ -1,6 +1,6 @@
 # Spectodo Language v0.2
 
-> Status: RELEASE CANDIDATE, not yet stable (2026-10-12). Promotion is blocked pending the end-to-end acceptance tests in docs/validation-v0.2.md. This defines the intended common v0.2 contract. v0.1 remains the stable, unmodified legacy format until promotion; no silent reinterpretation is permitted.
+> Status: stable v0.2 (2026-10-13). Normative for all new integrations and deliberate upgrades. v0.1 remains a valid unmodified legacy format until explicit migration.
 
 ## 1. Design goals
 
@@ -30,7 +30,7 @@ Core constraints:
 
 A v0.2 inventory MUST begin with exactly one Scope section. Its canonical file is named SPECTODO.md and is located at its declared scope root relative to the Git repository root.
 
-A repository MAY retain a legacy root v0.1 inventory while adopting v0.2 for separately managed scopes. Upon promotion to stable, new integrations MUST use v0.2, including repositories with one project. Retaining a legacy v0.1 inventory MUST NOT change its syntax or semantics. Repository instructions MUST explicitly identify the legacy project represented by that v0.1 inventory and route only workspaces belonging to that project to it. Adding a nested v0.2 inventory MUST NOT silently suspend or transfer any v0.1 record. A repository MUST NOT keep two canonical inventories for the same scope root.
+A repository MAY retain a legacy root v0.1 inventory while adopting v0.2 for separately managed scopes. New integrations MUST use stable v0.2, including repositories with one project. Retaining a legacy v0.1 inventory MUST NOT change its syntax or semantics. Repository instructions MUST explicitly identify the legacy project represented by that v0.1 inventory and route only workspaces belonging to that project to it. Adding a nested v0.2 inventory MUST NOT silently suspend or transfer any v0.1 record. A repository MUST NOT keep two canonical inventories for the same scope root.
 
 A v0.2 document consists of:
 
@@ -108,7 +108,7 @@ Repository or agent instructions MUST map each supported active workspace root t
 
 ### 2.3 Migrating an existing v0.1 project
 
-Following stable promotion, all NEW installations use v0.2 even for a single project. Existing v0.1 inventories remain supported unchanged; a maintenance-only operation MUST NOT silently migrate them. A centrally requested v0.2 upgrade follows the migration audit below, and must not be described as an upgrade to a stable release until promotion. Agents and adopting repositories MUST NOT select or invent a different Spectodo language version based on the project phase, code presence, or number of scopes.
+All NEW installations use stable v0.2 even for a single project. Existing v0.1 inventories remain supported unchanged; a maintenance-only operation MUST NOT silently migrate them. A centrally requested v0.2 upgrade follows the migration audit below. Agents and adopting repositories MUST NOT select or invent a different Spectodo language version based on the project phase, code presence, or number of scopes.
 
 When a repository divides a project tracked by a root v0.1 inventory into independent scopes, it MUST complete an explicit migration audit. It MUST NOT leave the old inventory's records ambiguously attached to the repository root.
 
@@ -125,7 +125,7 @@ Update workspace routing and canonical paths before retiring the old inventory. 
 
 ### 2.4 Stable adoption and lifecycle neutrality
 
-The Spectodo project makes the language-version decision centrally: after promotion new installations and deliberate migrations MUST use the published stable v0.2 specification, never choose v0.1/v0.2 per target repository. A pre-existing v0.1 inventory is still valid and MUST remain readable and writable according to v0.1 until an explicit, audited migration. A project can be planning-only, developing code, or running in production without changing the Spectodo language or scope model.
+The Spectodo project makes the language-version decision centrally: new installations and deliberate migrations MUST use the published stable v0.2 specification, never choose v0.1/v0.2 per target repository. A pre-existing v0.1 inventory is still valid and MUST remain readable and writable according to v0.1 until an explicit, audited migration. A project can be planning-only, developing code, or running in production without changing the Spectodo language or scope model.
 
 The four axes describe the requirement's asserted outcome, not a forced waterfall. For planning-only work, a verifiable design/research output can be represented as D:x I:- P:- V:x when review evidence exists. For an eventual application capability not yet implemented use I:. and any relevant P:./V:. rather than I:-. The same inventory persists when code is later added; reconcile the axes with evidence rather than replacing the inventory or reallocating IDs.
 

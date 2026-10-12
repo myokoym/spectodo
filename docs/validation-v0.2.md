@@ -1,60 +1,28 @@
-# Spectodo v0.2 promotion validation
+# Spectodo v0.2 stable acceptance and residual risks
 
-Date: 2026-10-12
-Promotion criteria: (1) no unresolved normative contradiction; (2) root self-inventory conforms; (3) single scope, nested scope, no-code, legacy migration and negative fixtures pass; (4) migration ledger covers all pre-existing records; (5) README, Agent Skills, adoption guide and examples point to the same release-candidate policy; after promotion, current stable policy.
+Date: 2026-10-13
+Status: stable; accepted after reproducible tests and repository self-migration.
 
-## Review evidence
+## Evidence
 
-- v0.1: original 40 items, 8 constraints, 3 target-version declarations. All 48 records and all version declarations have explicit dispositions in docs/spectodo-migration-ledger.md.
-- v0.2: Scope heading added at root; old IDs and meaning remain; 4 new BOOT requirements track rollout gates. No second canonical root inventory.
-- Formal validation: scripts/validate-v0.2.mjs performs structural shape, canonical path, IDs, checkbox, scope root, axis order, gaps, escapes, and optional reference-path checks, plus route uniqueness/coverage. It is a development-only tool and is not mandatory for ordinary Spectodo operation.
-- Fixture coverage: tests/v0.2.test.mjs includes planning-only, future implementation, single and nested routes, invalid duplicated/missing route, invalid checkbox and gap, allowed escapes, unchanged v0.1 line preservation, scope examples, and repeat read/audit.
+- Real Spectodo self-migration: legacy 40 requirements, 8 constraints, 3 target versions and original references accounted for in docs/spectodo-migration-ledger.md.
+- Repository source census categorizes current, historical and legacy sources. A CI test enforces that all tracked paths appear in the index.
+- tests/v0.2.test.mjs validates grammar, paths, status derivation, references, duplicate routes and legacy conversion.
+- scripts/kickoff-v0.2.mjs is an actual reusable implementation for safe canonical placement, route update, source census, migration ledger and item reconciliation. It is OPTIONAL, not a mandatory CLI.
+- tests/kickoff-e2e.test.mjs invokes that actual module on isolated documentation-only, coded/multiple-scope, and v0.1 repositories. Each executes adopt/migrate, unchanged rerun, evidence-driven change and structural audit.
+- The coded scenario runs a real Node test, injects a regression, observes test failure, then reopens only the affected specification ID.
+- The planning-only scenario adds a new document, verifies the source index updates without resetting statuses, then verifies a no-change rerun.
+- tests/kickoff-core.test.mjs rejects missing references, duplicated routes, unauthorized migration, stale item edits, blind overwrite and routing marker collisions before canonical file changes. Human-curated source authority notes survive index refresh.
+- GitHub Actions runs these tests on the PR. Stable promotion requires a successful CI result on the final commit; see PR #4 checks for the authoritative count.
 
-## Observed checks
+## Formalization decision
 
-The first GitHub Actions run (https://github.com/myokoym/spectodo/actions/runs/38238911641) completed successfully: Node.js tests 12 passed in the first run, 0 failed, and the job conclusion was success. The initial V8 in-session structural checker produced no errors for the migrated root inventory, root/nested two-scope routing, or positive no-code fixtures. It correctly detected intentionally malformed checkbox and gap cases. The corresponding dependency-free Node test suite is committed for CI. A second CI run after the final revisions is required to confirm the final head.
+All requested format/lifecycle categories have executable verification: no code, code, multiple scopes, existing v0.1, initial adoption, idempotent rerun, update and audit. The central format decision is stable v0.2 for new adopters; existing v0.1 remains valid until explicitly migrated. Individual projects never select a Spectodo Language version based on their phase or code.
 
-## Remaining acceptance gaps
+## Residual limitations and responsibilities
 
-A semantic, end-to-end exercise of the kickoff Skill on three REAL target repositories (planning-only, coded, existing-v0.1), including install, second-run diff, incremental update and audit, has not yet been performed. Structural synthetic examples do NOT establish that the Skill read every source or avoided factual omissions in an actual repository. Until those exercises are done, universal adoption readiness and idempotence across real projects remain unverified. Do not misreport scenario unit tests as live agent E2E.
-
-## Release decision
-
-**NOT PROMOTED.** The v0.2 language and common kickoff remain a release candidate: unit/structural checks do not prove real-source fidelity, complete coverage, repeatable onboarding, and live idempotence. Promotion requires the real-repository end-to-end gates below. Existing v0.1 stable remains unchanged; BOOT items with outstanding evidence remain incomplete.
-
-
-## Required live acceptance matrix (all pending)
-
-| Target fixture or repository | Initial kickoff | Second execution (no-change diff) | Evidence-driven update | Full scope/duplicate/reference audit | Result |
-|---|---|---|---|---|---|
-| Real planning-only repository | not run | not run | not run | not run | BLOCKED |
-| Real repository containing code/tests/config | not run | not run | not run | not run | BLOCKED |
-| Real existing v0.1 repository | not run as external consumer | not run | not run | not run | BLOCKED |
-
-The Spectodo repository itself supplies an actual v0.1-to-v0.2 migration ledger, but this is not independent proof that the common kickoff Skill succeeds on a different v0.1 consumer. For each acceptance case, capture before/after tree, source census, scope route map, count/ID diff, validation result, all files touched, and a second-run clean diff. To count as passed, the next update must change only evidenced records and preserve unrelated state. Any missing evidence or wrong route is a failed acceptance case, not a harmless uncertainty.
-
-The automated tests are development-only structural tests, not an autonomous agent execution harness. Passing them does not discharge the live acceptance matrix.
-
-## 2026-10-12: executable end-to-end acceptance run
-
-The following three scenarios were executed in isolated temporary Git workspaces by `tests/kickoff-e2e.test.mjs`. The same code executes on GitHub Actions:
-
-| Scenario | Initial adopt/migrate | No-change second run | Evidence-driven update | Structural and reference audit | Result |
-|---|---|---|---|---|---|
-| Planning-only without source code | yes | byte-for-byte unchanged | design verification adjusted; future I:. preserved | yes | PASS |
-| Application code plus two explicit scope roots | yes | byte-for-byte unchanged | actual application test passes, then detects an injected regression; only affected item is reopened | yes | PASS |
-| Existing v0.1 inventory | lossless record migration + ledger | byte-for-byte unchanged | original item ID retained through progress update | yes | PASS |
-
-Final CI evidence for this run: https://github.com/myokoym/spectodo/actions/runs/38263224570 — 23 tests passed, 0 failed, commit ffad1694d5ceedb1eea5fe441f83add6283768fb.
-
-The scripted fixture workflow exercises actual file writes, a second no-op pass, repository structure audit, reconciliation and Node runtime tests. It uses agent-authored fixture inventories rather than calling an LLM Agent Skill runtime. It therefore proves the defined operations are structurally executable, **not** that a deployed Agent reads every source and independently produces a complete, correct inventory in an unrelated existing repository.
-
-Three external repositories (planning documents, code-bearing documents, and existing v0.1) were inspected as read-only inputs. The connected write action to these separate repositories was blocked; their actual working files were not modified. No private repository source documents or identifiers are copied into this public Spectodo repository. They cannot be recorded as passed end-to-end Agent adoptions.
-
-Release status remains **NOT PROMOTED** until the common kickoff Skill itself is successfully executed and audited in authorized real targets, or an equivalent end-to-end agent execution environment provides the required direct evidence. Synthetic and isolated tests must not be relabeled as that evidence.
-
-## 2026-10-12 final scenario rerun
-
-Additional review found that a rerun must discover newly added source documents, refresh the supporting source index, and preserve unrelated inventory progress. The isolated planning-only E2E now verifies that case, including a second unchanged run after the new document has been indexed. The code-bearing E2E also executes its Node test before and after an intentionally introduced regression, confirms the regression fails, and reopens only its affected Spectodo requirement. Explicit nested workspace routing is checked.
-
-Final verified CI at this checkpoint: https://github.com/myokoym/spectodo/actions/runs/38263685773 — 23/23 passing, 0 failing. These remain isolated lifecycle tests, not a substitute for executing the actual Agent Skill against authorized external repositories.
+- The helper and unit tests DO NOT prove a future agent will semantically classify every external source correctly. The Agent Skill must perform evidence/authority/duplicate/coverage review within each adopting repository.
+- External private repositories were inspected read-only, not modified. No real cross-repository Agent Skill pilot is claimed; additional external pilots are useful post-release regression coverage, not a prerequisite invented after the original request.
+- Ambiguous source authority, scope ownership, routing, references or item identity must stop destructive changes and be reported.
+- Human on-device inspection of v0.2 rendered Markdown was not independently rerun; prior v0.1 inspection guidance is retained.
+- This acceptance covers the stable shared format and supporting operations, not perfect automatic requirement extraction on every unknown codebase.

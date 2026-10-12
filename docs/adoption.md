@@ -1,6 +1,6 @@
-# Spectodo v0.2共通導入ガイド（正式化候補）
+# Spectodo v0.2 stable 共通導入ガイド
 
-この手順はv0.2正式化後の新規導入標準として確定する候補です。現在のv0.2はまだstableへ昇格していません。正式化後の新規導入は、対象リポジトリの内容・開発段階・scope数にかかわらず **Spectodo Language v0.2** を使う。既存v0.1の維持は互換性対応であって、新規導入の選択肢ではない。
+この手順はSpectodo v0.2 stableの共通導入手順です。新規導入は、対象リポジトリの内容・開発段階・scope数にかかわらず **Spectodo Language v0.2** を使う。既存v0.1の維持は互換性対応であって、新規導入の選択肢ではない。
 
 ## 統一キックオフ依頼文
 
@@ -9,14 +9,14 @@
 ~~~text
 このリポジトリを全面調査し、Spectodoの共通キックオフを実行してください。
 参照元：https://github.com/myokoym/spectodo
-正式化候補仕様：spec/language-v0.2.md
+正式仕様：spec/language-v0.2.md
 標準Skill：.agents/skills/spectodo/SKILL.md
 キックオフSkill：.agents/skills/spectodo-kickoff/SKILL.md
 
 最初にREADME、設計・提案・決定・議事・調査記録、実装、テスト、構成、
 デプロイ、既存のSPECTODO.mdおよびAgent instructionsをリポジトリ全域で棚卸しする。
 提案・古い仕様を現行仕様と取り違えず、矛盾・未決定・根拠不足を記録する。
-指定されたSpectodo v0.2仕様候補に従い、scope route、必要な資料整理、詳細inventoryを整備する。
+Spectodo v0.2正式仕様に従い、scope route、必要な資料整理、詳細inventoryを整備する。
 既存v0.1なら移行前に全件のdisposition ledgerを作る。既存v0.2なら冪等に更新する。
 検証とセルフレビューを実施し、変更ファイル、根拠、欠落、未解決事項を報告する。
 ~~~

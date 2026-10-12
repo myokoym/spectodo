@@ -1,6 +1,6 @@
 # Spectodo agent workspace routing
 
-Candidate common language: spec/language-v0.2.md (release candidate; not yet stable).
+Canonical language for new installations and deliberate upgrades: spec/language-v0.2.md (stable).
 Legacy v0.1 is supported solely under explicit compatibility/migration rules.
 
 | Supported active workspace root | Canonical inventory | Scope ID | Shared policy |

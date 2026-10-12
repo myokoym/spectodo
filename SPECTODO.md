@@ -69,7 +69,7 @@
 - [x] REL-002 [V2] [P1] canonical inventoryの命名規則とrepository導入手順を正式に定義できる | D:x I:x P:- V:x | @docs/adoption.md @spec/language-v0.1.md
 
 ## BOOT: 共通導入基盤
-- [ ] BOOT-001 [V2] [P1] 新規導入がコード有無とscope数にかかわらずstable v0.2仕様を使用できる | D:x I:x P:- V:~ | !対象リポジトリでの導入・更新・監査検証が未完了 | @spec/language-v0.2.md @docs/adoption.md
-- [ ] BOOT-002 [V2] [P1] キックオフSkillがrepository全域の現在仕様と履歴を区別して情報源を棚卸しし詳細inventoryを構築できる | D:x I:x P:- V:~ | !異なるrepositoryでの再実行確認が未完了 | @.agents/skills/spectodo-kickoff/SKILL.md
-- [ ] BOOT-003 [V2] [P1] rootと独立scopeのworkspace routingを生成し同じinventoryへ冪等に更新できる | D:x I:x P:- V:~ | !外部workspace実地検証が未完了 | @AGENTS.md @.agents/skills/spectodo-kickoff/SKILL.md
-- [ ] BOOT-004 [V2] [P1] 既存v0.1利用者を維持しつつ全件ledgerによるv0.2移行を検証できる | D:x I:x P:- V:~ | !実際の移行対象での適用確認が未完了 | @docs/migration-v0.1-to-v0.2.md
+- [x] BOOT-001 [V2] [P1] 新規導入がコード有無とscope数にかかわらずstable v0.2仕様を使用できる | D:x I:x P:- V:x | @spec/language-v0.2.md @docs/adoption.md
+- [x] BOOT-002 [V2] [P1] キックオフSkillがrepository全域の現在仕様と履歴を区別して情報源を棚卸しし詳細inventoryを構築できる | D:x I:x P:- V:x | @.agents/skills/spectodo-kickoff/SKILL.md
+- [x] BOOT-003 [V2] [P1] rootと独立scopeのworkspace routingを生成し同じinventoryへ冪等に更新できる | D:x I:x P:- V:x | @AGENTS.md @.agents/skills/spectodo-kickoff/SKILL.md
+- [x] BOOT-004 [V2] [P1] 既存v0.1利用者を維持しつつ全件ledgerによるv0.2移行を検証できる | D:x I:x P:- V:x | @docs/migration-v0.1-to-v0.2.md

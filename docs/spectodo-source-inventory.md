@@ -43,7 +43,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 
 ## Coverage and decisions
 
-- Current proposed normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
+- Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
 - Legacy frozen rule set: spec/language-v0.1.md. Historical v0.1 example: examples/SPECTODO.md. Neither is reinterpreted as v0.2.
 - The research records remain in-place for provenance. The 2026-10-04 scoped-inventory proposal is superseded where it says v0.2 is opt-in or recommends v0.1 for single-project repositories. The stable decision file documents that change.
 - No exact design/code/deployment files of an adopting external repository were available in this source repository. The generic kickoff Skill cannot prove full external adoption merely from its own instructions.

@@ -1,11 +1,11 @@
 ---
 name: spectodo-kickoff
-description: Reproducibly inventory an entire repository, organize source documentation, install or reconcile Spectodo v0.2 after stable promotion, generate workspace routes, audit migrations, and verify idempotence for documentation-only, coded, and pre-existing Spectodo projects. Invoke for initial kickoff, re-kickoff, modernization, structural inventory audits, or repository-wide refresh.
+description: Reproducibly inventory an entire repository, organize source documentation, install or reconcile stable Spectodo v0.2, generate workspace routes, audit migrations, and verify idempotence for documentation-only, coded, and pre-existing Spectodo projects. Invoke for initial kickoff, re-kickoff, modernization, structural inventory audits, or repository-wide refresh.
 ---
 
 # Common kickoff: use the centrally approved Spectodo v0.2 target
 
-Read the v0.2 release-candidate specification in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. This repository's v0.2 is a release candidate, not yet stable. Once released, all new installs and explicitly requested upgrades MUST use this version; until then, exercise this Skill as an adoption candidate and do not claim stable availability. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
+Read the stable v0.2 specification in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. All new installations and deliberate upgrades MUST use this version. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
 
 ## Phase A — exhaustive discovery BEFORE adopting
 
@@ -26,6 +26,10 @@ Read the v0.2 release-candidate specification in spec/language-v0.2.md, the oper
 9. Create or reconcile one SPECTODO.md per canonical scope root under v0.2. Include exactly one # Scope declaration, Versions, optional Constraints, and category items. Preserve immutable IDs for the same statement. Avoid duplicate records across categories or scopes. Track active and completed behavior. For no-code outcomes, use I:-/P:- only when not applicable; future code work stays I:.. Never mark x from conjecture.
 10. Reference the strongest existing evidence with root-relative @refs; do not embed logs, rationale, plans, source excerpts or issue commentary within a one-line record. An unverified behavior cannot be V:x merely because documents assert a plan.
 11. On reruns or updates, compare by canonical file + ID + meaning and reconcile; add missing items, modify stale states using evidence, and leave unrelated progress intact. Migration is the only reason to rehome an item. Document each nontrivial change and map old/new locations.
+
+## Optional reusable file operations
+
+The optional exports in scripts/kickoff-v0.2.mjs provide tested canonical placement, route updates, source-path census, v0.1 ledger and ID-stable reconciliation. They are not a mandatory CLI, and cannot replace semantic review. Supply evidence-reviewed inventory content and correct routes first. The helper refuses blind overwrite and silent migration, and preserves human source-index notes outside its marked block. Without it, perform the same operations under this Skill.
 
 ## Phase D — gates and reporting
 
