@@ -17,6 +17,8 @@ test('new planning-only repository can install pinned source files, create inven
     'spec/language-v0.2.md',
     '.agents/skills/spectodo-kickoff/SKILL.md',
     '.agents/skills/spectodo/SKILL.md',
+    'docs/optional-execution-plans.md',
+    'examples/execution-plan.md',
   ];
   try {
     put('README.md','# Museum research\nDocumentation-only planning.\n');

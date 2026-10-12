@@ -1,6 +1,6 @@
 ---
 name: spectodo
-description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory in this repository. Use when working with Spectodo items, versions, priorities, categories, implementation/deployment/verification progress, or when checking repository state against the Spectodo inventory.
+description: Read, add, update, reconcile, prioritize, or audit a Spectodo specification/progress inventory, or create optional detailed execution plans for model delegation. Use for Spectodo items, versions, priorities, progress, repository reconciliation, or explicitly requested step-by-step handoffs to low-cost models.
 ---
 
 Use the repository's Spectodo language specification as the authority.
@@ -139,6 +139,14 @@ When repository work changes reality covered by the Spectodo inventory:
 3. Recompute each affected overall checkbox.
 4. If the work itself exposed a missing requirement or an invalid inventory assumption, add or revise the corresponding item instead of leaving the discovery only in chat.
 5. Do not claim the Spectodo-managed work is finished while known affected inventory items are stale.
+
+## Optional detailed execution plans
+
+Only when the user explicitly requests low-cost model delegation, a detailed handoff, or a reproducible executable procedure (or requests continuation of an already authorized plan): read docs/optional-execution-plans.md from the same pinned Spectodo source revision, and follow it. If that file is absent or stale in a consumer repository, obtain and verify the matching pinned source from the upstream bundle or explicitly refresh the complete bundle; do not invent a local guide or silently mix commits.
+
+Resolve active workspace routing and actual source authority before authoring a plan. Keep the optional step-by-step document outside SPECTODO.md at a stable scope/item-specific path. Spell out prerequisites, exact paths and actions, test or human-check evidence, decision/escalation gates, rollback and resume checkpoint. On execution, check staleness against relevant source diffs and constraints; do not treat a changed HEAD alone as proof of invalidity. Stop rather than guessing at unavailable files, permissions, design decisions or failing checks. Keep plan-step progress subordinate to evidence-backed D/I/P/V and reconcile the canonical inventory within the same work unit. No actual low-cost-model effectiveness or savings is established without a comparative pilot, including planning overhead.
+
+Default remains no detailed plan generation. The language v0.2 grammar and routine Skill behavior stay unchanged.
 
 ## Audit
 

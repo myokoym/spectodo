@@ -5,6 +5,7 @@
 - V0: Core format
 - V1: Agent and validation
 - V2: Release readiness
+- V3: Optional execution plans
 
 # Constraints
 - CORE-001 専用CLIを前提にせずMarkdownファイルだけで日常的に読み書きできる
@@ -50,6 +51,7 @@
 - [x] AGENT-009 [V1] [P1] Agent Skillが永続的constraintを進捗管理対象のrequirementへ変換せず独立して読み書き監査できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @SPECTODO.md @examples/SPECTODO.md
 - [x] AGENT-010 [V1] [P1] Agent Skillが追加検証の必要性をstatement単位で判定し範囲外のquality workを別Requirementとして適切なversionとpriorityへ分離できる | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.1.md @docs/adoption.md
 - [x] AGENT-011 [V2] [P1] Agent Skillが全canonical inventoryのscope・route・path重複を監査し、workspaceごとに正本を一意に選んでprogressやshared constraintを誤適用しない | D:x I:x P:- V:x | @.agents/skills/spectodo/SKILL.md @spec/language-v0.2.md @examples/scoped-SPECTODO.md
+- [ ] AGENT-012 [V3] [P1] 明示的な委譲依頼に対してAgent Skillが正本を維持したまま停止・再開・検証可能な詳細実行計画を補助文書として扱える | D:x I:x P:- V:~ | !外部委譲での手順適用確認が未実施 | @docs/optional-execution-plans.md @examples/execution-plan.md @.agents/skills/spectodo/SKILL.md
 
 ## VALID: 検証
 - [x] VALID-001 [V1] [P1] 公式サンプルがSpectodo Language v0.1に準拠したinventoryとして読める | D:x I:x P:- V:x | @examples/SPECTODO.md
@@ -57,6 +59,7 @@
 - [x] VALID-003 [V1] [P2] 100件以上の仕様項目でも項目数とほぼ1対1の行数増加に抑えられる | D:x I:x P:- V:x | @research/2026-09-21-agent-scale-validation.md
 - [x] VALID-004 [V1] [P2] GitHub AndroidのMarkdownレンダリングで多数項目のcheckbox ID version priority statement D/I/P/V gapを実用的に確認できる | D:x I:x P:- V:x | @research/2026-09-21-github-android-validation.md
 - [x] VALID-005 [V1] [P1] ChatGPTが専用parserなしでもlanguage specに従って既存inventoryを壊さず更新できる | D:x I:x P:- V:x | @SPECTODO.md @spec/language-v0.1.md
+- [ ] VALID-007 [V3] [P1] 企画のみ・コードあり・中断再開の実タスクで低コストモデルの正確性と計画作成を含む総費用を比較検証できる | D:x I:- P:- V:. | @docs/optional-execution-plans.md
 
 ## DOCS: 文書化
 - [x] DOCS-001 [V0] [P1] READMEからSpectodoの目的 stable v0.1 導入手順 language specification example Agent Skillへ到達できる | D:x I:x P:- V:x | @README.md
