@@ -77,8 +77,8 @@ test('new-install prompt is short and handles all source states without auto-mig
   const guide=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
   const kickoff=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
   const readme=readFileSync(new URL('../README.md',import.meta.url),'utf8');
-  assert.match(guide,/新規導入.*Spectodoの正本がまだない状態/);
-  assert.match(guide,/リポジトリ自体が空とは限りません/);
+  assert.match(guide,/新規導入.*プロジェクト固有の情報がすでに存在し、Spectodoの正本だけが未導入/);
+  assert.match(guide,/Git初期化直後や、タイトルだけのREADMEでは製品のRequirementを抽出できません/);
   assert.match(guide,/## 新規導入の指定方法（そのままコピー）/);
   const start=guide.indexOf('~~~text'),end=guide.indexOf('~~~',start+7);
   assert.ok(start>=0&&end>start);
@@ -86,14 +86,14 @@ test('new-install prompt is short and handles all source states without auto-mig
   assert.ok(prompt.length<550,'new installation prompt must stay compact');
   for(const phrase of [
     'https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md',
-    'v0.2 stable','新規導入','外部配布元','ローカル未配置','資料・コードがあれば',
-    '構造再編','詳細inventory','資料がなければ要件を捏造せず',
+    'v0.2 stable','新規導入','外部配布元','ローカル未配置','実在する内容を全面調査',
+    '構造の再編','詳細inventory','根拠のないTODOを捏造したりしない',
     'すでにSpectodoがある場合は新規上書き・自動移行せず',
     '詳細実行計画は明示指定時のみ'
   ]) assert.ok(prompt.includes(phrase),'missing new-install behavior: '+phrase);
   assert.doesNotMatch(prompt,/既存v0.1は公式移行手順で監査付き移行/);
   for(const s of [
-    '完全に空','企画・調査・検討資料のみ','コード・テスト・設定',
+    '企画・調査・検討・仕様などの資料のみ','コード・テスト・設定',
     '一部配置済み','v0.2 inventory導入済み','v0.1 inventory導入済み',
     'monorepo','未コミット変更'
   ]) assert.ok(guide.includes(s),'missing detected repository state: '+s);
@@ -105,7 +105,9 @@ test('new-install prompt is short and handles all source states without auto-mig
   assert.match(kickoff,/Default user-facing invocation in docs\/adoption\.md = NEW INSTALL ONLY/);
   assert.match(kickoff,/Existing canonical v0\.2 inventory/);
   assert.match(kickoff,/Existing canonical v0\.1 inventory/);
-  assert.match(kickoff,/Do NOT write an invalid fabricated\/empty SPECTODO\.md/);
+  assert.match(kickoff,/OUT OF SCOPE/);
+  assert.match(kickoff,/do not install a boilerplate bundle/);
+  assert.match(kickoff,/Do not conflate the work of adopting Spectodo with a product\/project Requirement/);
   assert.match(kickoff,/Only the separate EXPLICIT v0\.1 migration invocation authorizes migration/);
   assert.match(kickoff,/The default kickoff MUST NOT generate/);
   for(const s of ['## Phase A — exhaustive discovery BEFORE adopting',
@@ -113,11 +115,17 @@ test('new-install prompt is short and handles all source states without auto-mig
     '## Phase C — generate inventory','## Phase D — gates and reporting'])
     assert.ok(kickoff.includes(s),'missing durable procedural skill phase: '+s);
   assert.match(readme,/新規導入.*Spectodo未導入のリポジトリ/);
+  assert.match(readme,/Git初期化だけで中身がない場合はSpectodoに登録できる要件がないため対象外/);
   assert.match(readme,/v0\.1\/v0\.2の正本がある場合は新規導入とは区別/);
 });
 
-test('unsubstantiated empty repository cannot produce a valid fake empty inventory',()=>{
+test('no project content is out of scope and cannot be replaced with a fake inventory',()=>{
   const inventory='# Scope\n- PROJECT: .\n\n# Versions\n- V0: Placeholder\n';
+  const guide=readFileSync(new URL('../docs/adoption.md',import.meta.url),'utf8');
+  const skill=readFileSync(new URL('../.agents/skills/spectodo-kickoff/SKILL.md',import.meta.url),'utf8');
+  assert.match(guide,/対象外：プロジェクト固有の内容が存在しないリポジトリ/);
+  assert.match(guide,/Spectodoを導入せず、TODOや形式上のダミーRequirementも作らず/);
+  assert.match(skill,/Do not install the Spectodo bundle, scaffold dummy inventory/);
   const valid=validateInventory(inventory,'SPECTODO.md');
   assert.ok(valid.errors.some(s=>/missing categories/.test(s)),
     'do not emit a fake empty canonical inventory simply to mark an empty repo done');
