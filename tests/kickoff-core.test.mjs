@@ -87,7 +87,7 @@ test('canonical kickoff prompt is short, external-first, and leaves detailed pla
     'https://github.com/myokoym/spectodo/blob/main/.agents/skills/spectodo-kickoff/SKILL.md',
     '外部配布元','導入先に存在しなくても配布元から取得',
     'v0.2 stable','全面調査','構造の再編成','詳細inventory',
-    '既存v0.1','監査付き移行','詳細実行計画は今回は生成せず',
+    '既存v0.1','監査付き移行','詳細実行計画は追加で明示指定した場合だけ作成',
   ]) assert.ok(prompt.includes(phrase),'missing short default behavior: '+phrase);
   assert.ok(!prompt.includes('【0.')&&!prompt.includes('【3.5.'),
     'implementation steps belong in Skill, not prompt');
