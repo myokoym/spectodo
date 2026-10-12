@@ -103,6 +103,7 @@ test('canonical kickoff explicitly opts in to exactly one planning-only executio
   assert.match(kickoff,/do not abandon the other kickoff phases or guess/);
   assert.match(guide,/通常作業で詳細実行計画を自動生成しません/);
   assert.match(guide,/次の着手対象1件だけを計画します/);
+  assert.doesNotMatch(guide, /\]\(adoption\.md/, 'consumer has no local upstream adoption guide');
   assert.match(readme,/初回キックオフで詳細手順も残したい場合/);
   assert.match(guide,/^## 最短の指定方法（そのままコピー）/m);
   // Existing instructions for creating a single plan or safely executing one must remain intact.
