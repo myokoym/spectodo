@@ -92,7 +92,7 @@ test('optional multi-requirement batch planning is disabled by default, enabled 
   const defaultStart=adoption.indexOf('~~~text');
   const defaultEnd=adoption.indexOf('~~~',defaultStart+7);
   const defaultPrompt=adoption.slice(defaultStart+7,defaultEnd);
-  assert.match(defaultPrompt,/詳細実行計画は今回は生成せず/);
+  assert.match(defaultPrompt,/詳細実行計画は追加で明示指定した場合だけ作成/);
   assert.doesNotMatch(defaultPrompt,/詳細実行計画も有効化/);
   const optStart=adoption.indexOf('## 詳細実行計画も作りたい場合');
   const optEnd=adoption.indexOf('## 配布元・バージョン・参照のルール');
