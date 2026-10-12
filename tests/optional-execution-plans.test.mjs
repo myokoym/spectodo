@@ -34,7 +34,7 @@ test('README and copied guide offer the same safe Japanese invocation',()=>{
   assert.match(prompts[1],/SPECTODO\.mdのD\/I\/P\/V/);
   assert.match(entry,/専用コマンドやSkillの全文を読む必要もありません/);
   assert.match(entry,/古い固定SHA/);
-  assert.match(adoption,/\[README「指定方法（そのままコピーして使う）」\]\(\.\.\/README\.md#指定方法そのままコピーして使う\)/);
+  assert.match(adoption,/\[詳細実行計画ガイド\]\(optional-execution-plans\.md\)/);
   assert.match(guide,/このガイドを導入先に配布すれば/);
   assert.match(guide,/## 最短の指定方法（そのままコピー）/);
   assert.doesNotMatch(guide,/\.\.\/README\.md/, 'consumer README may not contain the Spectodo usage section');
@@ -105,7 +105,7 @@ test('optional multi-requirement batch planning is disabled by default, enabled 
   assert.match(kickoff,/all adopted incomplete Requirements/);
   assert.match(kickoff,/planning only/);
   assert.match(guide,/通常のキックオフ・仕様一覧の更新・監査では、詳細実行計画を自動生成しません/);
-  assert.match(guide,/任意オプションを追加した場合にのみ/);
+  assert.match(guide,/明示的に追加した場合にのみ/);
   assert.match(guide,/標準キックオフそのものは詳細計画作成の依頼ではありません/);
   assert.match(readme,/通常のキックオフでは詳細実行計画を作成しません/);
   assert.match(readme,/1文だけをキックオフ依頼文へ追加/);
