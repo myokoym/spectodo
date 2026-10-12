@@ -1,56 +1,56 @@
-# Example: optional execution plan — planning-only handoff
+# 記入例：企画段階の詳細実行計画
 
-This is a **fictional consumer repository example**, NOT a canonical inventory and NOT evidence of an actual agent run. Replace all paths, IDs, revisions and checks after inspecting a real repository. The sample assumes the listed files exist and no code has been written.
+**架空の導入先リポジトリを使った記入例**です。正本の仕様一覧でも、実際にAIが作業に成功した証拠でもありません。実際に使う際はファイル、ID、リビジョン、検証内容をそのリポジトリで確認して置き換えます。コードがない企画段階を想定しています。
 
-## Identity and goal
-- Scope: PROJECT at repository root (`.`)
-- Canonical inventory: `SPECTODO.md`
-- Covered item: `PLAN-001`, target version `V0`
-- Required outcome: Write reviewable, traceable acceptance criteria for an exhibit concept, without claiming implementation or deployment.
-- Authority: `docs/requirements.md` is the current requirement source; `README.md` is the entry point; effective `AGENTS.md` rules take precedence.
-- Out of scope: building UI, adding scripts, deploying the application, inventing decisions absent from the source.
+## 対象と目的
+- スコープ：PROJECT（リポジトリのルート `.`）
+- 正本：`SPECTODO.md`
+- 対象項目：`PLAN-001`、対象バージョン `V0`
+- 成果：展示の企画について、出典をたどれてレビュー可能な受入条件を文書化する。実装・デプロイは完了扱いにしない。
+- 根拠：`docs/requirements.md` を現行の要求元とし、`README.md` を入口、`AGENTS.md` を有効な作業指示とする。
+- 対象外：画面開発、スクリプト追加、デプロイ、根拠のない新たな設計判断。
 
-## Starting snapshot / preflight
-- Revision: fill in actual branch/commit and working-tree status before execution; this fictional example has no verified SHA.
-- Known paths to inspect: `AGENTS.md`, `SPECTODO.md`, `docs/requirements.md`, `README.md`.
-- Planned output: `docs/exhibit-acceptance.md` (new only if no existing canonical acceptance document covers the same work).
-- Preconditions: routing selects PROJECT, PLAN-001 exists, evidence remains authoritative, and there are no conflicting user edits.
-- If any condition fails: do not create a competing document or assume contents; escalate with the observed mismatch.
+## 着手前の状態
+- リビジョン：実行時にブランチ・コミット・未コミット変更を記入する。この架空例には確認済みSHAはない。
+- 調査対象：`AGENTS.md`、`SPECTODO.md`、`docs/requirements.md`、`README.md`
+- 予定する成果物：`docs/exhibit-acceptance.md`（同じ役割の文書が既に存在する場合は新規作成しない）。
+- 前提：PROJECTへ正しく振り分けられ、PLAN-001が存在し、要求文書が現行であり、ユーザーの編集との衝突がない。
+- 前提が成立しない場合：別の文書を勝手に作ったり内容を推測せず、相違点を報告して停止する。
 
-## Ordered executable steps
+## 順番に実行する手順
 
-### Step 1: Resolve and capture requirements
-- Prerequisites: effective instructions and target inventory are readable.
-- Target: `docs/requirements.md` (read-only), `SPECTODO.md` (read-only).
-- Action: record verbatim or accurately paraphrased acceptance-relevant requirements, open decisions, their source locations, and existing D/I/P/V values; do not mark any step as complete on guesses.
-- Expected result: a source-to-acceptance checklist including every in-scope current requirement and explicit unresolved decisions.
-- Check: reread each source requirement and verify it appears once in the checklist, or has a documented exclusion; ensure no old proposal became binding.
-- On failure: stop and report the ambiguous paragraph and conflict, without inventing a criterion.
+### 手順1：現行要件を特定する
+- 前提：有効な指示と正本が読めること。
+- 対象：`docs/requirements.md` と `SPECTODO.md`（どちらも閲覧のみ）。
+- 作業：受入条件に関係する要件、未決事項、出典の位置、現在のD/I/P/Vを記録する。推測では完了にしない。
+- 期待結果：すべての現行対象要件と受入条件の対応表があり、未決事項が明記されている。
+- 確認：元資料と突き合わせ、各要件に対応先または除外理由が1つずつあり、古い提案を現行要件として扱っていないことを確かめる。
+- 失敗時：衝突する記述と場所を報告し、判断を作り出さず停止する。
 
-### Step 2: Add one acceptance document
-- Prerequisites: Step 1 confirmed; no existing equivalent acceptance document.
-- Target: `docs/exhibit-acceptance.md` (create), `README.md` (only if discoverability needs a link).
-- Action: for each confirmed criterion, document initial state/input, expected observable result and evidence needed for review; list open questions separately. Keep implementation and deployment out of scope.
-- Expected result: a single readable acceptance document linked to its authoritative source.
-- Check: manually match every acceptance criterion against the Step 1 checklist; inspect `git diff --check` in the repository root when git is available, and review the diff for accidental changes.
-- On failure: correct only confirmed omissions; if the desired outcome depends on an unresolved design choice, stop for a decision.
+### 手順2：受入条件の文書を作る
+- 前提：手順1を確認済みで、同じ役割の正本文書が存在しないこと。
+- 対象：`docs/exhibit-acceptance.md`（新規作成）、必要な場合のみ `README.md`（リンク追加）。
+- 作業：確認済み要件ごとに初期条件、入力、観測できる期待結果、確認証拠を記載する。未決事項は分離し、実装やデプロイには着手しない。
+- 期待結果：現行資料に根拠があり、入口から参照できる受入条件文書が1つ存在する。
+- 確認：手順1の対応表と文書を一件ずつ照合し、Gitが使える場合はリポジトリのルートで `git diff --check` を実行し、差分に無関係の変更がないか確認する。
+- 失敗時：根拠のある欠落だけを修正する。設計判断が必要になった場合は停止して判断を求める。
 
-### Step 3: Verify and reconcile
-- Prerequisites: Step 2 checks pass.
-- Target: `SPECTODO.md` and `docs/exhibit-acceptance.md`.
-- Action: add the new document as an `@ref` only when relevant; reconcile PLAN-001 D/I/P/V against actual observed evidence. Do not set I:x/P:x solely because a planning document exists.
-- Expected result: references resolve, the one-line item remains valid, the checkbox matches the axes, and evidence matches any updated status.
-- Check: inspect the full modified item and associated documents; run any existing Spectodo validation command *only if already installed and known to be safe*; verify no unrelated inventory IDs changed.
-- On failure: leave unsupported statuses unchanged and record the exact missing verification.
+### 手順3：検証して正本を整合させる
+- 前提：手順2の確認が合格していること。
+- 対象：`SPECTODO.md`、`docs/exhibit-acceptance.md`
+- 作業：役立つ場合のみ `@ref` を追加し、実際の成果と証拠に基づいてPLAN-001のD/I/P/Vを照合する。文書が作られただけで `I:x` や `P:x` にしない。
+- 期待結果：参照先が存在し、仕様項目は1行の形式を保ち、チェックボックスと進捗が一致している。
+- 確認：変更した仕様行と資料を確認し、既に安全な検証コマンドが存在する場合のみ実行する。無関係なIDを変更していないことを確かめる。
+- 失敗時：根拠が不足した進捗は変更せず、未検証の内容を具体的に記録する。
 
-## Acceptance, rollback and stopping
-- Acceptance: every current in-scope requirement has a traceable, testable criterion; no code or deployment is claimed; no unrelated work was modified.
-- Failure gate: contradictory source authority, missing file, unexpected modifications, failed existing validation, or a requested new design decision => STOP and report.
-- Recovery: discard only new uncommitted changes made by this plan after inspecting the diff; never overwrite pre-existing user changes. Retry only the affected unchecked step.
+## 合格条件、差し戻し、停止条件
+- 合格：対象の現行要件がすべて出典付き・検証可能な条件に対応している。コードやデプロイを完了扱いにせず、無関係な資料も変更していない。
+- 停止条件：正本の矛盾、想定外のファイル欠落や差分、既存テストの失敗、未承認の設計判断が発生すること。
+- やり直し：差分を確認したうえで、この計画が新しく作った未コミット変更だけを取り消す。元から存在するユーザーの編集は上書きしない。失敗した未確認の手順だけ再実行する。
 
-## Checkpoint / handoff
-- Last verified step: none — example not executed.
-- Evidence / checks actually run: none.
-- Next step: Step 1, after checking the consumer's real state.
-- Blockers: to be determined; no invented source SHA or acceptance result.
-- Canonical reconciliation: pending until execution supplies evidence.
+## 中断・引き継ぎ記録
+- 最後に確認できた手順：なし（記入例であり未実行）。
+- 実際に確認した証拠：なし。
+- 次の手順：対象リポジトリの現状を確認してから手順1。
+- 停止理由：実行時に記録する。架空のSHAや検証結果は記入しない。
+- 正本の進捗照合：実行後に証拠が得られるまで未完了。
