@@ -51,6 +51,22 @@ When summarizing an inventory:
 10. Do not collapse implementation and verification into one detailed state.
 11. Treat completed items as part of the current application specification, not disposable history.
 
+## Handle roadmap requests using the canonical inventory
+
+Spectodo's roadmap is primarily the ordered target Versions and the Requirements assigned to them, with evidence-backed D/I/P/V progress. It is not a second tracking system. This interpretation applies to both legacy v0.1 and stable v0.2 without adding fields to either grammar.
+
+When asked to create, show, review, revise, or extend a project roadmap:
+
+1. Resolve the active workspace to its canonical `SPECTODO.md` first; read the applicable language version, all declared target Versions, their Requirement memberships across **all** categories, and progress. Check adopted project decisions and existing project documentation before assuming missing information.
+2. Treat an unqualified "roadmap" request as work on the **existing Spectodo Version/Requirement model**. Do NOT create `ROADMAP.md`, a new inventory, duplicate milestones, or another authoritative plan merely because the word "roadmap" appears. Do not assume the absence of `ROADMAP.md` means the project has no roadmap.
+3. For read/show requests, give a Version-ordered overview from the actual inventory: target Version/label; requirement count and completed/unfinished counts; verified gaps; references. The default active Version remains the lowest Version with incomplete Requirements unless explicitly targeted otherwise. A Version with no Requirements is "no requirements defined", NOT complete. Never present a work-count ratio as a time/cost estimate.
+4. For modify requests, reconcile the **existing** Version declarations and Requirement assignments/statements/priorities/progress using evidence and the user's established decisions. Keep category grouping, item IDs, completed requirements, scope boundaries, and status axes intact; do not turn a plan into a parallel task ledger. Do not invent additional Versions, feature commitments, dates, or requirement states.
+5. Stable v0.2 has no structured Goal/Exit/target-date/dependency fields under `# Versions`. If the user wants that information persisted but the current grammar cannot represent it, explain the limitation and distinguish **proposed language design** from changes authorized by the current specification. Do not silently insert unsupported metadata into a v0.2 inventory, change the stable grammar, or switch the installed language version.
+6. If a separate roadmap document is **explicitly requested**, it may be supplied as a supporting explanation or a derived view of the canonical inventory. Clearly mark its authority and as-of source, do not replicate mutable D/I/P/V as a second truth, and do not discard any existing user-authored roadmap document. An explicit independent document request is not permission to change the canonical inventory or invent commitments.
+7. If the user's intended roadmap meaning is unresolved, first show concretely what the existing Versions and Requirements already represent and which requested information the grammar cannot persist; discuss only the actual gap before selecting a schema extension. Never treat a new file, UI, or language version as the default solution.
+
+For explicit step-by-step implementation instructions, use the separate optional execution-plan rules below; a product roadmap is not an execution plan.
+
 ## Select next work
 
 When the user asks to proceed without naming a specific item:
