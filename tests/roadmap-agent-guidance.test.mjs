@@ -15,7 +15,7 @@ test('a roadmap request starts at canonical Versions and Requirements, not a new
     'does **not** authorize a second authoritative plan',
     'Do not infer from the absence of',
     'Check existing',
-    'do not necessarily constitute a complete product roadmap'
+    'are the canonical roadmap'
   ]) assert.ok(skill.includes(phrase),'missing operational guard: '+phrase);
   assert.ok(kickoff.includes('The mere word "roadmap" in a request MUST NOT trigger'));
   assert.ok(kickoff.includes('preserve its original content and authority'));
@@ -61,6 +61,16 @@ test('stable v0.2 accepts Version/Requirement tracking and rejects new Goal meta
     .errors.some(e=>e.includes('unknown target version')));
   assert.ok(skill.includes('Neither assume Goal/Exit fields are necessary nor insert unrecognized lines'));
   assert.ok(readme.includes('まだ正式仕様には含めません'));
+});
+
+test('Version IDs denote the existing roadmap stages, not release numbers',()=>{
+  const spec=readFileSync(new URL('../spec/language-v0.2.md',import.meta.url),'utf8');
+  assert.ok(spec.includes('form the canonical roadmap within each Scope'));
+  assert.ok(spec.includes('They are not necessarily application release versions'));
+  assert.ok(readme.includes('ロードマップは、'));
+  assert.ok(readme.includes('V0等はロードマップ上の段階'));
+  assert.ok(skill.includes('ordered internal project stages or milestones'));
+  assert.ok(kickoff.includes('internal stage/milestone identifiers'));
 });
 
 test('consumer repositories must explicitly refresh pinned sources to obtain later guidance',()=>{
