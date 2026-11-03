@@ -10,15 +10,15 @@
 - 同 §18: 「version declarations need optional goal/exit metadata」を**将来版で検討する事項**として明記。
 - `README.md`および`SPECTODO.md`: 目標バージョンと各要件の完了済み/未完了の一覧がすでに主機能。
 - `research/2026-09-20-format-direction.md`: 「ロードマップに近い性格」「phase自体のGoal/Exit Criteriaは冒頭のphase summary」と記述。categoryは要件の主構造、phaseは属性、という原案。
-- `research/2026-09-20-initial-design-history.md`: 論理モデルにProject/Scope→Stage/Phase/Milestone→Goal/Exit Criteria→Requirementsと明記。Roadmap **view**はCOULD/P2だが、**StageとGoal/Exitまで別製品として切り出す根拠にはならない**。
+- `research/2026-09-20-initial-design-history.md`: Project/Scope→Stage/Phase/Milestone→Goal/Exit Criteria→Requirementsという**評価用の未確定モデル**を記録。Roadmap **view**はCOULD/P2の候補。これをGoal/Exitの正式採用や別管理の決定根拠にしない。
 - `research/2026-09-20-todo-task-management-literature-review.md`: 全体把握とアクティブな作業選択を分離し、軽量なMarkdown・永続仕様・低更新負荷を重視。
 - `docs/optional-execution-plans.md`: 実装ファイル/手順/検証/中断再開を管理する明示的なオプションで、製品ロードマップ自体とは別の関心。
 
-**結論**: ロードマップの中核（Versionの順序、属するRequirement、要件完了状況）はすでにSpectodo内に存在する。「ロードマップ機能がない」とだけ表現するのは不正確で、「**骨格はあるがGoal/Exitを含めたロードマップとして不十分**」が正しい。これを新たな正本に切り離すより、Version定義に足す方が本来の設計意図に忠実。
+**結論**: Versionの順序・所属Requirement・進捗というロードマップの基礎はすでにSpectodoにある。現在の構文にGoal/Exitの専用欄はないが、それが不足機能かどうかは別の問題。**まず現行構造による実例表示を確認し、足りない情報を特定してから**本体拡張の必要性を判断する。別の正本を増やすことは、明示的な要求なしに選ばない。
 
 ## 2. 概念上の区別
 
-1. **ロードマップの情報モデル**: Scope→Version/Stage→Goal/Exit→Requirement→進捗。Spectodo本体の管理対象。
+1. **現在管理できるロードマップの基礎**: Scope→Version→Requirement→進捗。Goal/Exitはかつての検討候補であり、現行の必須要素ではない。
 2. **ロードマップビュー**: 上記モデルから、Versionの順序・目的・達成率・今後の到達点を俯瞰する表示。専用UIや別ファイルである必要はない。
 3. **詳細実行計画**: 個別作業の手順、対象ファイル、確認、停止/復旧。ロードマップとは別の成果物。
 4. **カレンダー・ガント**: 日付とスケジュールを可視化する表現手段の一つ。日付が未定でもロードマップは存在できる。
@@ -32,7 +32,7 @@
 | Linear Initiatives/Projects/Timeline | Initiativeで目的や複数Projectを束ね、Projectやtimelineで段階的見通しを示す | 目標と細かい要件の粒度は分けるが、それだけで別の正本を増やさない |
 | OpenProject Roadmap | Versionsと紐づくWork Packageをroadmap上で表示し進捗を追う | VnとRequirementを保持したままGoal/Exitを足すSpectodoと直接対応 |
 | Jira Product Discovery | アイデアやProjectを月/四半期などの軸で示すタイムライン/ロードマップ | 日付の確度を超えてコミットを捏造しない |
-| GOV.UK Service Manual | ロードマップを成果・方向性の計画として扱い、詳細なbacklogと区別 | Goal/Exitは本体、実行手順は別、という機能分担を支持 |
+| GOV.UK Service Manual | ロードマップを成果・方向性の計画として扱い、詳細なbacklogと区別 | 実行手順と計画の目的を混同しない参考。Goal/ExitをSpectodoの必須構文にする根拠ではない |
 | Aha! Roadmaps / ProdPad | Now/Next/Laterなど確定日なしの計画を扱う | SpectodoのVn順序を壊さず、日付は任意とする |
 | GitHub Spec Kit community extensions | roadmapの第三者拡張が存在する。公式本体機能・推奨の保証ではない | 浅い計画表現の参考にとどめる |
 
@@ -56,20 +56,20 @@
 
 | 案 | 内容 | 評価 |
 |---|---|---|
-| A: v0.2の現状維持+対話時にバージョン集計 | スキーマ変更なしでVnと未完了要件を表示 | 互換性良好。ただし**Goal/Exitの永続的な正本がない**ため不足 |
-| **B: `# Versions`を拡張してGoal/Exitを本体に内包** | Versionに関連する目標・終了条件を持たせ、要件と進捗は既存通り保持 | **第一候補**。初期設計と一致。厳密なv0.2 grammarの変更なので新しい言語版で検証/移行が必要 |
+| A: v0.2の現状維持+対話時にバージョン集計 | スキーマ変更なしでVnと未完了要件を表示 | **最初に検証する案**。Goal/Exitの専用欄はないが、必要かどうか自体は未確定 |
+| B: `# Versions`を拡張してGoal/Exitを本体に内包 | Versionに関連する目標・終了条件を持たせ、要件と進捗は既存通り保持 | **未採用の構文候補**。実例で必要性が明らかな場合のみ検討。strict v0.2 grammarの変更には新言語版での検証/移行が必要 |
 | C: 任意`ROADMAP.md`をロードマップ正本にする | 計画情報を別ファイル化 | v0.2無変更で試せるが、Versionの意味/目標が別管理に分裂し、現行仕様との一体性に欠ける。**主案から撤回** |
 | D: GitHub Projects/Milestonesを正本にする | GitHub固有の管理UIで代替 | 他リポジトリ/agentからの再現性、二重管理、コネクタの操作面で不利。任意ビューだけ検討 |
 
-### 推奨
+### 自己レビュー後の判断
 
-**Spectodoの次の言語仕様の候補としてBを定義し、Aはその表示方式として取り込む。** v0.2 stableは勝手に変更せず、互換性・移行・validator・Agent Skillの変更範囲を別途検証する。Cは上位概念の正本としては採用しない。必要ならBから自動生成した閲覧用Markdownを作れるが、そのファイルを第2の正本にしない。
+**まずAを実例で検証する。** Aで不足する情報が実際に確認されてからBの必要性を再判定する。Bを採用済みや次言語版の既定機能とはしない。Cは新たな正本を増やす運用としては既定採用しないが、明示的な補助資料の生成まで禁止しない。表示用Markdownは派生ビューとして作る場合も、要件進捗の所有権を分離しない。
 
 ## 5. 言語版と移行についての制約
 
 - 既存の`# Versions`のVn IDとLabel、Requirementの1行形式、Category、Priority、D/I/P/V、Constraintをそのまま維持する。新しい情報はVersionに所属させる。
 - v0.2 strict grammarがVersion配下のGoal/Exitを認めない場合、v0.2 stableを事後改変したり、古いvalidatorに黙って読み込ませたりしない。**v0.3候補**としてgrammar、validator、migrationを用意する。
-- 新たな`version goal`によりRequirementの受け入れ条件を勝手に変更しない。Exitは既存要件群との関係を明確にする。欠落する具体的な成果があればRequirement化を検討する。
+- 将来Goal/Exitを採用するとしても、既存Requirementの受け入れ条件を勝手に変更しない。退出条件と要件に矛盾があれば根拠を示して解決を検討する。
 - Date/Targetは任意、ForecastとCommitmentを混同しない。期限のない企画段階も扱えるようにする。
 - 完了状態はVersionに別フィールドとして保存せず、属する要件のcheckboxとD/I/P/Vから導出する。0件は「未定義」で、完了と見なさない。
 - 複数scopeで`V1`のようなIDはscope-local。親子の自動継承やscope横断集計を勝手に追加しない。
@@ -77,7 +77,7 @@
 
 ## 6. 検証方針
 
-1. 企画のみ、コードとdeployなし、時期未定でもVn Goal/Exitを保持し、不要な進捗状態を捏造しない。
+1. 企画のみ、コードとdeployなし、時期未定でもVn/Requirementを正しく表示する。Goal/Exitの追加構文を試す場合はその必要性と根拠を別に検証する。
 2. V0全要件[x]/V1未完了、V0未完了でV2先行着手、0件バージョンの3ケースで正しい進捗/activeを導出する。
 3. Version名称変更、要件所属変更、Requirement ID変更の影響を、新しいVersion定義/Exit照合とともに整合させる。
 4. 多scope/親子scope/旧v0.1・v0.2を混同しない。正本の二重化を起こさない。
@@ -87,7 +87,7 @@
 
 ## 7. まだ確定させない論点
 
-- Versionにつける必須Goal/Exitの粒度と、後方互換性を両立する最小構文。
+- Goal/Exitの構造化が必要か、必要な場合の粒度と後方互換性。
 - Date/Targetと依存関係を初版の文法に含めるか（Goal/Exitを確実に先行検証）。
 - 願望/未採用候補をVersion宣言に混ぜない仕組み。
 - GitHub上でロードマップだけを短く見せたい場合の**派生ビュー**。第二の正本は作らない。
@@ -95,4 +95,4 @@
 
 ## 8. 検討履歴の訂正
 
-当初の案では「ロードマップは`SPECTODO.md`とは別の任意`ROADMAP.md`」とする案Cを推奨した。しかしこれは、v0.2の構文保全を上位目的として扱いすぎ、当初の「ロードマップも含んだ仕様・状態管理」という目的に合わない。**この推奨を撤回**し、Bを第一候補に変更する。区別すべきなのは「ロードマップ情報と詳細実行手順」および「情報モデルと表示ビュー」であって、「ロードマップとSpectodo本体」ではない。
+当初は独立した`ROADMAP.md`を推奨し、その後Goal/ExitをVersionへ統合する案Bを第一候補とした。しかし**どちらも、既存Version/Requirementで何ができないかの実証より先に解決策を選んだ**という問題があった。双方の既定採用を撤回する。現在の優先事項は現行モデルでのロードマップ運用を明確にし、表示と操作を実例で検証すること。Goal/Exitや別文書は必要性と利用者の意図が明らかな場合だけ再評価する。
