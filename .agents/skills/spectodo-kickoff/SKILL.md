@@ -40,6 +40,14 @@ The full consumer-facing bootstrap and kickoff prompt lives in https://github.co
 
 Read the stable v0.2 specification in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. All new installations and deliberate upgrades MUST use this version. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
 
+## Roadmap ownership during kickoff and reruns
+
+Target Versions, canonical Requirements, and their D/I/P/V are the existing Spectodo roadmap backbone, not necessarily a complete roadmap. During kickoff, inventory any existing roadmap, release-plan, or phase-goal document as a candidate current/proposed/historical source and preserve its original content and authority. Extract only adopted commitments supported by the project evidence; never silently drop approved goals because the current inventory grammar lacks a matching field.
+
+The mere word "roadmap" in a request MUST NOT trigger an unrelated `ROADMAP.md`, an extra canonical inventory, new scope, or duplicate milestone/progress records. If an independent roadmap artifact is explicitly requested, it may be kept as a supporting document; do not turn it into a conflicting source for Version/Requirement/D/I/P/V. On an initial installation with no existing Spectodo inventory, initialize the normal canonical Versions and Requirements from **adopted** source evidence rather than refusing all new Versions.
+
+Stable v0.2's `# Versions` grammar has Version ID and label only. Goal/Exit or other roadmap metadata are historically suggested but not approved or representable as structured fields in v0.2. Preserve any externally approved details in their valid existing sources; do not invent a date/goal or silently extend the grammar. Migration from legacy v0.1/v0.2 still requires separate explicit authorization. The same pinned source commit is used for installed Skills: changes in this upstream branch or later on main do not automatically update consumer repositories.
+
 ## Phase A — exhaustive discovery BEFORE adopting
 
 1. Enumerate tracked repository files, roots, branches/decisions/history where accessible, all SPECTODO.md candidates, and effective AGENTS.md/instructions. Identify exclusions for build outputs, caches, vendor artifacts, examples and fixtures; log coverage limits.
