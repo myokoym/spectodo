@@ -60,7 +60,7 @@ test('stable v0.2 accepts Version/Requirement tracking and rejects new Goal meta
   assert.ok(validateInventory(existing.replace('[V1]','[V8]'),'SPECTODO.md')
     .errors.some(e=>e.includes('unknown target version')));
   assert.ok(skill.includes('Neither assume Goal/Exit fields are necessary nor insert unrecognized lines'));
-  assert.ok(readme.includes('まだ正式仕様には含めません'));
+  assert.ok(readme.includes('新たな必須項目にすることは決まっておらず'));
 });
 
 test('Version IDs denote the existing roadmap stages, not release numbers',()=>{
