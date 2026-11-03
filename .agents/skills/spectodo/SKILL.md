@@ -53,7 +53,7 @@ When summarizing an inventory:
 
 ## Handle roadmap requests using the canonical inventory
 
-Spectodo already provides a roadmap **backbone**: target Versions, their ordered IDs, associated Requirements, and D/I/P/V progress. These records are the canonical source for those facts. They do not necessarily constitute a complete product roadmap: Version goals, exit criteria, dates, and dependencies are not structured fields in stable v0.2. Historical design notes on these concepts are research, not automatically adopted requirements.
+In Spectodo, ordered target Versions, their Requirements, and D/I/P/V progress **are the canonical roadmap**. The V0/V1 identifiers denote ordered internal project stages or milestones, not necessarily published application versions or Spectodo Language versions. The v0.2 grammar does not separately store version goals, exit criteria, dates, or dependencies; preserve approved project documents covering additional information rather than adding a second authoritative roadmap. Historical design suggestions are not automatically adopted requirements.
 
 When a user asks to create, show, review, revise, or extend a roadmap in a Spectodo-managed workspace:
 

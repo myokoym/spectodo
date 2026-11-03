@@ -143,6 +143,8 @@ Audits MUST cover repository-wide scope/path uniqueness, route completeness, str
 
 ## 3. Versions
 
+These ordered target milestones, together with their assigned Requirements and D/I/P/V states, form the canonical roadmap within each Scope. V0, V1, etc. identify project stages or targets (e.g. planning, prototype, release). They are not necessarily application release versions, and are separate from the Spectodo Language version. No separate roadmap inventory is required.
+
 Version declarations appear only under the exact H1 heading:
 
 ```md
