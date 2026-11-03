@@ -16,7 +16,7 @@ test('a roadmap request starts at canonical Versions and Requirements, not a new
     'does **not** authorize a second authoritative plan',
     'Do not infer from the absence of',
     'Check existing',
-    'does not necessarily constitute a complete product roadmap'
+    'do not necessarily constitute a complete product roadmap'
   ]) assert.ok(skill.includes(phrase),'missing operational guard: '+phrase);
   assert.ok(kickoff.includes('The mere word "roadmap" in a request MUST NOT trigger'));
   assert.ok(kickoff.includes('preserve its original content and authority'));
