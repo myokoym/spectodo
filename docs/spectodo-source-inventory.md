@@ -1,6 +1,6 @@
 # Spectodo repository source inventory
 
-Date: 2026-10-12
+Date: 2026-11-04 (roadmap agent guidance indexed)
 Status: repository-wide path census. This index is supporting evidence, not a canonical Spectodo inventory.
 
 Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were found in this repository. Historical research and sample inventories are not canonical. The current repository uses documentation and a development-only test harness; there is no application/runtime source tree. Scope routing is defined in AGENTS.md.
@@ -39,6 +39,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | tests/optional-execution-plans.test.mjs | opt-in contract and bounded example assertions; not a real model pilot | AGENT-012 |
 | tests/kickoff-core.test.mjs | preflight and canonical prompt contract tests | supporting / no direct link |
 | tests/kickoff-e2e.test.mjs | repeatable local end-to-end lifecycle scenarios | supporting / no direct link |
+| tests/roadmap-agent-guidance.test.mjs | static roadmap agent guidance / v0.2 validation tests (no live-model verification) | supporting / no direct link |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
 
 | docs/spectodo-source-inventory.md | source crosswalk (supporting only) | supporting / no direct link |
@@ -46,6 +47,8 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | docs/validation-v0.2.md | promotion evidence and blockers (supporting only) | supporting / no direct link |
 
 ## Coverage and decisions
+
+- On this revision, README and both Agent Skills explicitly route roadmap requests to the canonical Version/Requirement model, preserve existing roadmap evidence, and distinguish display from authorized modification. These are operational guidance, not new v0.2 language fields.
 
 - Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, docs/optional-execution-plans.md (optional procedure only), and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
 - Legacy frozen rule set: spec/language-v0.1.md. Historical v0.1 example: examples/SPECTODO.md. Neither is reinterpreted as v0.2.
