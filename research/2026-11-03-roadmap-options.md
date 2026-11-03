@@ -27,10 +27,15 @@
 | Linear Initiatives/Timeline | Initiativeが目標・優先順位・複数Projectを束ね、Timelineは細かなIssueでなくProjectを俯瞰。Projectの時期は年/半期/四半期/月/日から確度に応じ選択 | 目標と要件の階層分離、時期の粒度を確度に合わせる設計が有用。ただし専用UIとProject/Initiativeデータモデルを移植しない |
 | OpenProject Roadmap | VersionごとにWork Packageを束ね、完了率と内訳を表示 | 既存のVn+要件モデルとの対応が特に直接的。進捗の集計元は要件側に一元化するべき |
 | Jira Product Discovery | 企画のtimelinesは月/四半期を扱い、開始日と目標日のdate fieldが前提。複数領域を統合するRoadmapもある | 日付が無い検討フェーズに強制すると偽の精度が生まれる。日付依存のUIを初版の必須機能にしない |
+| GOV.UK Service Manualのroadmap guidance | Product/Serviceの達成目標と将来の発展方向、やらないことを明確にし、バックログ（細かい作業）と区別。変化に合わせて調整できる計画であることを重視 | 機能リストの単純な別表示でなく、各Vnの目標と到達判定を提示する根拠。実行手順とは別物とする |
+| Aha! Roadmaps（Now/Next/Later） | 日付が固まっていない計画を、Now/Next/Laterなど期限への強制コミットなしで共有できる | Spectodoでは既存Vnの順序があるため、別のNow/Next/Later状態を正本へ増やさず、Targetは任意とする |
 | GitHub Spec Kit Community extensions | Community一覧にSpec Roadmap拡張が載る。ただし拡張は第三者製で、運営は実装の保証・推奨をしないと明記 | 本体組み込み機能の証拠にはしない。補助artifactとして分離する発想だけを比較材料にする |
 
 ### 参照URL（2026-11-03に確認）
 
+- GOV.UK Service Manual（roadmapとbacklogの区別）: https://www.gov.uk/service-manual/agile-delivery/developing-a-roadmap
+- Aha! Roadmaps（確定日なしのroadmap）: https://support.aha.io/aha-roadmaps/support-articles/roadmaps/share-a-roadmap-without-firm-dates~7444638211083491690
+- ProdPad（Now/Next/Laterの確度の区分）: https://www.prodpad.com/glossary/now-next-later-roadmap/
 - GitHub Projects Roadmap: https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-roadmap-layout
 - Linear Initiatives: https://linear.app/docs/initiatives
 - Linear Timeline: https://linear.app/docs/timeline
