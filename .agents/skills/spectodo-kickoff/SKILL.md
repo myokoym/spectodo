@@ -42,7 +42,7 @@ Read the stable v0.2 specification in spec/language-v0.2.md, the operational spe
 
 ## Roadmap ownership during kickoff and reruns
 
-Target Versions, canonical Requirements, and their D/I/P/V are the existing Spectodo roadmap backbone, not necessarily a complete roadmap. During kickoff, inventory any existing roadmap, release-plan, or phase-goal document as a candidate current/proposed/historical source and preserve its original content and authority. Extract only adopted commitments supported by the project evidence; never silently drop approved goals because the current inventory grammar lacks a matching field.
+The ordered target Versions, canonical Requirements, and their D/I/P/V states **are the Spectodo roadmap** for the managed scope. V0/V1 are internal stage/milestone identifiers rather than assumed application release versions. During kickoff, inventory any existing roadmap, release-plan, or phase-goal document as a candidate current/proposed/historical source and preserve its original content and authority. Extract only adopted commitments supported by the project evidence; never silently drop approved goals because the current inventory grammar lacks a matching field.
 
 The mere word "roadmap" in a request MUST NOT trigger an unrelated `ROADMAP.md`, an extra canonical inventory, new scope, or duplicate milestone/progress records. If an independent roadmap artifact is explicitly requested, it may be kept as a supporting document; do not turn it into a conflicting source for Version/Requirement/D/I/P/V. On an initial installation with no existing Spectodo inventory, initialize the normal canonical Versions and Requirements from **adopted** source evidence rather than refusing all new Versions.
 
