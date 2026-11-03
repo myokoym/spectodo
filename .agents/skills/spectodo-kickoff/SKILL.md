@@ -40,6 +40,12 @@ The full consumer-facing bootstrap and kickoff prompt lives in https://github.co
 
 Read the stable v0.2 specification in spec/language-v0.2.md, the operational spectodo Skill, the adoption guide, and existing repository instructions. All new installations and deliberate upgrades MUST use this version. Do not ask the consuming repository to select the language version, and never use V0/V1 product targets as language versions. Existing v0.1 is preserved until migration explicitly authorized.
 
+## Roadmap ownership during kickoff and reruns
+
+Treat the target Version declarations and their associated canonical Requirements as Spectodo's existing roadmap backbone. A new or repeated kickoff MUST NOT create a standalone `ROADMAP.md`, new scope, parallel milestones, or a second progress inventory by interpreting the mere word "roadmap" as a demand for an additional artifact. First inventory any existing roadmap document as current, proposed, historical, or superseded source evidence; preserve it, extract only adopted requirements consistent with the scope, and do not delete or overwrite it. If the user explicitly asks for a separate presentation/document, keep it auxiliary and distinguish it from the canonical `SPECTODO.md`.
+
+Stable v0.2's `# Versions` grammar currently holds Version ID and label, not Goal/Exit fields. When such metadata is requested, report this actual format gap without fabricating commitments or writing incompatible syntax; adding it would require an approved future language revision and audited migration. Do not silently upgrade v0.1/v0.2 on kickoff.
+
 ## Phase A — exhaustive discovery BEFORE adopting
 
 1. Enumerate tracked repository files, roots, branches/decisions/history where accessible, all SPECTODO.md candidates, and effective AGENTS.md/instructions. Identify exclusions for build outputs, caches, vendor artifacts, examples and fixtures; log coverage limits.
