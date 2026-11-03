@@ -1,6 +1,6 @@
 # Spectodoロードマップ統合機能の先行調査（2026-11-03）
 
-> Status: research / 未採用。対応する検討仕様: [roadmap-companion.md](../proposals/roadmap-companion.md)
+> Status: research / 未採用。対応する検討仕様: [roadmap-integrated.md](../proposals/roadmap-integrated.md)
 > 2026-11-03再検討: 当初の「ロードマップ補助ファイルを第一候補とする」結論は撤回し、**ロードマップをSpectodoの本体機能として扱う**方針で比較を再評価した。
 
 ## 1. 何がすでに存在するか（現行 main の事実）
