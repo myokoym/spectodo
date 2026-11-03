@@ -1,169 +1,199 @@
-# Proposal: Spectodo Roadmap Companion（追加機能仕様案）
+# Proposal: Spectodo本体へのロードマップ統合（次期言語仕様候補）
 
-> **Status: proposed / 未採用・未実装。** 2026-11-03。
-> この文書はレビュー対象の設計案であり、`spec/language-v0.2.md`を変更しない。導入先の`ROADMAP.md`の自動生成や新規要件の自動採用も、まだ認可されていない。
-> 根拠・比較: [ロードマップ先行調査](../research/2026-11-03-roadmap-options.md)。
+> **Status: proposed / 未採用・未実装（2026-11-03）**。
+> このproposalは現行`spec/language-v0.2.md`を変更しない。構文を追加するなら将来のSpectodo Language版（仮称v0.3）と移行規程を必要とする。
+> 根拠・方式比較: [先行調査](../research/2026-11-03-roadmap-options.md)。
 
-## 1. 目的と範囲
+## 1. 訂正した基本方針
 
-Spectodoの永続的な要件・状態の正本は各scopeの`SPECTODO.md`である。本提案は、**「何を目指しているか（Goal）」「何をもって達成と判断するか（Exit）」「どの順序・どの程度の時期を想定するか」**を、既存Vnに対応させて持続的に参照可能にする任意の補助機能を追加する。
+**ロードマップはSpectodoの外部ツール・別正本ではなく、Spectodo本体のVersion管理とRequirement管理を一体として理解するための機能**である。
 
-企画・調査のみ／実装中／稼働後のすべてで適用可能とし、ChatGPT AndroidとGitHub Androidで扱える通常のMarkdownを基本にする。タイムラインUI、DB、CLI、専用renderer、日付入力、GitHub Projects登録を必須としない。
+当初の「別ファイル`ROADMAP.md`にGoal/Exitを置く」案は撤回する。元々のSpectodo設計意図はScope→Version/Stage→Goal/Exit→Requirement→D/I/P/Vであり、現行v0.2はそこからVersionのID/順序と要件の詳細・進捗までを実装した段階である。欠けているのはVersionに属する目的・到達基準と、全体を簡潔に俯瞰する標準表示である。
 
-### 非目標
+この目的に対し、以下を区別する。
 
-- 新しいTODO・要件・作業項目・デプロイ状態・タスク進捗の正本を作ること。
-- 既存のVersion/priority/D/I/P/V/overall checkbox/active-version選択を再定義すること。
-- 低コストAgentへ渡すファイル単位の実行手順（`docs/optional-execution-plans.md`の責務）。
-- ユーザーが未確定とした目標・時期・依存関係・仕様項目をAIが勝手に決めること。
+- **本体のロードマップ**: Versionが目指す状態/退出条件、要件と進捗へのつながり。
+- **ロードマップビュー**: 本体データから必要時に要約した表示。表示専用派生物なら別ファイルでもよいが、独立した正本にしない。
+- **詳細実行計画**: 手順・ファイル・検証・停止/再開。既存`docs/optional-execution-plans.md`が扱う別の関心事。
+- **ガント/スケジュール**: 日付が明らかな場合に使える追加表示。ロードマップ成立の前提ではない。
 
-## 2. 三つの独立した層
+## 2. 目的と最低条件
 
-| 層 | 内容 | 正本 | 例 |
-|---|---|---|---|
-| 仕様・実装状態 | Constraint、Vn、item ID、statement、D/I/P/V、priority、refs | scopeの`SPECTODO.md` | 「ログインできる」/V0/I:x/V:x |
-| ロードマップ計画 | Vnの意図、代表的な退出条件、任意の時期と依存、Outlook | 任意のscopeの`ROADMAP.md` | 「V1で最小限のプレイ体験を成立させる」 |
-| 詳細実行 | 変更ファイル、操作順、検証、停止・復帰 | 明示依頼時の`docs/spectodo-execution/` | 「手順3: テストを実行する」 |
+1. 企画段階から完成/運用段階まで、**各Versionの目的・到達基準・採用済み要件の全体像**を同じSpectodoで保持する。
+2. 何が完了し何が残るかを、既存の要件のD/I/P/V/overall checkboxから正確に導出する。完了済み要件を消さない。
+3. VersionはScopeごとに定義する。既存のカテゴリ別Requirement閲覧を維持し、ロードマップのために全要件を別表へ複写しない。
+4. 少なくともGitHub Androidの標準Markdown表示とChatGPT Android操作で、専用CLI/DB/rendererに依存しない。
+5. 人間が直接sourceを編集することを必須にしない。AgentがVersion/Goal/Exitの追加・更新・監査を理解できる。
+6. 期日や工数が未定でも正しく使える。予測を確定期限と偽装しない。
+7. 既存v0.2とv0.1を無断で書き換えず、新言語版として公表する際は移行規程と検証を備える。
 
-現在の達成件数・進捗割合・既定active version・blocked判定をロードマップ独自の手動フィールドとして保存しない。これらは**表示時にSPECTODOから導出**または根拠付きで個別報告する。ロードマップを開いただけで、古いスナップショットが「現在状態」に見える設計にしない。
+## 3. 追加する情報モデル
 
-## 3. 配置と導入条件
-
-1. 任意機能。通常のSpectodo新規導入・再キックオフ・日常更新では作成しない。
-2. ユーザーがロードマップの作成・更新を**明示的に依頼**したscopeだけ、scope rootの`ROADMAP.md`を生成・更新する案とする。配置例: root `SPECTODO.md`に対しroot `ROADMAP.md`、`apps/web/SPECTODO.md`に対し`apps/web/ROADMAP.md`。
-3. scope rootは現行`AGENTS.md`等の**既存の明示的なworkspace routing**を通じて確定する。`ROADMAP.md`の有無・位置から新しいscopeを推論しない。親scopeのロードマップを子scopeへ自動継承しない。
-4. 既存の同名ファイルが別目的のロードマップなら上書きしない。内容と所有者を確認し、明示的に共用・移行・別名を判断する。
-5. 既存v0.1はそのまま有効。旧specへ新v0.2構文を混入させたり、ロードマップ追加をv0.2移行の理由にしない。v0.1対応を提供するなら別途互換性テスト後に判断する（初期pilotはv0.2 scopeを対象）。
-6. 初期案では他scopeのVnやGithub Issues/Milestonesを自動統合しない。
-
-## 4. ロードマップ文書の最小構造（提案）
-
-```md
-# Spectodo Roadmap
-- Scope: GAME
-- Inventory: SPECTODO.md
-
-## V0: Prototype
-- Goal: 最小限のゲームループが実際に成立する。
-- Exit: プレイ開始からクリアまでの確認可能な動作（GAME-001, GAME-002）を満たす。
-- Target: unscheduled
-
-## V1: MVP
-- Goal: 継続プレイに必要な最低限の保存機能が使用できる。
-- Exit: セーブと再開の要件（SAVE-001, SAVE-002）を満たす。
-- Target: 2027-Q2 (forecast)
-- Dependencies: V0
-- References: docs/mvp-goals.md
-
-## Outlook (uncommitted)
-- Candidate: 複数プレイヤー対応。採用・対象バージョン・時期は未決定。
+```text
+Project / Scope
+  └─ Target Version (V0, V1, ...)
+       ├─ Label                    [既存]
+       ├─ Goal                     [追加候補]
+       ├─ Exit Criteria            [追加候補]
+       ├─ Target time              [任意・採否未決]
+       └─ Requirements             [既存: 各カテゴリの要件にVnを付与]
+            ├─ stable Item ID
+            ├─ priority
+            ├─ statement
+            ├─ D / I / P / V
+            └─ refs/gap
 ```
 
-上記のGAME/SAVEは**形式説明用の架空ID**であり、実在リポジトリの要件であるとは主張しない。実作成時は存在するcanonical inventoryのIDのみを使う。
+**Versionは単独のTaskや別scopeではない。** 自身の永続的な進捗checkboxや手動statusを持たず、所属するRequirementsから状態を導出する。
 
-### 4.1 共通ヘッダー
+### 3.1 Goal（目的）
 
-- `# Spectodo Roadmap`: 文書種別。
-- `Scope`: 当該canonical `SPECTODO.md`のscope IDと厳密一致。異なるscopeのロードマップを混同しない。
-- `Inventory`: 同じscope rootの`SPECTODO.md`への相対参照。相対リンク解決可能であることを確認する。
+そのVersionで何が実現するかを1〜2文で記す。企画のみなら「重要なユースケースを検証可能な計画にする」、実装段階なら「ユーザーが基本操作を完結できる」など、対象の成熟度に合う具体性を要求する。既存資料から決められない場合は`undecided`として、AIが勝手に目標を確定しない。
 
-### 4.2 Vn セクション
+### 3.2 Exit Criteria（到達基準）
 
-- `## Vn: Label`: 同scopeの`# Versions`に宣言されたID/labelをそのまま使用。Vnの順序は数値昇順。IDは本体から取得し新規に採番しない。
-- `Goal`（必須）: その段階で実現したい結果を、細かい作業手順ではなく1～2文で示す。資料から確定できなければ`undecided`と書き、案を確定扱いしない。
-- `Exit`（必須）: 確認可能な成果・合格条件の短い要約。可能なら既存Requirement IDを記載する。未定なら`undecided`。別の合格義務を秘密裏に増やしてはいけない。新たな検証可能機能が必要なら正式なRequirement追加について審査する。
-- `Target`（任意）: `unscheduled`、または判断根拠のある年／半期／四半期／月／日。予想の場合は`(forecast)`、明示合意された期限だけ`(committed)`を付ける。入力がなければ`unscheduled`とし、自動的に現在時刻から日付を割り当てない。
-- `Dependencies`（任意）: 同一scope内の先行Version IDのカンマ区切り。存在確認・自己参照禁止・循環禁止。初期案ではVn数値順に一致する先行Versionだけを記録し、日程計算もcomplete判定も変更しない。外部scope/API/技術依存は詳細資料の参照に留める。
-- `References`（任意）: 具体的な根拠・背景・決定文書へのリンク。パス/URLの到達可能性を確認する。
+そのVersionが成立したと判断するための観測可能な条件。対象Version内のRequirementの**すべて**が完了することが既定の要件完了条件であり、代表Requirementを数件だけ列挙して他を無視しない。Goal/Exitに具体的な追加の機能義務があるなら対応Requirementとして正式に管理すべきか検討する。
 
-**表記上の目安**: Vnにつき短い縦型リスト。幅広い表は正本に使わない。Goal/Exit本文は原則短く保ち、詳しい資料は`References`へ退避する。
+Exit CriteriaはGoalを明確にする**説明・検証方針**であって、D/I/P/Vとは別の第5進捗軸でも、追加の未記録チェックリストでもない。矛盾があるときは完了フラグを勝手に上書きせず、Goal/ExitとRequirementの不整合を指摘する。
 
-### 4.3 宣言したVersionとの対応
+### 3.3 Target / ordering（未採用の拡張候補）
 
-`ROADMAP.md`が存在する場合、同scopeの全宣言Versionを**ちょうど一度ずつ**列挙することを目標にする。宣言されていないVnをRoadmapだけに先行確定しない。宣言Versionが0ならRoadmapは空の完了計画ではなく、inventoryにVersion定義がないことを明示する。
+Vnの数値順が目標バージョンの順序という既存ルールを維持する。日付は必須にしない。追加するなら`unscheduled`か、年/半期/四半期/月/日で根拠のある精度を選び、`forecast`（予測）と`committed`（確定期限）を明示的に分離する。期日の有無からRequirementの完了状態は導出しない。
 
-新しい将来案を検討すること自体は妨げない。未採用案は`## Outlook (uncommitted)`以下に書くが、採用済みVersionやRequirementと見せかけない。既存のIssue/調査文書があればそこへリンクし、Outlookの項目からD/I/P/Vや優先度を生成しない。正式採用後に正本のVersion/Requirementを整備し、重複する候補文を整理する。
+初期版でVersion依存関係を文法化する必要性は未証明。数値順は既存だがhard dependencyではないため、実行阻止や日程計算を新設する場合は、明示的な別検討を行う。
 
-### 4.4 Exit とRequirementの関係
+### 3.4 計画・進捗・状態の所有権
 
-`Exit`に挙げた少数のIDが完了しても、そのVersion内の他のRequirementが残っていれば段階は完了ではない。Version完了の十分条件は、そのVersionに属する**すべての**Requirementのoverall checkboxが`[x]`であること（0件は例外）である。Exitが重要な未達条件を示すのに対応Requirementが見つからなければ、集計状態を都合よく「完了」へ上書きせず、**仕様の欠落・要件化の判断待ち**と報告する。
-
-ExitはVersionの意図の説明であり、D/I/P/Vとは別のチェックボックス・承認ステータスを持たない。「デプロイ済み」「公開済み」の断定も既存Requirementと検証証拠に従う。
-
-## 5. 現在状態を表示するアルゴリズム
-
-「ロードマップを見せて」「今どうなっている」などの参照依頼時に、次を実行する。
-
-1. 利用中workspaceのroutingからcanonical scopeと`SPECTODO.md`を特定。必要なら対応する`ROADMAP.md`も読む。未作成なら**既存のVnから簡易版を表示し、未作成であると注記**する。表示だけの依頼は自動作成を意味しない。
-2. 各Versionについて、当該scopeのすべてのRequirementを数える（カテゴリ横断）。`total=N`、`done=D`、`remaining=N-D`。チェックボックスの`[x]`は仕様定義に従ってD/I/P/Vから一致を検査する。
-3. `N=0`なら「要件未定義（0件）」、`N>0,D=N`なら「要件すべて完了」、`N>0,D<N`で全項目の適用軸に着手証拠`x,~,>`がないなら「未着手」、それ以外は「進行中（未完了あり）」。これは**集計ラベル**であり独立した永続statusではない。
-4. 既定active Versionはv0.2 §3.2に厳密に従う。最小の未完了Version。明示targetがある場合はそれを作業文脈上のactiveとして扱うが、永続ファイルにactiveを記録しない。後ろのVersionへ先行着手した事実があっても既定選択を変更しない。
-5. `D/N`は**件数比**としてなら任意で表示できる。工数消化率・期間消化率・達成確率を意味しない。0件のとき0%/100%と表示しない。
-6. 既存の`!gap`、参照元・証拠・依存矛盾から確実に分かる未解決事項を必要に応じて表示する。「未完了=blocked」とは推論しない。
-7. 一覧はVn→Goal→Target→完了件数→重要な未完了事項とリンクの順にMarkdownで提示。日時・時期を表せない場合は「未定」。巨大な全Requirement一覧は明示依頼がない限りそのまま複写しない。
-
-ロードマップ文書に持続的な数値サマリーを保存しないため、SPECTODOの通常更新はそのままでよい。表示のたびに最新の正本を読む。GitHub上の`ROADMAP.md`だけでは現在の完了数を表示できないという限界は、初版で許容し、必要性を実利用で測定する。
-
-## 6. 作成・更新・監査のAgent操作
-
-### 6.1 明示された作成
-
-1. routing→現行language→対象scopeの正本→関連する採用済み企画・設計・研究・Issueを読む。
-2. 現行Versionと全Requirement IDを棚卸しし、各段階のGoal/Exitの根拠を特定。既存のhistorical proposalを根拠なく採用済みにしない。
-3. 目標や時期に合意がなければ`undecided`/`unscheduled`とし、判断を要する箇所を列挙。
-4. 既存のロードマップがあるときは差分を確認して既存意図を保全する。いきなり置換しない。
-5. 追加・更新された文書と実際の`SPECTODO.md`のID/Version/リンクを再照合。候補や根拠なし日付が正本へ混入していないことを確認。
-
-### 6.2 明示された更新
-
-- Version名・ID・Requirementの所属変更があれば、Roadmapの参照への影響を監査する。ID/既存判断は可能な限り保存し、不明な矛盾は指摘する。
-- `SPECTODO.md`更新のたびにROADMAPを**必ず書き換える運用にはしない**。変更がGoal/Exit/Target/Version宣言へ影響するときだけ整合させる。数値進捗は保存しないため更新不要。
-- `ROADMAP.md`のGoalだけを変更する依頼は、既存Requirement/状態/Versionを勝手に変更する権限ではない。要件変更が必要だと判明したら提案として切り離す。
-- 再実行して同じ入力なら不要な差分を生まない（冪等）。既存Git履歴と他者変更を尊重し、衝突を自動上書きしない。
-
-### 6.3 監査の検査項目
-
-- 正しいcanonical scopeで一意に発見できること。
-- ROADMAPに書かれたVersion集合とInventory宣言Version集合が一致し、各Vnが重複しないこと。
-- Vnのlabel・Exit ID・Dependencies IDが存在し、参照先が期待する同scopeであること。
-- IDの誤参照・依存循環・Vn逆向き依存・存在しないパス・曖昧なtargetの確度。
-- 退出条件が未採用案や資料の古い記述を新要件として押し込んでいないこと。
-- D/I/P/Vの状態やpriority、Version所属、scope routingへ未承認の副作用がないこと。
-- 既存の詳細実行計画を新たな要件やロードマップstageに混ぜ込んでいないこと。
-
-## 7. 検証ケースと合格基準
-
-| ID | Fixture/操作 | 期待結果 |
+| 情報 | 正本 | 規則 |
 |---|---|---|
-| RM-01 | 企画のみ、V0/V1、時期なし | Target未定で作成でき、I:-/P:-の仕様意味を変えない |
-| RM-02 | 実装済みV0が全[x]、V1に未完了 | V0は完了、V1は未完了、activeはv0.2規則のV1 |
-| RM-03 | V0が未完了でもV2のD:>あり | V2先行着手を表示しつつ、既定activeはV0 |
-| RM-04 | V3を宣言したが対応要件0件 | 「要件未定義」であり完了率を作らない |
-| RM-05 | 完了済みRequirementを複数含む大規模category inventory | version単位の集計がカテゴリ横断で正確。全仕様文をROADMAPへ複写しない |
-| RM-06 | v0.2複数scopeで同名のV1 | scope間の要件数・Goal・Exitを混在させない |
-| RM-07 | RoadmapのExitにunknown IDを入力 | レビューで不整合を発見し、架空のIDを生成しない |
-| RM-08 | Version label変更、Requirement移動、既存決定の改訂 | 対応するロードマップだけ差分更新。履歴と根拠が残る |
-| RM-09 | 同じ指示を2回実行 | 2回目は不要な変更・新規ID・期日を発生させない |
-| RM-10 | 既存ROADMAP.mdが別用途 | 無断上書きをしない |
-| RM-11 | 既存v0.1と、既存詳細実行計画があるscope | 旧構文の自動移行や実行計画の置換がない |
-| RM-12 | Androidでrendered Markdownのロードマップを確認 | 横長表に依存せず、Goal/Exit/Targetとリンクへ到達できる |
-| RM-13 | Agentによる要件更新後、参照だけを依頼 | ROADMAPを事前更新せずに、最新SPECTODOから進捗が導出される |
-| RM-14 | Outlookに未採用の候補がある | 当該候補が実装進捗/active selection/完了数に入らない |
+| Scope、Vn ID/Label | `SPECTODO.md` | 現行v0.2 |
+| Vn Goal/Exit | **`SPECTODO.md`の`# Versions`拡張案** | 本proposal |
+| Requirement/priority/D/I/P/V/gap | `SPECTODO.md` | 現行v0.2の意味を維持 |
+| Versionごとの進捗数・割合・現在active | 正本から導出した表示 | 別のmutable statusを保存しない |
+| 実装の手順・停止/再開 | 明示依頼時の補助実行計画 | 既存のoptional execution plan |
+| 将来案・未採用アイデア | 検討資料/Issue | 採用済みVnやRequirementに混ぜない |
+| ロードマップ閲覧専用ファイル/HTML | 必要な場合だけ正本から生成 | 第二の正本にしない |
 
-**合格の定義**: 実ファイルをfixture化し、構文・計数・参照整合性は繰り返し自動検証できること。Goal/Exitの意味・根拠・Android表示とAgent再実行の正確さは実ケースで別途確認する。proposalを書いただけでこれらを「テスト済み」としない。
+## 4. v0.3で検討する構文の一例（**確定構文ではない**）
 
-## 8. 代替案の採否と段階的導入
+現行の`# Versions`宣言を保ったうえで、各Version配下に短いメタデータを紐づける案を第一候補とする。
 
-- **初期提案**: A（表示のみ）+ C（明示依頼時の任意ROADMAP）を採用候補とする。常時同期、追加UI、必須CLI、必須日付は採用しない。
-- **今回のPRの範囲**: 調査と**未採用の仕様案のみ**。正式言語、Skills、README、SPECTODO、導入先リポジトリを変更しない。
-- **採用決定後の作業**: 試験用の例、fixtureと検査、既存Agent Skillへの「表示・任意作成・更新・監査」の追加、わかりやすいREADMEの指定文、Android/Agent pilot、自己inventoryへのRequirement追加・検証。既存v0.2 grammarは必要が生じるまで変更しない。
-- **採用判断のゲート**: RM-01～14の検証方針、スマホでの実用性、実際のAgentがscope/状態を混同しないこと、運用コストと参照性を観測。十分に機能しない場合はformat拡張や生成専用viewへ設計を修正する。
+```md
+# Scope
+- GAME: .
 
-## 9. 残る判断点（決定済みと区別する）
+# Versions
+- V0: Prototype
+  - Goal: 最小限のプレイ体験を成立させる。
+  - Exit: GAME-001とGAME-002を含むV0の全要件を検証する。
+- V1: MVP
+  - Goal: プレイ記録を保存し、再開できる。
+  - Exit: V1の全要件が受け入れ基準を満たす。
+  - Target: unscheduled
 
-1. **閲覧入口**: Markdownの恒久計画を中心としChatGPTで最新集計する案を推奨。GitHub上の単一ROADMAPファイルに常時最新の進捗数値を出すことを要件とするなら、生成スナップショットの時点・更新保証を別仕様で定義する必要がある。
-2. **Outlookの扱い**: 未採用の将来方向まで同じRoadmapに置く案を含めたが、企画資料/Issueへの参照のみに限定する方が誤採用リスクは低い。pilotで確認。
-3. **scope横断**: 今回は意図的に対象外。横断の必要性が実例で出たら、固有のcross-scope ID/所有権/参照先/可視性を別途設計する。
-4. **依存の強さ**: 初期Dependenciesは説明・監査のみ。既存v0.2 active selection/priorityを上書きして作業を自動停止させるhard dependency機能は追加の合意とテストが必要。
+# Constraints
+- CORE-001 日付が未確定でも要件と進捗を管理できる
 
-これらはレビュー可能な未決事項であり、本文のサンプルや候補値だけで採用確定したことにはしない。
+## GAME: ゲームプレイ
+- [ ] GAME-001 [V0] [P1] プレイヤーを移動できる | D:x I:x P:- V:.
+- [ ] GAME-002 [V0] [P1] 敵を攻撃できる | D:x I:> P:- V:.
+```
+
+例の`GAME`/ID/文は架空のデータで、実際の導入先を意味しない。**v0.2のstrict grammarではこのメタデータ行は規定されていないため、v0.2ファイルに無断で追加してはいけない。**
+
+#### 構文の検討ポイント
+
+- 読みやすいインデント付きリスト、1行メタデータ形式、Version直下に簡潔な段落を設ける方式を、実機レンダリング/厳密parserの容易さ/改行・escapeルールで比較する。
+- Itemの1要件1行・カテゴリ別H2見出し・四軸・`@ref`の意味は現行のまま。
+- Goal/Exitを必須フィールドにするかは互換性と情報源の不足を見て判断する。候補段階で全既存Versionに架空のGoalを埋めることはしない。
+- Goalが長文になる場合は`@ref`相当の参照へ逃がすが、`# Versions`本体に読むべき要点を残す。
+- 各Versionが１つのID/Labelを持つこと、ID重複拒否、未宣言Version参照拒否、scope-local IDの原則は引き継ぐ。
+
+## 5. ロードマップ表示（本体からの導出）
+
+`ロードマップを表示`を別コマンドに依存させず、Agentがactive workspaceに対応するcanonical inventoryから以下を構成する。
+
+1. `AGENTS.md`など既存のscope routingを読み、現在のworkspaceに対応する`SPECTODO.md`を確定。親子scopeを自動合算しない。
+2. `# Versions`のVnとGoal/Exitを数値昇順に読み、すべてのカテゴリに散在する同VersionのRequirementを集計する。
+3. 各Versionに`N`件のRequirementがあり`D`件がoverall `[x]`なら、`D/N`は**要件件数の完了状況**。工数進捗率・公開確率ではない。チェック欄と四軸が不整合なら正本を監査する。
+4. `N=0`なら「要件未定義」、`N>0,D=N`なら「要件上は完了」、その他は「未完了あり」。完了でないことだけを根拠にblockedと判断しない。
+5. 既定のactive Versionは**現行v0.2 §3.2と同じ**、最小の未完了Vn。明示された作業targetがある場合だけその文脈を優先し、永続activeフィールドは増やさない。V2に先行着手してもV0の未完了を隠さない。
+6. 出力にはVn/Goal/Exit/Target（存在時）/進捗件数/未完了の要点/詳細へのリンクを示す。詳細要件をROADMAPへ複製せず、必要に応じて一時的な表示用Markdownを生成してもよい。
+
+### ミニ表示例（架空）
+
+```md
+V0 Prototype — 要件2件中0件完了
+目標: 最小限のプレイ体験
+残り: GAME-001, GAME-002
+
+V1 MVP — 要件未定義
+目標: 保存と再開
+Target: 未定
+```
+
+## 6. 操作・変更・整合性監査
+
+### 作成／更新
+
+- 新しいVn/Goal/Exitの作成は、既存の採用済み資料・要件・現行inventoryのVersionを調べて行う。historical proposalを現在の採用済み仕様に自動昇格しない。
+- Goal/Exitの見直しは、対応Requirementの欠落や対象Versionとの不一致を報告する。Goalを更新したからといってD/I/P/VやPriorityを自動変更しない。逆に実態が変わった場合は既存の進捗reconciliationを行う。
+- 既存VnのIDを改番・改名するときは、全RequirementのVersion参照とGoal/Exit/関連資料を監査する。採番の再利用や歴史的達成状況の消失を避ける。
+- 更新を繰り返しても同じ内容のVersion/Goal/Exitを重複作成しない。証拠のない日付/期限/依存を追加しない。
+- Agentは実行計画の手順実施とVersion達成を混同しない。部分検証のまま`V:x`を宣言しない。
+
+### 監査・異常時
+
+- routingとscopeが一意か、Version ID/Labelが重複しないか、未宣言VersionをRequirementが参照しないか。
+- Goal/Exitで参照するRequirement IDが実在し、同じscopeにあるか。特定のVersionへのExitが別Versionを不適切に完了条件としていないか。
+- Goal/Exitで具体的な完了義務が増えたのにRequirementへ反映されていないか。両者が矛盾したら**完了したふりをせず未決事項として報告**。
+- `[x]`とD/I/P/Vの整合、0件Version、部分完了/先行着手/未採用案の誤集計。
+- 旧言語形式に対して新grammarを誤適用しない。各scopeのVersionを混同しない。
+
+## 7. 新言語版への移行（採用する場合の必須条件）
+
+- **今はv0.2 stableが正本**。proposalやPRが存在するだけでは新規導入へ新版を使わない。
+- 新版を正式化するなら、grammar/validation errors/agent Skill/kickoff/docs/examples/CIを同一版として改定し、Spectodo中央の公開版を切り替える。導入先に個別の言語バージョン選択を要求しない。
+- v0.2の既存canonical inventoryを自動移行しない。移行時はScope、Vn、Constraint、Requirement、四軸・refs・優先度を一対一で保持し、Goal/Exitの根拠と未決を記録。元の意味・履歴を失わない。
+- v0.1 legacyについても暗黙にv0.3を適用しない。v0.1→v0.2→新版と同等の監査が必要。
+- 旧v0.2を扱うAgent/validatorが新Versionメタデータを読めない場合を明確にテストする。互換性が成立しないときは移行/更新の前に報告する。
+
+## 8. 受け入れ検証ケース（未実施）
+
+| ID | 条件・操作 | 期待結果 |
+|---|---|---|
+| RM-01 | 企画のみ、コードなし、日付なし | Goal/Exitを保持。I:-/P:-は妥当性に従い、完了を捏造しない |
+| RM-02 | V0全要件[x]、V1未完了 | V0要件完了、既定activeはV1 |
+| RM-03 | V0未完了、V2にD:> | V2先行着手は見えるが既定activeはV0 |
+| RM-04 | V3宣言・Requirement 0件 | 完了100%にしない。要件未定義 |
+| RM-05 | 100件以上のcategory横断要件 | 一覧は要約、件数は全カテゴリー集計、全仕様文を二重化しない |
+| RM-06 | 独立scopeに同名V1 | Scope間でGoal/Exit/件数/進捗を合算しない |
+| RM-07 | Exitに未宣言ID/別VersionのID | 異常として検出。架空のRequirementを作成しない |
+| RM-08 | Versionラベル・Requirement所属の変更 | 対応するGoal/Exit・参照を監査、進捗は保持 |
+| RM-09 | 同一Agent操作を2回実行 | 2回目は重複・無意味な差分・状態リセットなし |
+| RM-10 | v0.2 strict validatorで新版メタデータを読む | 誤ってv0.2準拠とせず、明示的な移行/差異を検出 |
+| RM-11 | 既存v0.1/v0.2 projectを日常更新 | 新版へ暗黙移行せず従来の意味で読み書き |
+| RM-12 | GitHub Android/ChatGPT Androidで表示 | Version/Goal/Exit/各Requirementへのアクセスが可能 |
+| RM-13 | Goal/Exitと実要件が矛盾 | 状態をごまかさず、修正判断と未解決点を提示 |
+| RM-14 | 詳細実行計画や未採用企画案が存在 | 実行手順/候補をVersionの達成済み要件へ混入しない |
+| RM-15 | 新版を採用してmigration→再移行/rollback | Vn/Requirement/四軸/Constraint/refsの履歴・意味を保持 |
+
+検証はテストfixture、変更差分、実際のAgent操作、Android人手確認に分け、数値・成功率は実測するまでは報告しない。
+
+## 9. 段階的な設計・実装順（未承認の作業計画）
+
+1. 本提案を基準に「Version→Goal/Exit→Requirement」の意味モデルと最小構文の候補を比べる。
+2. 候補syntaxをv0.2 strict grammar・validator・スマホ表示と突き合わせ、将来の言語版案を決定する。
+3. fixture、validatorとAgent Skillで作成・表示・更新・監査・移行を検証する。
+4. 企画only・開発中・完成済みと多scopeの実プロジェクトでpilotし、冪等性/更新費用/誤採用を測定する。
+5. 受け入れ基準に達した場合にのみ、中央の新安定版としてリリースする。
+
+## 10. 未決事項と前提の境界
+
+- Goal/Exitを**新言語版で必須**とするか、v0.2からの移行用に`undecided`を許すか。推奨は空欄の捏造を避け、未決が表現可能な仕様。
+- Goal/ExitのVersion定義の文法。第4節は案であって正式な構文ではない。
+- 日付・Version dependenciesを同時導入するか。**初期段階ではGoal/Exitに集中**し、スケジュールを無理に規格化しないことを推奨。
+- 主要な閲覧先がSPECTODOのVersions部分で足りるか、別の**派生ビュー**が必要か。別の正本は作らない。
+- portfolio/複数scopeのロードマップを一括表示する必要性があるか。v0.2のscope-local所有権を超えた設計は別途実証する。
+
+**今回の成果物は調査・検討仕様のみ**。現行正式仕様の変更、動作する機能の導入、旧利用先への移行を実施したものではない。
