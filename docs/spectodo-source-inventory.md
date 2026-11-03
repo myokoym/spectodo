@@ -1,6 +1,6 @@
 # Spectodo repository source inventory
 
-Date: 2026-10-12
+Date: 2026-11-04 (updated for roadmap proposal branch; not a stable language change)
 Status: repository-wide path census. This index is supporting evidence, not a canonical Spectodo inventory.
 
 Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were found in this repository. Historical research and sample inventories are not canonical. The current repository uses documentation and a development-only test harness; there is no application/runtime source tree. Scope routing is defined in AGENTS.md.
@@ -18,6 +18,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | docs/adoption.md | current guidance/policy | AGENT-010, DOCS-004, REL-002, BOOT-001 |
 | docs/migration-v0.1-to-v0.2.md | current guidance/policy | BOOT-004 |
 | docs/optional-execution-plans.md | optional current guidance/policy; not language grammar | AGENT-012, VALID-007 |
+| proposals/roadmap-integrated.md | proposed future language design, not normative | supporting / no direct link |
 | docs/v0.2-stable-decision.md | current guidance/policy | supporting / no direct link |
 | examples/SPECTODO.md | legacy compatibility | LANG-013, LANG-014, LANG-015, AGENT-007, AGENT-009, VALID-001 |
 | examples/execution-plan.md | fictional supporting plan example, not canonical | AGENT-012 |
@@ -31,6 +32,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | research/2026-09-21-agent-scale-validation.md | historical evidence (non-normative) | AGENT-004, AGENT-005, AGENT-006, AGENT-007, VALID-003 |
 | research/2026-09-21-github-android-validation.md | historical evidence (non-normative) | VALID-004 |
 | research/2026-10-04-scoped-inventory-design.md | historical evidence (non-normative) | LANG-017 |
+| research/2026-11-03-roadmap-options.md | current research / proposed design evidence, not normative | supporting / no direct link |
 | scripts/kickoff-v0.2.mjs | optional validated file-operation core (not mandatory CLI) | supporting / no direct link |
 | scripts/validate-v0.2.mjs | verification machinery | supporting / no direct link |
 | spec/language-v0.1.md | legacy compatibility | LANG-011, LANG-013, LANG-014, LANG-015, LANG-016, AGENT-010, VALID-005, DOCS-003, REL-001, REL-002 |
@@ -39,6 +41,7 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 | tests/optional-execution-plans.test.mjs | opt-in contract and bounded example assertions; not a real model pilot | AGENT-012 |
 | tests/kickoff-core.test.mjs | preflight and canonical prompt contract tests | supporting / no direct link |
 | tests/kickoff-e2e.test.mjs | repeatable local end-to-end lifecycle scenarios | supporting / no direct link |
+| tests/roadmap-agent-guidance.test.mjs | roadmap ownership/legacy compatibility contract tests | supporting / no direct link |
 | tests/v0.2.test.mjs | verification machinery | supporting / no direct link |
 
 | docs/spectodo-source-inventory.md | source crosswalk (supporting only) | supporting / no direct link |
@@ -47,9 +50,9 @@ Scope: root SPECTODO.md (SPECTODO). No independent product/workspace scopes were
 
 ## Coverage and decisions
 
-- Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, docs/optional-execution-plans.md (optional procedure only), and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities.
+- Current normative files: spec/language-v0.2.md, AGENTS.md, docs/adoption.md, docs/optional-execution-plans.md (optional procedure only), and the two current Skills. README points to them; the canonical inventory tracks resulting capabilities. On this proposal branch, README/Skills clarify that roadmap requests should use canonical target Versions and Requirements rather than creating duplicate authoritative documents.
 - Legacy frozen rule set: spec/language-v0.1.md. Historical v0.1 example: examples/SPECTODO.md. Neither is reinterpreted as v0.2.
-- The research records remain in-place for provenance. The 2026-10-04 scoped-inventory proposal is superseded where it says v0.2 is opt-in or recommends v0.1 for single-project repositories. The stable decision file documents that change.
+- The newly proposed native roadmap integration remains **non-normative** until separately approved and validated; v0.2 remains the published stable format. The research records remain in-place for provenance. The 2026-10-04 scoped-inventory proposal is superseded where it says v0.2 is opt-in or recommends v0.1 for single-project repositories. The stable decision file documents that change.
 - No exact design/code/deployment files of an adopting external repository were available in this source repository. The generic kickoff Skill cannot prove full external adoption merely from its own instructions.
 - Example references such as @docs/product.md and @docs/architecture-comparison.md are illustrative paths in fictional sample repositories; they do not exist here and the examples are excluded from root-scope reference checks.
 
